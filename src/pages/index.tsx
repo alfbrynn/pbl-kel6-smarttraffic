@@ -244,7 +244,7 @@ export default function Home() {
           </div>
 
           <div className={styles.footer}>
-            © 2024 SMARTRAF - Sistem Manajemen Arus Lalu Lintas Berbasis IoT
+            SMARTRAF 2026 — PBL KELOMPOK 6.
           </div>
 
         </div>

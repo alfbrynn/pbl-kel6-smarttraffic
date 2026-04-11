@@ -213,7 +213,7 @@ export default function Persimpangan() {
           </div>
 
           <div className={styles.footer}>
-            SMARTRAF V2.4.0 — INTEGRATED URBAN TRAFFIC MANAGEMENT
+            SMARTRAF 2026 — PBL KELOMPOK 6.
           </div>
 
         </div>
