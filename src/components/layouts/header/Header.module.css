@@ -1,0 +1,133 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  left: 250px;
+  right: 0px;
+  top: 0;
+  height: 72px;
+  padding: 0 32px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #f1f4f9;
+  z-index: 50;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a2533;
+  margin: 0;
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background-color: #e4e8ef;
+  margin: 0 24px;
+}
+
+.searchContainer {
+  display: flex;
+  align-items: center;
+  background-color: #f4f6fa;
+  border-radius: 20px;
+  padding: 8px 16px;
+  min-width: 300px;
+}
+
+.searchIcon {
+  color: #798393;
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.searchInput {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+  color: #1a2533;
+  width: 100%;
+}
+
+.searchInput::placeholder {
+  color: #8c96a5;
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.iconButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #4b5563;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 4px;
+  transition: color 0.2s;
+}
+
+.iconButton:hover {
+  color: #1a2533;
+}
+
+.iconButton svg {
+  width: 20px;
+  height: 20px;
+}
+
+.notificationDot {
+  position: absolute;
+  top: 4px;
+  right: 5px;
+  width: 8px;
+  height: 8px;
+  background-color: #dc2626;
+  border-radius: 50%;
+  border: 1.5px solid #ffffff;
+}
+
+.profileSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  margin-left: 12px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #1a2533; /* For fallback avatar */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.avatarSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.profileName {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
