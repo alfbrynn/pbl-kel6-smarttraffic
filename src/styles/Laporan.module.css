@@ -14,13 +14,13 @@
 .pageTitle {
   font-size: 24px;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--text-main);
   margin: 0;
 }
 
 .pageSubtitle {
   font-size: 13px;
-  color: #64748b;
+  color: var(--text-secondary);
   margin-top: 4px;
 }
 
@@ -30,9 +30,9 @@
 }
 
 .btnSecondary {
-  background-color: #ffffff;
-  border: 1px solid #cbd5e1;
-  color: #334155;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
   padding: 8px 16px;
   border-radius: 6px;
   font-size: 13px;
@@ -44,13 +44,12 @@
   transition: all 0.2s;
 }
 .btnSecondary:hover {
-  background-color: #f8fafc;
-  border-color: #94a3b8;
+  background-color: var(--bg-hover);
 }
 
 .btnPrimary {
-  background-color: #2b3240;
-  border: 1px solid #2b3240;
+  background-color: var(--accent-cyan);
+  border: 1px solid var(--accent-cyan);
   color: #ffffff;
   padding: 8px 16px;
   border-radius: 6px;
@@ -63,7 +62,7 @@
   transition: all 0.2s;
 }
 .btnPrimary:hover {
-  background-color: #1e293b;
+  background-color: var(--accent-cyan-hover);
 }
 
 /* CARDS ROW */
@@ -74,10 +73,10 @@
 }
 
 .statCard {
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -86,7 +85,7 @@
 .scHeader {
   font-size: 11px;
   font-weight: 700;
-  color: #64748b;
+  color: var(--text-secondary);
   letter-spacing: 0.5px;
   text-transform: uppercase;
   margin-bottom: 12px;
@@ -101,33 +100,33 @@
 .scValue {
   font-size: 28px;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--text-main);
 }
 
 .scBadge {
   font-size: 12px;
   font-weight: 700;
-  color: #10b981; /* Green */
+  color: var(--accent-green);
 }
 .scAlert {
-  color: #ef4444; /* Red */
+  color: var(--accent-red);
   font-size: 28px;
   font-weight: 700;
 }
 .scAlertIcon {
-  color: #ef4444;
+  color: var(--accent-red);
 }
 .scUnit {
   font-size: 16px;
-  color: #64748b;
+  color: var(--text-secondary);
   font-weight: 600;
 }
 
 /* DATA TABLE */
 .tableCard {
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -143,19 +142,19 @@
   padding: 16px 24px;
   font-size: 11px;
   font-weight: 700;
-  color: #64748b;
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  border-bottom: 1px solid #f1f5f9;
-  background-color: #fdfdfd;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-card-alt);
 }
 
 .dataTable td {
   padding: 16px 24px;
   font-size: 13px;
-  color: #1e293b;
+  color: var(--text-main);
   font-weight: 600;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .statusPill {
@@ -168,27 +167,27 @@
   text-transform: uppercase;
 }
 .statusLancar {
-  background-color: #dcfce7;
-  color: #166534;
+  background-color: var(--accent-green-bg);
+  color: var(--accent-green);
 }
 .statusCukupPadat {
-  background-color: #ffedd5;
-  color: #9a3412;
+  background-color: var(--accent-orange-bg);
+  color: var(--accent-orange);
 }
 .statusPadat {
-  background-color: #fee2e2;
-  color: #991b1b;
+  background-color: var(--accent-red-bg);
+  color: var(--accent-red);
 }
 
 .actionBtn {
   background: none;
   border: none;
   cursor: pointer;
-  color: #94a3b8;
+  color: var(--text-secondary);
   padding: 4px;
 }
 .actionBtn:hover {
-  color: #1e293b;
+  color: var(--text-main);
 }
 
 .pagination {
@@ -197,11 +196,11 @@
   align-items: center;
   padding: 16px 24px;
   font-size: 12px;
-  color: #64748b;
+  color: var(--text-secondary);
 }
 
 .pagination strong {
-  color: #1e293b;
+  color: var(--text-main);
 }
 
 .pageControls {
@@ -214,14 +213,14 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: #64748b;
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 4px;
 }
 .pageNavBtn:hover {
-  color: #1e293b;
+  color: var(--text-main);
 }
 
 .pageNum {
@@ -236,18 +235,18 @@
   cursor: pointer;
   border: none;
   background: transparent;
-  color: #334155;
+  color: var(--text-secondary);
 }
 .pageNum.active {
-  background-color: #1e293b;
-  color: #ffffff;
+  background-color: var(--bg-hover);
+  color: var(--text-main);
 }
 .pageNum:hover:not(.active) {
-  background-color: #f1f5f9;
+  background-color: var(--bg-hover);
 }
 .pageEllipsis {
   font-size: 12px;
-  color: #94a3b8;
+  color: var(--text-secondary);
   margin: 0 4px;
 }
 
@@ -259,10 +258,10 @@
 }
 
 .analysisCard {
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   border-radius: 12px;
   padding: 32px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   position: relative;
   overflow: hidden;
 }
@@ -276,13 +275,13 @@
 .analysisTitle {
   font-size: 18px;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--text-main);
   margin: 0 0 12px 0;
 }
 
 .analysisDesc {
   font-size: 13px;
-  color: #64748b;
+  color: var(--text-secondary);
   line-height: 1.5;
   margin-bottom: 24px;
 }
@@ -300,7 +299,7 @@
 .metricLabel {
   font-size: 10px;
   font-weight: 700;
-  color: #94a3b8;
+  color: var(--text-secondary);
   letter-spacing: 0.5px;
   text-transform: uppercase;
   margin-bottom: 4px;
@@ -309,7 +308,7 @@
 .metricVal {
   font-size: 24px;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--text-main);
   letter-spacing: -0.5px;
 }
 
@@ -318,19 +317,19 @@
   right: 0px;
   top: 10px;
   z-index: 1;
-  color: #e2e8f0; 
+  color: var(--border-color); 
   opacity: 0.8;
 }
 
 .summaryCard {
-  background-color: #2b3240; 
+  background-color: var(--bg-card-alt); 
   border-radius: 12px;
   padding: 32px;
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.5);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #ffffff;
+  color: var(--text-main);
 }
 
 .summaryContent {
@@ -345,12 +344,12 @@
 
 .summaryDesc {
   font-size: 13px;
-  color: #cbd5e1;
+  color: var(--text-secondary);
   line-height: 1.5;
 }
 
 .summaryIcon {
-  color: #64748b; 
+  color: var(--text-secondary); 
 }
 
 .footer {

@@ -6,14 +6,14 @@
 
 /* AI CARD */
 .aiCard {
-  background-color: #ffffff;
-  border-left: 4px solid #111827;
+  background-color: var(--bg-card);
+  border-left: 4px solid var(--accent-cyan);
   border-radius: 8px;
   padding: 20px 24px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
 .aiContentWrapper {
@@ -25,18 +25,18 @@
 .aiIconWrapper {
   width: 48px;
   height: 48px;
-  background-color: #f1f5f9;
+  background-color: var(--bg-card-alt);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #111827;
+  color: var(--accent-cyan);
 }
 
 .aiTitle {
   font-size: 11px;
   font-weight: 800;
-  color: #475569;
+  color: var(--text-secondary);
   text-transform: uppercase;
   margin-bottom: 6px;
   display: block;
@@ -45,16 +45,16 @@
 
 .aiText {
   font-size: 15px;
-  color: #475569;
+  color: var(--text-secondary);
   margin: 0;
 }
 .aiHighlight {
   font-weight: 700;
-  color: #111827;
+  color: var(--accent-cyan);
 }
 
 .btnAnalysis {
-  background-color: #111827;
+  background-color: var(--accent-cyan);
   color: #ffffff;
   border: none;
   border-radius: 6px;
@@ -65,15 +65,15 @@
   transition: background-color 0.2s;
 }
 .btnAnalysis:hover {
-  background-color: #1f2937;
+  background-color: var(--accent-cyan-hover);
 }
 
 /* BIG CHART CARD */
 .chartCard {
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
 .chartHeader {
@@ -86,25 +86,25 @@
 .chartTitle {
   font-size: 18px;
   font-weight: 700;
-  color: #111827;
+  color: var(--text-main);
   margin: 0;
 }
 
 .chartSubtitle {
   font-size: 13px;
-  color: #64748b;
+  color: var(--text-secondary);
   margin-top: 4px;
 }
 
 .intensityBadge {
   display: inline-flex;
   align-items: center;
-  background-color: #f8fafc;
+  background-color: var(--bg-card-alt);
   padding: 6px 16px;
   border-radius: 20px;
   font-size: 10px;
   font-weight: 700;
-  color: #64748b;
+  color: var(--text-secondary);
   letter-spacing: 0.5px;
   gap: 10px;
 }
@@ -127,7 +127,7 @@
   align-items: center;
   gap: 8px;
   font-size: 12px;
-  color: #475569;
+  color: var(--text-secondary);
   font-weight: 500;
 }
 .lDot { width: 8px; height: 8px; border-radius: 50%; }
@@ -155,10 +155,10 @@
 }
 
 .miniChartCard {
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   display: flex;
   flex-direction: column;
 }
@@ -172,8 +172,8 @@
 
 .mcTabs {
   display: flex;
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -182,14 +182,14 @@
   padding: 6px 16px;
   font-size: 10px;
   font-weight: 700;
-  color: #94a3b8;
+  color: var(--text-secondary);
   cursor: pointer;
   border: none;
   background: transparent;
 }
 .mcTab.active {
-  color: #1e293b;
-  border-right: 1px solid #e2e8f0;
+  color: var(--text-main);
+  border-right: 1px solid var(--border-color);
 }
 
 .miniChartArea {
@@ -208,7 +208,7 @@
 .statWhiteCard, .statDarkCard {
   border-radius: 12px;
   padding: 24px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -216,13 +216,13 @@
 }
 
 .statWhiteCard {
-  background-color: #ffffff;
+  background-color: var(--bg-card);
 }
 
 .swHeader {
   font-size: 11px;
   font-weight: 700;
-  color: #64748b;
+  color: var(--text-secondary);
   letter-spacing: 0.5px;
   text-transform: uppercase;
   margin-bottom: 12px;
@@ -238,7 +238,7 @@
 .swValue {
   font-size: 32px;
   font-weight: 700;
-  color: #1e293b;
+  color: var(--text-main);
 }
 
 .swBadge {
@@ -246,18 +246,18 @@
   align-items: center;
   font-size: 13px;
   font-weight: 700;
-  color: #10b981;
+  color: var(--accent-green);
 }
 
 .swDesc {
   font-size: 12px;
-  color: #94a3b8;
+  color: var(--text-secondary);
   line-height: 1.5;
 }
 
 .statDarkCard {
-  background-color: #111827;
-  color: #ffffff;
+  background-color: var(--bg-card-alt);
+  color: var(--text-main);
 }
 
 .sdHeader {

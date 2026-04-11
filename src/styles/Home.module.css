@@ -12,13 +12,13 @@
 }
 
 .statCard {
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   border-radius: 12px;
   padding: 20px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
 .statInfo {
@@ -37,12 +37,12 @@
 .statValue {
   font-size: 24px;
   font-weight: 700;
-  color: #1a2533;
+  color: var(--text-main);
 }
 
 .statValue small {
   font-size: 12px;
-  color: #798393;
+  color: var(--text-secondary);
   font-weight: 500;
   margin-left: 4px;
 }
@@ -82,7 +82,7 @@
 .sectionTitle {
   font-size: 18px;
   font-weight: 600;
-  color: #1a2533;
+  color: var(--text-main);
 }
 
 .liveBadge {
@@ -90,8 +90,8 @@
   align-items: center;
   font-size: 12px;
   font-weight: 500;
-  color: #64748b;
-  background-color: #f1f5f9;
+  color: var(--text-main);
+  background-color: var(--bg-card);
   padding: 4px 10px;
   border-radius: 20px;
 }
@@ -112,12 +112,12 @@
 }
 
 .trafficCard {
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   border-radius: 12px;
   padding: 24px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
 .tcHeader {
@@ -130,13 +130,13 @@
 .tcTitleGroup .tcTitle {
   font-size: 16px;
   font-weight: 600;
-  color: #1a2533;
+  color: var(--text-main);
   margin: 0;
 }
 
 .tcTitleGroup .tcSubtitle {
   font-size: 12px;
-  color: #798393;
+  color: var(--text-secondary);
   margin-top: 4px;
 }
 
@@ -194,7 +194,7 @@
 .tcValue {
   font-size: 28px;
   font-weight: 700;
-  color: #1a2533;
+  color: var(--text-main);
   margin: 4px 0 16px 0;
 }
 
@@ -207,7 +207,7 @@
 
 .tcBarTrack {
   height: 6px;
-  background-color: #f1f5f9;
+  background-color: var(--bg-card-alt);
   border-radius: 3px;
   overflow: hidden;
 }
@@ -228,9 +228,9 @@
 }
 
 .mapCard {
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -241,18 +241,18 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .cardTitle {
   font-size: 15px;
   font-weight: 600;
-  color: #1a2533;
+  color: var(--text-main);
 }
 
 .actionLink {
   font-size: 12px;
-  color: #475569;
+  color: var(--text-secondary);
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -260,7 +260,7 @@
   cursor: pointer;
   text-transform: uppercase;
 }
-.actionLink:hover { color: #1a2533; }
+.actionLink:hover { color: var(--text-main); }
 
 .mapImage {
   width: 100%;
@@ -274,18 +274,18 @@
   position: absolute;
   top: 16px;
   left: 16px;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(30, 41, 59, 0.9);
   padding: 10px 14px;
   border-radius: 8px;
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.5);
 }
 .overlayTitle { font-size: 10px; color: #64748b; font-weight: 600; }
 .overlayValue { font-size: 12px; font-weight: 700; color: #0f172a; margin-top: 4px; }
 
 .activityCard {
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -316,23 +316,23 @@
 .actDot.red { background-color: #ef4444; }
 
 .actContent { display: flex; flex-direction: column; gap: 4px; }
-.actText { font-size: 13px; color: #334155; font-weight: 500; }
-.actTime { font-size: 11px; color: #94a3b8; }
+.actText { font-size: 13px; color: var(--text-main); font-weight: 500; }
+.actTime { font-size: 11px; color: var(--text-secondary); }
 
 .viewAllLogs {
   margin: 0 24px 20px 24px;
   padding: 10px 0;
   text-align: center;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-color);
   border-radius: 6px;
   font-size: 12px;
   font-weight: 600;
-  color: #64748b;
+  color: var(--text-secondary);
   cursor: pointer;
   background-color: transparent;
   transition: all 0.2s;
 }
-.viewAllLogs:hover { background-color: #f8fafc; color: #1e293b; }
+.viewAllLogs:hover { background-color: var(--bg-hover); color: var(--text-main); }
 
 .footer {
   text-align: center;

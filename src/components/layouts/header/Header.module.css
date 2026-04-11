@@ -8,10 +8,9 @@
   top: 0;
   height: 72px;
   padding: 0 32px;
-  background-color: #ffffff;
-  border-bottom: 1px solid #f1f4f9;
+  background-color: var(--bg-card);
+  border-bottom: 1px solid var(--border-color);
   z-index: 50;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
 .leftSection {
@@ -22,28 +21,29 @@
 .title {
   font-size: 18px;
   font-weight: 600;
-  color: #1a2533;
+  color: var(--text-main);
   margin: 0;
 }
 
 .divider {
   width: 1px;
   height: 24px;
-  background-color: #e4e8ef;
+  background-color: var(--border-color);
   margin: 0 24px;
 }
 
 .searchContainer {
   display: flex;
   align-items: center;
-  background-color: #f4f6fa;
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
   border-radius: 20px;
   padding: 8px 16px;
   min-width: 300px;
 }
 
 .searchIcon {
-  color: #798393;
+  color: var(--text-secondary);
   margin-right: 12px;
   display: flex;
   align-items: center;
@@ -54,12 +54,12 @@
   background: transparent;
   outline: none;
   font-size: 14px;
-  color: #1a2533;
+  color: var(--text-main);
   width: 100%;
 }
 
 .searchInput::placeholder {
-  color: #8c96a5;
+  color: var(--text-secondary);
 }
 
 .rightSection {
@@ -72,7 +72,7 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  color: #4b5563;
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -82,7 +82,7 @@
 }
 
 .iconButton:hover {
-  color: #1a2533;
+  color: var(--text-main);
 }
 
 .iconButton svg {
@@ -96,9 +96,9 @@
   right: 5px;
   width: 8px;
   height: 8px;
-  background-color: #dc2626;
+  background-color: var(--accent-red);
   border-radius: 50%;
-  border: 1.5px solid #ffffff;
+  border: 1.5px solid var(--bg-card);
 }
 
 .profileSection {
@@ -129,5 +129,5 @@
 .profileName {
   font-size: 14px;
   font-weight: 500;
-  color: #374151;
+  color: var(--text-main);
 }
