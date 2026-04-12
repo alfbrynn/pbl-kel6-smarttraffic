@@ -255,7 +255,6 @@
   line-height: 1.5;
 }
 
-/* Card putih akan mengikuti tema (terang di light mode, gelap di dark mode) */
 .statWhiteCard {
   border-radius: 12px;
   padding: 24px;
@@ -264,10 +263,9 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: var(--bg-card); /* Mengikuti globals.css */
+  background-color: var(--bg-card); 
 }
 
-/* Card gelap akan PERMANEN gelap di mode apapun */
 .statDarkCard {
   border-radius: 12px;
   padding: 24px;
@@ -277,32 +275,31 @@
   flex-direction: column;
   justify-content: center;
   
-  /* Hardcode warna dari palet Obsidian Dark milikmu */
-  background-color: #0f172a; /* Warna biru sangat gelap */
-  color: #f8fafc; /* Memaksa teks utama selalu putih terang */
+  background-color: #0f172a; 
+  color: #f8fafc; 
 }
 
-/* --- Styling isi dari statDarkCard --- */
+
 
 .sdHeader {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.5px;
-  color: #94a3b8; /* Teks abu-abu terang agar kontras dengan background gelap */
+  color: #94a3b8; 
   margin-bottom: 8px;
 }
 
 .sdValue {
   font-size: 32px;
   font-weight: 700;
-  color: #ffffff; /* Angka selalu putih */
+  color: #ffffff; 
   margin-bottom: 16px;
 }
 
 .sdProgressBar {
   width: 100%;
   height: 6px;
-  background-color: #334155; /* Track bar abu-abu gelap */
+  background-color: #334155; 
   border-radius: 4px;
   overflow: hidden;
   margin-bottom: 8px;
@@ -310,8 +307,8 @@
 
 .sdFill {
   height: 100%;
-  width: 68%; /* Ini nanti bisa kamu buat dinamis lewat props React */
-  background-color: #06b6d4; /* Warna cyan menyala (accent-cyan) */
+  width: 68%; 
+  background-color: #06b6d4; 
   border-radius: 4px;
 }
 
