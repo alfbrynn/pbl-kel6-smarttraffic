@@ -1,8 +1,17 @@
 "use client";
 import Head from "next/head";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <>
       <Head>
@@ -13,10 +22,14 @@ export default function Home() {
 
       <div className="min-h-screen bg-white font-sans text-gray-900">
         {/* NAVBAR */}
-        <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4 bg-white/90 backdrop-blur border-b border-gray-100">
+        <nav className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4 border-b transition-all duration-500 ${
+          scrolled
+            ? "bg-white/20 backdrop-blur-md border-white/10"
+            : "bg-white/90 backdrop-blur border-gray-100"
+        }`}>
           <span className="text-sm font-bold tracking-widest uppercase text-gray-900">SMARTRAF</span>
           <div className="hidden md:flex items-center gap-8 text-sm text-gray-600">
-            <a href="#monitoring" className="hover:text-gray-900 transition-colors">Monitoring</a>
+            <a href="#monitoring" className="text-teal-500 font-semibold border-b-2 border-teal-500 pb-0.5 transition-colors">Monitoring</a>
             <a href="#ai-analytics" className="hover:text-gray-900 transition-colors">AI Analytics</a>
             <a href="#infrastructure" className="hover:text-gray-900 transition-colors">Infrastructure</a>
             <a href="#data-profile" className="hover:text-gray-900 transition-colors">Data Profile</a>
@@ -28,115 +41,145 @@ export default function Home() {
         </nav>
 
         {/* HERO */}
-        <section className="relative pt-16 h-screen min-h-[600px] flex items-center overflow-hidden bg-gray-50">
+        <section className="relative pt-16 h-screen min-h-[600px] flex items-center overflow-hidden bg-gray-100">
           <div className="absolute inset-0">
-            <Image src="/city-traffic.png" alt="City Traffic" fill className="object-cover object-center opacity-50" />
-            <div className="absolute inset-0 bg-gradient-to-r from-white via-white/85 to-white/10" />
+            <Image src="/city-traffic.png" alt="City Traffic" fill className="object-cover object-center opacity-60" />
+            <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/70 to-transparent" />
           </div>
-          <div className="relative z-10 max-w-6xl mx-auto px-8 w-full flex items-center justify-between">
-            <div className="max-w-lg">
-              <div className="inline-block text-xs font-semibold tracking-widest uppercase text-teal-600 bg-teal-50 border border-teal-200 px-3 py-1 rounded-full mb-6">
-                NEXT GEN PLATFORM
+          <div className="relative z-10 w-full px-6 flex items-center justify-between">
+            <div className="max-w-xl">
+              <div className="inline-block text-xs font-semibold tracking-widest uppercase text-teal-700 bg-teal-50 border border-teal-300 px-3 py-1 rounded mb-8">
+                NEXT-GEN TELEMETRY
               </div>
-              <h1 className="text-5xl font-black leading-tight text-gray-900 mb-4">
+              <h1 className="text-7xl font-black leading-[1.0] text-gray-900 mb-6">
                 Kinetic<br />
-                <span className="text-teal-500">Intelligence</span><br />
+                <span className="text-blue-500">Intelligence</span><br />
                 for Urban Flow.
               </h1>
-              <p className="text-gray-500 text-sm leading-relaxed mb-8 max-w-sm">
+              <p className="text-gray-500 text-base leading-relaxed mb-10 max-w-sm">
                 A living infrastructure operating system designed for the speed of light. Real-time city-scale data transformed into actionable precision.
               </p>
-              <div className="flex gap-3">
-                <a href="#" className="bg-gray-900 text-white text-sm font-semibold px-5 py-2.5 rounded-md hover:bg-gray-800 transition-colors">
+              <div className="flex gap-4">
+                <a href="#" className="bg-blue-600 text-white text-sm font-bold px-7 py-3 hover:bg-blue-700 transition-colors tracking-widest">
                   LAUNCH DASHBOARD
                 </a>
-                <a href="#" className="border border-gray-300 text-gray-700 text-sm font-semibold px-5 py-2.5 rounded-md hover:bg-gray-50 transition-colors">
+                <a href="#" className="border border-gray-400 text-gray-700 text-sm font-bold px-7 py-3 hover:bg-gray-50 transition-colors tracking-widest">
                   VIEW NETWORK
                 </a>
               </div>
             </div>
 
             {/* Live metric card */}
-            <div className="hidden lg:block bg-white/90 backdrop-blur border border-gray-200 rounded-xl p-5 shadow-lg min-w-[200px]">
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-xs text-gray-400 uppercase tracking-wide">Efficiency Rate</span>
-                <span className="text-teal-500 text-xs">↗</span>
+            <div className="hidden lg:block bg-white border border-gray-200 rounded-sm p-6 shadow-lg w-[300px] mr-16">
+              <div className="flex items-start justify-between mb-1">
+                <span className="text-[10px] text-gray-400 uppercase tracking-widest">Current Velocity</span>
+                <svg className="w-5 h-5 text-teal-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                </svg>
               </div>
-              <div className="text-3xl font-black text-gray-900 mb-1">842.5 MB/s</div>
-              <div className="text-xs text-gray-400">Uptime: 99.98%</div>
-              <div className="mt-3 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                <div className="h-full w-4/5 bg-teal-400 rounded-full" />
+              <div className="text-4xl font-black text-blue-500 mb-1 border-b border-gray-200 pb-3">842.5 MB/s</div>
+              <div className="flex justify-between mt-3">
+                <span className="text-[10px] text-gray-400 uppercase tracking-widest">Network Load</span>
+                <span className="text-[10px] text-gray-400 uppercase tracking-widest">67% Optimum</span>
               </div>
             </div>
           </div>
         </section>
 
         {/* CONNECTED CITIES */}
-        <section id="monitoring" className="py-20 bg-white">
+        <section id="monitoring" className="py-16 bg-white">
           <div className="w-full px-4 md:px-6">
-            <div className="text-center mb-12">
+            <div className="text-center mb-10">
               <div className="text-xs font-semibold tracking-widest uppercase text-gray-400 mb-2">CONNECTED CITIES</div>
               <h2 className="text-3xl font-bold text-gray-900">Curated Clarity for Complex Data</h2>
             </div>
 
-            {/* Dashboard mockup */}
-            <div className="flex gap-6 items-stretch">
-              {/* Left sidebar stats */}
-              <div className="hidden md:flex flex-col gap-4 w-[160px] shrink-0">
-                <div className="bg-gray-50 border border-gray-200 rounded-xl p-5">
-                  <div className="text-xs text-gray-400 mb-1">ACTIVE NODES</div>
-                  <div className="text-3xl font-black text-gray-900">1,294</div>
-                  <div className="text-xs text-teal-500 mt-1">+2.4%</div>
-                  <div className="mt-3 h-1.5 bg-gray-200 rounded-full">
-                    <div className="h-full w-3/4 bg-teal-400 rounded-full" />
+            {/* Dashboard mockup — mac window style */}
+            <div className="flex rounded-2xl overflow-hidden shadow-xl border border-gray-200 bg-white">
+
+              {/* Left sidebar — white panel */}
+              <div className="w-[200px] shrink-0 bg-white p-5 flex flex-col gap-6 border-r border-gray-100">
+                {/* Mac dots */}
+                <div className="flex gap-1.5 mb-2">
+                  <div className="w-3 h-3 rounded-full bg-red-400" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-400" />
+                  <div className="w-3 h-3 rounded-full bg-green-400" />
+                </div>
+
+                <div>
+                  <div className="text-[10px] text-gray-400 mb-1">Active Nodes</div>
+                  <div className="text-3xl font-black text-gray-900">1,284</div>
+                </div>
+
+                <div>
+                  <div className="text-[10px] text-gray-400 mb-1">System Load</div>
+                  <div className="flex items-center gap-2 mt-1">
+                    <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                      <div className="h-full bg-green-400 rounded-full" style={{ width: "67%" }} />
+                    </div>
+                    <span className="text-[10px] text-gray-400">67%</span>
                   </div>
                 </div>
-                <div className="bg-gray-50 border border-gray-200 rounded-xl p-5 flex-1">
-                  <div className="text-xs text-gray-400 mb-1">LATENCY</div>
-                  <div className="text-3xl font-black text-gray-900">0.5</div>
-                  <div className="text-xs text-gray-400">ms avg</div>
+
+                <div>
+                  <div className="text-[10px] text-gray-400 mb-1">Alerts</div>
+                  <div className="text-3xl font-black text-red-500">03</div>
                 </div>
               </div>
 
-              {/* Main dashboard visual */}
-              <div className="flex-1 bg-gray-900 rounded-2xl overflow-hidden min-h-[420px] relative flex items-end p-8">
-                <div className="absolute inset-0">
-                  <div className="absolute top-6 right-6 w-40 h-40 rounded-full border border-teal-400/20" />
-                  <div className="absolute top-12 right-12 w-24 h-24 rounded-full border border-teal-400/10" />
-                  {/* Grid lines */}
-                  {[25, 50, 75].map((pct) => (
-                    <div
-                      key={pct}
-                      className="absolute left-8 right-8 border-t border-white/5"
-                      style={{ bottom: `${pct}%` }}
-                    />
-                  ))}
+              {/* Right — dark dashboard panel */}
+              <div className="flex-1 bg-[#0d1b2a] relative overflow-hidden min-h-[380px]">
+                {/* World map faint background */}
+                <div className="absolute inset-0 opacity-10"
+                  style={{
+                    backgroundImage: `radial-gradient(circle at 30% 50%, rgba(45,212,191,0.15) 0%, transparent 60%),
+                                      radial-gradient(circle at 80% 30%, rgba(45,212,191,0.1) 0%, transparent 50%)`
+                  }}
+                />
+
+                {/* Top label */}
+                <div className="absolute top-4 left-5 text-[10px] text-white/30 uppercase tracking-widest">Live Traffic Index</div>
+
+                {/* Pie chart top right */}
+                <div className="absolute top-4 right-5 w-20 h-20">
+                  <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
+                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="3" />
+                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#2dd4bf" strokeWidth="3"
+                      strokeDasharray="75 25" strokeLinecap="round" />
+                  </svg>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-teal-400 text-xs font-bold">78%</span>
+                  </div>
                 </div>
-                {/* Bar chart simulation */}
-                <div className="flex items-end gap-2 w-full h-[320px]">
-                  {[40, 65, 45, 80, 55, 90, 60, 75, 50, 85, 70, 95, 65, 80, 55, 70, 45, 60, 75, 50].map((h, i) => (
+
+                {/* Bar chart */}
+                <div className="absolute bottom-0 left-0 right-0 flex items-end gap-1.5 px-5 pb-5 h-[280px]">
+                  {[28, 42, 35, 55, 38, 62, 45, 52, 36, 58, 48, 65, 44, 55, 38, 48, 32, 42, 52, 36].map((h, i) => (
                     <div
                       key={i}
-                      className="flex-1 rounded-t-sm transition-all"
+                      className="flex-1 rounded-t-sm"
                       style={{
                         height: `${h}%`,
                         background:
                           i === 12
                             ? "#2dd4bf"
                             : i > 12
-                            ? "rgba(45,212,191,0.35)"
-                            : "rgba(255,255,255,0.12)",
+                            ? `rgba(45,212,191,${0.25 + (i - 12) * 0.04})`
+                            : "rgba(255,255,255,0.13)",
                       }}
                     />
                   ))}
                 </div>
-                {/* Donut chart */}
-                <div className="absolute top-8 right-8 w-24 h-24 rounded-full border-[6px] border-teal-400/70 flex items-center justify-center">
-                  <span className="text-teal-400 text-sm font-bold">78%</span>
+
+                {/* Bottom timeline bar */}
+                <div className="absolute bottom-0 left-0 right-0 h-8 bg-[#0a1520] flex items-center px-5 gap-3">
+                  <div className="h-2 w-16 bg-teal-400 rounded-full" />
+                  {["0/0", "1:1.0", "D:0", "0:0.1", "0:0.2", "0:0.3"].map((t) => (
+                    <span key={t} className="text-[9px] text-white/20">{t}</span>
+                  ))}
                 </div>
-                {/* Label */}
-                <div className="absolute top-8 left-8 text-xs text-white/40 uppercase tracking-widest">Live Traffic Index</div>
               </div>
+
             </div>
           </div>
         </section>
