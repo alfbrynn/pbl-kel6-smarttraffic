@@ -45,22 +45,8 @@ const LoginPage: NextPage = () => {
             <div className="bg-white rounded-2xl shadow-sm border border-gray-200 px-8 py-10">
               {/* Logo & Title */}
               <div className="flex flex-col items-center mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-gray-900 flex items-center justify-center mb-4">
-                  <svg
-                    className="w-7 h-7 text-white"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <circle cx="12" cy="5" r="2" fill="currentColor" stroke="none" />
-                    <circle cx="12" cy="12" r="2" fill="currentColor" stroke="none" />
-                    <circle cx="12" cy="19" r="2" fill="currentColor" stroke="none" />
-                    <line x1="12" y1="7" x2="12" y2="10" />
-                    <line x1="12" y1="14" x2="12" y2="17" />
-                  </svg>
+                <div className="w-14 h-14 rounded-2xl bg-gray-900 flex items-center justify-center mb-4 overflow-hidden">
+                  <img src="/Background.png" alt="SMARTRAF Logo" className="w-10 h-10 object-contain" />
                 </div>
                 <h1 className="text-lg font-bold tracking-widest text-gray-900 uppercase">
                   SMARTRAF
@@ -180,12 +166,9 @@ const LoginPage: NextPage = () => {
             {/* City photo below card */}
             <div className="mt-4 overflow-hidden rounded-xl">
               <img
-                src="/images/city-traffic.jpg"
+                src="/city-traffic.png"
                 alt="Smart city traffic"
                 className="w-full h-28 object-cover object-center opacity-80"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).style.display = "none"
-                }}
               />
             </div>
           </div>
