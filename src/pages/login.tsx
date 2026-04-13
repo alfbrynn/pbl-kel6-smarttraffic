@@ -17,17 +17,10 @@ const LoginPage: NextPage = () => {
     e.preventDefault()
     setError("")
     setLoading(true)
-
-    try {
-      // TODO: integrate Firebase auth here
-      // await signInWithEmailAndPassword(auth, email, password)
-      await new Promise((r) => setTimeout(r, 1000)) // placeholder
-      router.push("/dashboard")
-    } catch (err) {
-      setError("Email atau kata sandi salah. Silakan coba lagi.")
-    } finally {
-      setLoading(false)
-    }
+    // dummy auth — accept any email & password
+    await new Promise((r) => setTimeout(r, 800))
+    setLoading(false)
+    router.push("/dashboard")
   }
 
   return (
@@ -73,6 +66,7 @@ const LoginPage: NextPage = () => {
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="nama@smartraf.id"
                       required
+                      disabled={false}
                       className="input-field pl-10"
                     />
                   </div>
@@ -103,6 +97,7 @@ const LoginPage: NextPage = () => {
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••"
                       required
+                      disabled={false}
                       className="input-field pl-10 pr-10"
                     />
                     <button
