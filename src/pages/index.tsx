@@ -3,11 +3,34 @@ import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
+const NAV_ITEMS = [
+  { label: "Monitoring", href: "monitoring" },
+  { label: "AI Analytics", href: "ai-analytics" },
+  { label: "Infrastructure", href: "infrastructure" },
+  { label: "Data Profile", href: "data-profile" },
+];
+
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("monitoring");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.history.scrollRestoration = "manual";
+    window.scrollTo(0, 0);
+
+    const onScroll = () => {
+      setScrolled(window.scrollY > 60);
+
+      // Detect active section
+      const offsets = NAV_ITEMS.map(({ href }) => {
+        const el = document.getElementById(href);
+        return { href, top: el ? el.getBoundingClientRect().top : Infinity };
+      });
+      const current = offsets.filter((o) => o.top <= 100).at(-1);
+      if (current) setActiveSection(current.href);
+      else setActiveSection("monitoring");
+    };
+
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -29,10 +52,19 @@ export default function Home() {
         }`}>
           <span className="text-sm font-bold tracking-widest uppercase text-gray-900">SMARTRAF</span>
           <div className="hidden md:flex items-center gap-8 text-sm text-gray-600">
-            <a href="#monitoring" className="text-teal-500 font-semibold border-b-2 border-teal-500 pb-0.5 transition-colors">Monitoring</a>
-            <a href="#ai-analytics" className="hover:text-gray-900 transition-colors">AI Analytics</a>
-            <a href="#infrastructure" className="hover:text-gray-900 transition-colors">Infrastructure</a>
-            <a href="#data-profile" className="hover:text-gray-900 transition-colors">Data Profile</a>
+            {NAV_ITEMS.map(({ label, href }) => (
+              <a
+                key={href}
+                href={`#${href}`}
+                className={`transition-colors pb-0.5 ${
+                  activeSection === href
+                    ? "text-teal-500 font-semibold border-b-2 border-teal-500"
+                    : "hover:text-gray-900"
+                }`}
+              >
+                {label}
+              </a>
+            ))}
           </div>
           <div className="flex items-center gap-3">
             <a href="/login" className="text-sm text-gray-600 hover:text-gray-900 transition-colors">Login</a>
@@ -43,8 +75,9 @@ export default function Home() {
         {/* HERO */}
         <section className="relative pt-16 h-screen min-h-[600px] flex items-center overflow-hidden bg-gray-100">
           <div className="absolute inset-0">
-            <Image src="/city-traffic.png" alt="City Traffic" fill className="object-cover object-center opacity-60" />
-            <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/70 to-transparent" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/city-traffic.png" alt="City Traffic" className="w-full h-full object-cover object-center" />
+            <div className="absolute inset-0" style={{background: 'linear-gradient(to right, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.6) 35%, rgba(255,255,255,0) 50%)'}} />
           </div>
           <div className="relative z-10 w-full px-6 flex items-center justify-between">
             <div className="max-w-xl">
@@ -98,62 +131,54 @@ export default function Home() {
             <div className="flex rounded-2xl overflow-hidden shadow-xl border border-gray-200 bg-white">
 
               {/* Left sidebar — white panel */}
-              <div className="w-[200px] shrink-0 bg-white p-5 flex flex-col gap-6 border-r border-gray-100">
+              <div className="w-[260px] shrink-0 bg-white p-8 flex flex-col gap-8 border-r border-gray-100">
                 {/* Mac dots */}
-                <div className="flex gap-1.5 mb-2">
+                <div className="flex gap-1.5">
                   <div className="w-3 h-3 rounded-full bg-red-400" />
                   <div className="w-3 h-3 rounded-full bg-yellow-400" />
                   <div className="w-3 h-3 rounded-full bg-green-400" />
                 </div>
 
                 <div>
-                  <div className="text-[10px] text-gray-400 mb-1">Active Nodes</div>
-                  <div className="text-3xl font-black text-gray-900">1,284</div>
+                  <div className="text-xs text-gray-400 mb-1">Active Nodes</div>
+                  <div className="text-4xl font-black text-gray-900">1,284</div>
                 </div>
 
                 <div>
-                  <div className="text-[10px] text-gray-400 mb-1">System Load</div>
-                  <div className="flex items-center gap-2 mt-1">
-                    <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="text-xs text-gray-400 mb-2">System Load</div>
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
                       <div className="h-full bg-green-400 rounded-full" style={{ width: "67%" }} />
                     </div>
-                    <span className="text-[10px] text-gray-400">67%</span>
+                    <span className="text-xs text-gray-400">67%</span>
                   </div>
                 </div>
 
                 <div>
-                  <div className="text-[10px] text-gray-400 mb-1">Alerts</div>
-                  <div className="text-3xl font-black text-red-500">03</div>
+                  <div className="text-xs text-gray-400 mb-1">Alerts</div>
+                  <div className="text-4xl font-black text-red-500">03</div>
                 </div>
               </div>
 
               {/* Right — dark dashboard panel */}
-              <div className="flex-1 bg-[#0d1b2a] relative overflow-hidden min-h-[380px]">
-                {/* World map faint background */}
-                <div className="absolute inset-0 opacity-10"
-                  style={{
-                    backgroundImage: `radial-gradient(circle at 30% 50%, rgba(45,212,191,0.15) 0%, transparent 60%),
-                                      radial-gradient(circle at 80% 30%, rgba(45,212,191,0.1) 0%, transparent 50%)`
-                  }}
-                />
-
+              <div className="flex-1 bg-[#0d1b2a] relative overflow-hidden min-h-[420px]">
                 {/* Top label */}
-                <div className="absolute top-4 left-5 text-[10px] text-white/30 uppercase tracking-widest">Live Traffic Index</div>
+                <div className="absolute top-5 left-6 text-[10px] text-white/30 uppercase tracking-widest">Live Traffic Index</div>
 
-                {/* Pie chart top right */}
-                <div className="absolute top-4 right-5 w-20 h-20">
+                {/* Pie chart top right — bigger */}
+                <div className="absolute top-4 right-6 w-28 h-28">
                   <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
-                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="3" />
-                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#2dd4bf" strokeWidth="3"
-                      strokeDasharray="75 25" strokeLinecap="round" />
+                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="3.5" />
+                    <circle cx="18" cy="18" r="15.9" fill="none" stroke="#2dd4bf" strokeWidth="3.5"
+                      strokeDasharray="78 22" strokeLinecap="round" />
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-teal-400 text-xs font-bold">78%</span>
+                    <span className="text-teal-400 text-sm font-bold">78%</span>
                   </div>
                 </div>
 
-                {/* Bar chart */}
-                <div className="absolute bottom-0 left-0 right-0 flex items-end gap-1.5 px-5 pb-5 h-[280px]">
+                {/* Bar chart — taller, no overlap with timeline */}
+                <div className="absolute left-0 right-0 flex items-end gap-2 px-6 pb-10" style={{ bottom: 32, top: 48 }}>
                   {[28, 42, 35, 55, 38, 62, 45, 52, 36, 58, 48, 65, 44, 55, 38, 48, 32, 42, 52, 36].map((h, i) => (
                     <div
                       key={i}
@@ -164,7 +189,7 @@ export default function Home() {
                           i === 12
                             ? "#2dd4bf"
                             : i > 12
-                            ? `rgba(45,212,191,${0.25 + (i - 12) * 0.04})`
+                            ? `rgba(45,212,191,${0.25 + (i - 12) * 0.05})`
                             : "rgba(255,255,255,0.13)",
                       }}
                     />
@@ -172,7 +197,7 @@ export default function Home() {
                 </div>
 
                 {/* Bottom timeline bar */}
-                <div className="absolute bottom-0 left-0 right-0 h-8 bg-[#0a1520] flex items-center px-5 gap-3">
+                <div className="absolute bottom-0 left-0 right-0 h-8 bg-[#0a1520] flex items-center px-6 gap-4">
                   <div className="h-2 w-16 bg-teal-400 rounded-full" />
                   {["0/0", "1:1.0", "D:0", "0:0.1", "0:0.2", "0:0.3"].map((t) => (
                     <span key={t} className="text-[9px] text-white/20">{t}</span>
