@@ -26,7 +26,7 @@ export default function Home() {
         const el = document.getElementById(href);
         return { href, top: el ? el.getBoundingClientRect().top : Infinity };
       });
-      const current = offsets.filter((o) => o.top <= 100).at(-1);
+      const current = offsets.filter((o) => o.top <= 120).at(-1);
       if (current) setActiveSection(current.href);
       else setActiveSection("monitoring");
     };
