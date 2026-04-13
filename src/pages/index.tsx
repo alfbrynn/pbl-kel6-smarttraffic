@@ -293,7 +293,7 @@ export default function Home() {
 
         {/* CTA */}
         <section className="py-24 bg-gray-50 text-center">
-          <div className="max-w-2xl mx-auto px-8">
+          <div className="w-full px-4 md:px-6">
             <h2 className="text-4xl font-black text-gray-900 mb-4">Ready to curate your city?</h2>
             <p className="text-gray-500 mb-10">
               Join the next generation of smart city managers using SMARTRAF to build safer, more efficient urban environments.
@@ -311,7 +311,7 @@ export default function Home() {
 
         {/* FOOTER */}
         <footer className="bg-white border-t border-gray-100 py-10">
-          <div className="max-w-6xl mx-auto px-8 flex flex-col md:flex-row items-start justify-between gap-6">
+          <div className="w-full px-4 md:px-6 flex flex-col md:flex-row items-start justify-between gap-6">
             <div>
               <div className="text-sm font-bold tracking-widest uppercase text-gray-900 mb-2">SMARTRAF</div>
               <p className="text-xs text-gray-400 max-w-xs">
