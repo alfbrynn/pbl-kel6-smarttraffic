@@ -59,34 +59,40 @@ export default function Sidebar() {
   return (
     <aside className="w-[185px] shrink-0 bg-white border-r border-gray-100 flex flex-col min-h-screen">
       {/* Logo */}
-      <div className="px-5 pt-6 pb-5">
+      <div className="px-5 pt-6 pb-5 border-b border-gray-50">
         <div className="text-sm font-black tracking-widest text-gray-900 uppercase">SMARTRAF</div>
         <div className="text-[10px] text-gray-400 mt-0.5 tracking-wide">IoT Controller</div>
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 pt-2">
+      <nav className="flex-1 py-3">
         {navItems.map((item) => {
           const isActive = router.pathname === item.href;
           return (
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 px-5 py-2.5 text-sm relative transition-colors ${
+              className={`flex items-center gap-3 mx-2 px-3 py-2.5 text-sm rounded-lg relative transition-all ${
                 isActive
-                  ? "text-gray-900 font-semibold"
-                  : "text-gray-400 hover:text-gray-700"
+                  ? "bg-blue-50 text-blue-700 font-semibold"
+                  : "text-gray-400 hover:text-gray-700 hover:bg-gray-50"
               }`}
             >
-              {isActive && (
-                <div className="absolute right-0 top-1 bottom-1 w-[3px] bg-gray-900 rounded-l-full" />
-              )}
-              <span>{item.icon}</span>
+              <span className={isActive ? "text-blue-600" : ""}>{item.icon}</span>
               {item.label}
             </Link>
           );
         })}
       </nav>
+
+      {/* System status at bottom */}
+      <div className="px-5 py-4 border-t border-gray-50">
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse shrink-0" />
+          <span className="text-[10px] text-gray-400">Sistem Online</span>
+        </div>
+        <div className="text-[10px] text-gray-300 mt-0.5">v2.4.0</div>
+      </div>
     </aside>
   );
 }
