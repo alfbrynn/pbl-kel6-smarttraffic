@@ -12,19 +12,19 @@ export default function Persimpangan() {
         <title>Persimpangan – SMARTRAF</title>
       </Head>
 
-      <div className="flex min-h-screen bg-gray-50 font-sans">
+      <div className="flex min-h-screen bg-[#f0f4f8] font-sans">
         <Sidebar />
 
         <div className="flex-1 flex flex-col min-w-0">
           <TopBar title="Pusat Kontrol" />
 
-          <main className="flex-1 p-6 flex flex-col gap-5 overflow-y-auto">
+          <main className="flex-1 p-5 flex flex-col gap-4 overflow-y-auto">
             <ProfilLokasi />
             <PengaturanParameter />
             <KendaliDarurat />
 
             {/* Footer */}
-            <div className="text-center text-[11px] text-gray-300 tracking-widest uppercase pt-4 pb-2">
+            <div className="text-center text-[10px] text-gray-300 tracking-widest uppercase py-4">
               SMARTRAF V2.4.0 — Integrated Urban Traffic Management
             </div>
           </main>
