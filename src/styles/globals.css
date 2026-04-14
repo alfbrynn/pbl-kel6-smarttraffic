@@ -1,18 +1,61 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@keyframes fadeSlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+:root {
+  --max-width: 1100px;
+  --border-radius: 12px;
+  --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
+    'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
+    'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
+
+  /* GLOBAL THEME VARIABLES - LIGHT MODE DEFAULTS */
+  --bg-main: #f4f6fa;       /* Light bg */
+  --bg-card: #ffffff;       /* White cards */
+  --bg-card-alt: #f1f5f9;   /* Off-white */
+  --bg-hover: #f1f4f9;      /* Subtle hover */
+  
+  --text-main: #1a2533;     /* Dark slate */
+  --text-secondary: #64748b;/* Slate text */
+  
+  --accent-cyan: #2b3240;   /* Primary button dark in light mode */
+  --accent-cyan-hover: #1e293b;
+  
+  --accent-green: #10b981;  /* Emerald */
+  --accent-green-bg: #dcfce7;
+  
+  --accent-red: #ef4444;    /* Red */
+  --accent-red-bg: #fee2e2;
+  
+  --accent-orange: #d97706; /* Orange */
+  --accent-orange-bg: #ffedd5;
+
+  --border-color: #e2e8f0;  /* Light border */
+}
+
+/* PREMIUM OBSIDIAN DARK THEME VARIABLES */
+[data-theme='dark'] {
+  --bg-main: #0f172a;       /* Obsidian Dark */
+  --bg-card: #1e293b;       /* Slate Dark */
+  --bg-card-alt: #0B1120;   /* Deeper Dark */
+  --bg-hover: #334155;      /* Subtle active */
+  
+  --text-main: #f8fafc;     /* Off-white */
+  --text-secondary: #94a3b8;/* Slate light */
+  
+  --accent-cyan: #06b6d4;   /* Cyan / Neon Blue */
+  --accent-cyan-hover: #0891b2;
+  
+  --accent-green: #10b981;  
+  --accent-green-bg: rgba(16, 185, 129, 0.15);
+  
+  --accent-red: #ef4444;    
+  --accent-red-bg: rgba(239, 68, 68, 0.15);
+  
+  --accent-orange: #f59e0b; 
+  --accent-orange-bg: rgba(245, 158, 11, 0.15);
+
+  --border-color: #334155;  /* Slate Grey Border */
 }
 
 @layer base {
@@ -20,14 +63,14 @@
     box-sizing: border-box;
   }
 
-  html {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  body {
-    @apply bg-gray-50 text-gray-900;
-  }
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color-scheme: dark;
 }
 
 @layer components {
@@ -35,7 +78,3 @@
     @apply w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition-all duration-200 focus:border-gray-900 focus:bg-white focus:ring-2 focus:ring-gray-900/10;
   }
 
-  .btn-primary {
-    @apply w-full rounded-lg bg-gray-900 px-4 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-gray-800 active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed;
-  }
-}
