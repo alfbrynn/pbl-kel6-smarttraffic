@@ -1,16 +1,16 @@
 import Head from 'next/head';
 import MainLayout from '@/components/layouts/MainLayout';
-import StatusCards from '@/components/statuscloud/StatusCards';
-import NetworkActivityCard from '@/components/statuscloud/NetworkActivityCard';
-import SystemLogCard from '@/components/statuscloud/SystemLogCard';
-import SensorTable from '@/components/statuscloud/SensorTable';
+import StatusCards from '@/components/kesehatan-sistem/StatusCards';
+import NetworkActivityCard from '@/components/kesehatan-sistem/NetworkActivityCard';
+import SystemLogCard from '@/components/kesehatan-sistem/SystemLogCard';
+import SensorTable from '@/components/kesehatan-sistem/SensorTable';
 
 export default function StatusCloud() {
   return (
     <>
       <Head>
-        <title>SMARTRAF - Status Sinkronisasi</title>
-        <meta name="description" content="Dashboard monitoring sinkronisasi data cloud IoT" />
+        <title>SMARTRAF - Kesehatan Sistem</title>
+        <meta name="description" content="Dashboard monitoring kesehatan sistem dan infrastruktur IoT" />
       </Head>
 
       <MainLayout>

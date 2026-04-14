@@ -17,7 +17,7 @@ export default function Analitik() {
         <div className="flex flex-col gap-6">
 
           {/* AI PREDICTION CARD */}
-          <PredictionCard />
+          {/* <PredictionCard /> */}
 
           {/* MAIN CHART CARD */}
           <PolaChartCard />

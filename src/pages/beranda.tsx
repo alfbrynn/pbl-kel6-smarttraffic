@@ -1,10 +1,9 @@
 import Head from 'next/head';
-import Image from 'next/image';
 import MainLayout from '@/components/layouts/MainLayout';
-import StatsRow from '@/components/dashboard/StatRow';
-import TrafficGrid from '@/components/dashboard/TrafficGrid';
-import MapCard from '@/components/dashboard/MapCard';
-import ActivityLog from '@/components/dashboard/ActivityLog';
+import StatsRow from '@/components/beranda/StatRow';
+import TrafficGrid from '@/components/beranda/TrafficGrid';
+import ActivityLog from '@/components/beranda/ActivityLog';
+import SensorCard from '@/components/beranda/SensorCard';
 
 export default function Home() {
     return (
@@ -34,8 +33,8 @@ export default function Home() {
 
                     {/* BOTTOM ROW */}
                     <div className="grid grid-cols-[2fr_1fr] gap-6">
-                        {/* MAP CARD */}
-                        <MapCard />
+                        {/* SKEMA TATA LETAK SENSOR */}
+                        <SensorCard />
 
                         {/* ACTIVITY SYSTEM */}
                         <ActivityLog />

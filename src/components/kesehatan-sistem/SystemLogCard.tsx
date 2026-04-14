@@ -11,7 +11,7 @@ export default function SystemLogCard() {
                 </p>
             </div>
             <Link 
-                href="/status-cloud/log" 
+                href="/kesehatan-sistem/log" 
                 className="bg-bg-card-alt text-text-main border border-border-color p-3 rounded-[6px] text-[13px] font-bold cursor-pointer w-full text-center transition-opacity duration-200 hover:opacity-90 block no-underline"
             >
                 Lihat Log Lengkap

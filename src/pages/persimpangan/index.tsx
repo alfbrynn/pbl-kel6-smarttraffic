@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import MainLayout from '@/components/layouts/MainLayout';
-import ProfileCard from '@/components/persimpangan/PorfilCard';
-import SensorCard from '@/components/persimpangan/SensorCard';
+import ProfileCard from '@/components/persimpangan/ProfilCard';
 import ParameterCard from '@/components/persimpangan/ParameterCard';
 import Emergency from '@/components/persimpangan/EmergencyCard';
 
@@ -17,13 +16,9 @@ export default function Persimpangan() {
         <div className="flex flex-col gap-6">
 
           {/* TOP ROW */}
-          <div className="grid grid-cols-[2fr_1fr] gap-6">
+          <div className="grid grid-cols-1 gap-6">
             {/* PROFILE LOKASI */}
             <ProfileCard />
-
-            {/* SKEMA TATA LETAK SENSOR */}
-            <SensorCard />
-
           </div>
 
           {/* MIDDLE ROW */}

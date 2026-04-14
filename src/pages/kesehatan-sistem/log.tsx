@@ -33,12 +33,12 @@ export default function LogSistem() {
       <MainLayout>
         <div className="flex flex-col gap-6">
           
-          <Link href="/status-cloud" className="inline-flex items-center gap-2 bg-transparent border-none text-[13px] font-semibold text-text-secondary cursor-pointer mb-[-8px] p-0 transition-colors duration-200 no-underline hover:text-text-main">
+          <Link href="/kesehatan-sistem" className="inline-flex items-center gap-2 bg-transparent border-none text-[13px] font-semibold text-text-secondary cursor-pointer mb-[-8px] p-0 transition-colors duration-200 no-underline hover:text-text-main">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="19" y1="12" x2="5" y2="12"></line>
               <polyline points="12 19 5 12 12 5"></polyline>
             </svg>
-            Kembali ke Status Cloud
+            Kembali ke Kesehatan Sistem
           </Link>
 
           <div className="bg-bg-card rounded-custom shadow-[0_1px_3px_rgba(0,0,0,0.2)] flex flex-col overflow-hidden">

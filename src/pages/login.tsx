@@ -20,7 +20,7 @@ const LoginPage: NextPage = () => {
     // dummy auth — accept any email & password
     await new Promise((r) => setTimeout(r, 800))
     setLoading(false)
-    router.push("/dashboard")
+    router.push("/beranda")
   }
 
   return (
