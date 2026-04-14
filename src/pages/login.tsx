@@ -161,7 +161,7 @@ const LoginPage: NextPage = () => {
             {/* City photo below card */}
             <div className="mt-4 overflow-hidden rounded-xl">
               <img
-                src="/city-traffic.png"
+                src="/city-traffic.jpg"
                 alt="Smart city traffic"
                 className="w-full h-28 object-cover object-center opacity-80"
               />
