@@ -1,7 +1,6 @@
 import React from 'react';
 import Sidebar from './sidebar/Sidebar';
 import Header from './header/Header';
-import styles from './MainLayout.module.css';
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -9,11 +8,11 @@ interface MainLayoutProps {
 
 const MainLayout = ({ children }: MainLayoutProps) => {
   return (
-    <div className={styles.layout}>
+    <div className="flex min-h-screen pl-[250px] bg-bg-main">
       <Sidebar />
-      <div className={styles.mainWrapper}>
+      <div className="flex-1 flex flex-col overflow-hidden">
         <Header />
-        <main className={styles.content}>
+        <main className="flex-1 p-8 pt-[104px] overflow-y-auto">
           {children}
         </main>
       </div>
