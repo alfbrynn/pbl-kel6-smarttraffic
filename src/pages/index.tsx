@@ -133,7 +133,7 @@ export default function Home() {
                 A living infrastructure operating system designed for the speed of light. Real-time city-scale data transformed into actionable precision.
               </p>
               <div className="flex gap-4">
-                <a href="#" className="bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-bold px-8 py-4 transition-all hover:shadow-lg hover:shadow-emerald-500/30 tracking-widest">
+                <a href="/beranda" className="bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-bold px-8 py-4 transition-all hover:shadow-lg hover:shadow-emerald-500/30 tracking-widest">
                   LAUNCH DASHBOARD
                 </a>
                 <a href="#monitoring" className="border border-white/30 text-white text-sm font-bold px-8 py-4 hover:bg-white/10 transition-colors tracking-widest">
