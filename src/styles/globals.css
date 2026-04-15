@@ -10,40 +10,40 @@
     'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
 
   /* GLOBAL THEME VARIABLES - LIGHT MODE DEFAULTS */
-  --bg-main: #f4f6fa;       /* Light bg */
-  --bg-card: #ffffff;       /* White cards */
-  --bg-card-alt: #f1f5f9;   /* Off-white */
-  --bg-hover: #f1f4f9;      /* Subtle hover */
+  --bg-main: #f4f6fa;       
+  --bg-card: #ffffff;       
+  --bg-card-alt: #f1f5f9;   
+  --bg-hover: #f1f4f9;      
   
-  --text-main: #1a2533;     /* Dark slate */
-  --text-secondary: #64748b;/* Slate text */
+  --text-main: #1a2533;     
+  --text-secondary: #64748b;
   
-  --accent-cyan: #2b3240;   /* Primary button dark in light mode */
+  --accent-cyan: #2b3240;   
   --accent-cyan-hover: #1e293b;
   
-  --accent-green: #10b981;  /* Emerald */
+  --accent-green: #10b981;  
   --accent-green-bg: #dcfce7;
   
-  --accent-red: #ef4444;    /* Red */
+  --accent-red: #ef4444;   
   --accent-red-bg: #fee2e2;
   
-  --accent-orange: #d97706; /* Orange */
+  --accent-orange: #d97706; 
   --accent-orange-bg: #ffedd5;
 
-  --border-color: #e2e8f0;  /* Light border */
+  --border-color: #e2e8f0;  
 }
 
 /* PREMIUM OBSIDIAN DARK THEME VARIABLES */
 [data-theme='dark'] {
-  --bg-main: #0f172a;       /* Obsidian Dark */
-  --bg-card: #1e293b;       /* Slate Dark */
-  --bg-card-alt: #0B1120;   /* Deeper Dark */
-  --bg-hover: #334155;      /* Subtle active */
+  --bg-main: #0f172a;       
+  --bg-card: #1e293b;       
+  --bg-card-alt: #0B1120;   
+  --bg-hover: #334155;      
   
-  --text-main: #f8fafc;     /* Off-white */
-  --text-secondary: #94a3b8;/* Slate light */
+  --text-main: #f8fafc;   
+  --text-secondary: #94a3b8;
   
-  --accent-cyan: #06b6d4;   /* Cyan / Neon Blue */
+  --accent-cyan: #06b6d4;   
   --accent-cyan-hover: #0891b2;
   
   --accent-green: #10b981;  
@@ -55,7 +55,7 @@
   --accent-orange: #f59e0b; 
   --accent-orange-bg: rgba(245, 158, 11, 0.15);
 
-  --border-color: #334155;  /* Slate Grey Border */
+  --border-color: #334155;  
 }
 
 @layer base {
