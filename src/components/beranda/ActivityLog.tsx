@@ -2,7 +2,7 @@ export default function ActivityLog() {
     return (
         <div className="bg-bg-card rounded-custom shadow-[0_1px_3px_rgba(0,0,0,0.2)] flex flex-col h-full">
             <div className="px-6 py-5 flex justify-between items-center border-b border-border-color">
-                <h3 className="text-[15px] font-semibold text-text-main">Aktivitas Sistem</h3>
+                <h3 className="text-[15px] font-semibold text-text-main">Log Aktivitas</h3>
             </div>
             <div className="p-[20px_24px] flex flex-col gap-5 flex-1">
                 <div className="flex gap-3">

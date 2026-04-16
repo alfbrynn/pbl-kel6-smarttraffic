@@ -27,7 +27,7 @@ export default function StatusCloud() {
               </p>
             </div>
             <div className="flex gap-3">
-              <button className="bg-bg-card border border-border-color text-text-main px-4 py-2 rounded-[6px] text-[13px] font-semibold cursor-pointer flex items-center gap-2 transition-all hover:bg-bg-hover">
+              {/* <button className="bg-bg-card border border-border-color text-text-main px-4 py-2 rounded-[6px] text-[13px] font-semibold cursor-pointer flex items-center gap-2 transition-all hover:bg-bg-hover">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                   <polyline points="7 10 12 15 17 10"></polyline>
@@ -37,7 +37,7 @@ export default function StatusCloud() {
               </button>
               <button className="bg-accent-cyan text-white px-5 py-2 rounded-[6px] text-[13px] font-bold cursor-pointer transition-all hover:opacity-90 shadow-[0_2px_10px_rgba(6,182,212,0.2)]">
                 Refresh Dashboard
-              </button>
+              </button> */}
             </div>
           </div>
 
