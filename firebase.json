@@ -1,0 +1,15 @@
+{
+  "hosting": {
+    "site": "smartraf",
+    "public": "public",
+    "rewrites": [
+      {
+        "source": "**",
+        "run": {
+          "serviceId": "smartraf-web",
+          "region": "asia-southeast1"
+        }
+      }
+    ]
+  }
+}

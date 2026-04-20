@@ -1,0 +1,33 @@
+# Dependencies (akan diinstall ulang di dalam container)
+node_modules
+.npm
+
+# Next.js build output (dihasilkan saat build di dalam container)
+.next
+out
+
+# Git
+.git
+.gitignore
+
+# Environment files — JANGAN pernah masuk ke image!
+.env
+.env.*
+!.env.example
+
+# Logs
+npm-debug.log*
+*.log
+
+# Docker files itu sendiri
+Dockerfile
+.dockerignore
+
+# Dokumentasi
+README.md
+*.md
+
+# IDE
+.vscode
+.idea
+*.swp
