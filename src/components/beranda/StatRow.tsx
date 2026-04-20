@@ -1,14 +1,15 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
+// UBAH IMPORT: Buang collection, query, where. Ganti jadi doc.
+import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '@/utils/firebase';
 
 interface JalurData {
-  jalur_arah: string;
+  jalur_arah?: string;
   jarak_cm: number;
   jumlah_kendaraan: number;
   status_kepadatan: string;
-  timestamp_ms: number;
+  status_lampu: string;
 }
 
 function useCountUp(target: number, duration = 1200, trigger = false) {
@@ -34,20 +35,17 @@ export default function StatsRow() {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const unsub = onSnapshot(
-      query(collection(db, 'kepadatan_jalan'), where('pers_id', '==', 'simpang-polinema')),
-      (snap) => {
-        const latest: Record<string, JalurData> = {};
-        snap.docs.forEach((doc) => {
-          const d = doc.data() as JalurData;
-          const arah = d.jalur_arah;
-          if (!latest[arah] || d.timestamp_ms > latest[arah].timestamp_ms) {
-            latest[arah] = d;
-          }
-        });
-        setDataMap(latest);
+    // PERBAIKAN: Langsung tembak ke dokumen persimpangan
+    const docRef = doc(db, 'persimpangan', 'simpang-utama');
+
+    const unsub = onSnapshot(docRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        // Set dataMap langsung dari object 'jalur' yang dikirim oleh Bridge
+        setDataMap(data.jalur || {});
       }
-    );
+    });
+
     return () => unsub();
   }, []);
 
@@ -60,26 +58,33 @@ export default function StatsRow() {
     return () => obs.disconnect();
   }, []);
 
+  // PERBAIKAN LOGIKA KALKULASI: Pastikan tidak error kalau nilainya undefined
   const jalurValues = Object.values(dataMap);
-  const totalDeteksi   = jalurValues.reduce((a, d) => a + (d.jumlah_kendaraan ?? 0), 0);
-  const rataJarak      = jalurValues.length > 0 ? Math.round(jalurValues.reduce((a, d) => a + d.jarak_cm, 0) / jalurValues.length) : 0;
-  const jalurNormal    = jalurValues.filter(d => d.status_kepadatan === 'Lancar').length;
-  const statusNormal   = jalurValues.length > 0 ? Math.round((jalurNormal / jalurValues.length) * 100) : 0;
-  const alertCount     = jalurValues.filter(d => d.status_kepadatan === 'Padat' || d.status_kepadatan === 'Cukup Padat').length;
+  const totalDeteksi = jalurValues.reduce((a, d) => a + (d.jumlah_kendaraan ?? 0), 0);
+  const rataJarak = jalurValues.length > 0
+    ? Math.round(jalurValues.reduce((a, d) => a + (d.jarak_cm ?? 0), 0) / jalurValues.length)
+    : 0;
+  const jalurNormal = jalurValues.filter(d => d.status_kepadatan === 'Lancar').length;
+  const statusNormal = jalurValues.length > 0 ? Math.round((jalurNormal / jalurValues.length) * 100) : 0;
 
-  const cTotal   = useCountUp(totalDeteksi, 1400, triggered);
-  const cJarak   = useCountUp(rataJarak, 1000, triggered);
-  const cNormal  = useCountUp(statusNormal, 1200, triggered);
-  const cAlert   = useCountUp(alertCount, 800, triggered);
+  // Karena di script python ada status "Antre" pas lagi merah, mending kita hitung juga sebagai alert ringan
+  const alertCount = jalurValues.filter(d =>
+    d.status_kepadatan === 'Padat' || d.status_kepadatan === 'Cukup Padat' || d.status_kepadatan === 'Antre'
+  ).length;
+
+  const cTotal = useCountUp(totalDeteksi, 1400, triggered);
+  const cJarak = useCountUp(rataJarak, 1000, triggered);
+  const cNormal = useCountUp(statusNormal, 1200, triggered);
+  const cAlert = useCountUp(alertCount, 800, triggered);
 
   const stats = [
     {
       label: "TOTAL DETEKSI",
       value: cTotal.toLocaleString('id-ID'),
       suffix: "",
-      badge: "+12%",
+      badge: "Real-time",
       badgeColor: "text-emerald-600 bg-emerald-50",
-      sub: "Kendaraan terdeteksi",
+      sub: "Kendaraan terdeteksi (IR)",
       color: "text-text-main",
       iconBg: "bg-blue-50 text-blue-500",
       icon: (
@@ -93,7 +98,7 @@ export default function StatsRow() {
       value: cJarak,
       suffix: "cm",
       badge: null,
-      sub: "Antrean semua jalur",
+      sub: "Antrean semua jalur (US)",
       color: "text-text-main",
       iconBg: "bg-emerald-50 text-emerald-500",
       icon: (

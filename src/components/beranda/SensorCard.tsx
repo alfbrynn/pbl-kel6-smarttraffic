@@ -8,7 +8,7 @@ export default function LiveSchema() {
     const [statusKoneksi, setStatusKoneksi] = useState('Menghubungkan...');
 
     useEffect(() => {
-        const docRef = doc(db, 'persimpangan', 'simpang-polinema');
+        const docRef = doc(db, 'persimpangan', 'simpang-utama');
 
         const unsubscribe = onSnapshot(docRef, (docSnap) => {
             if (docSnap.exists()) {
