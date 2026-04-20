@@ -9,73 +9,303 @@
     'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
     'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
 
-  /* GLOBAL THEME VARIABLES - LIGHT MODE DEFAULTS */
-  --bg-main: #f4f6fa;       
-  --bg-card: #ffffff;       
-  --bg-card-alt: #f1f5f9;   
-  --bg-hover: #f1f4f9;      
-  
-  --text-main: #1a2533;     
+  --bg-main: #f4f6fa;
+  --bg-card: #ffffff;
+  --bg-card-alt: #f1f5f9;
+  --bg-hover: #f1f4f9;
+  --text-main: #1a2533;
   --text-secondary: #64748b;
-  
-  --accent-cyan: #2b3240;   
+  --accent-cyan: #2b3240;
   --accent-cyan-hover: #1e293b;
-  
-  --accent-green: #10b981;  
+  --accent-green: #10b981;
   --accent-green-bg: #dcfce7;
-  
-  --accent-red: #ef4444;   
+  --accent-red: #ef4444;
   --accent-red-bg: #fee2e2;
-  
-  --accent-orange: #d97706; 
+  --accent-orange: #d97706;
   --accent-orange-bg: #ffedd5;
-
-  --border-color: #e2e8f0;  
+  --border-color: #e2e8f0;
 }
 
-/* PREMIUM OBSIDIAN DARK THEME VARIABLES */
 [data-theme='dark'] {
-  --bg-main: #0f172a;       
-  --bg-card: #1e293b;       
-  --bg-card-alt: #0B1120;   
-  --bg-hover: #334155;      
-  
-  --text-main: #f8fafc;   
+  --bg-main: #0f172a;
+  --bg-card: #1e293b;
+  --bg-card-alt: #0B1120;
+  --bg-hover: #334155;
+  --text-main: #f8fafc;
   --text-secondary: #94a3b8;
-  
-  --accent-cyan: #06b6d4;   
+  --accent-cyan: #06b6d4;
   --accent-cyan-hover: #0891b2;
-  
-  --accent-green: #10b981;  
+  --accent-green: #10b981;
   --accent-green-bg: rgba(16, 185, 129, 0.15);
-  
-  --accent-red: #ef4444;    
+  --accent-red: #ef4444;
   --accent-red-bg: rgba(239, 68, 68, 0.15);
-  
-  --accent-orange: #f59e0b; 
+  --accent-orange: #f59e0b;
   --accent-orange-bg: rgba(245, 158, 11, 0.15);
-
-  --border-color: #334155;  
+  --border-color: #334155;
 }
+
+/* ─── KEYFRAMES ─────────────────────────────────────────── */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeSlideLeft {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+}
+
+@keyframes progressFill {
+  from { width: 0%; }
+  to   { width: var(--progress-width, 100%); }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInSidebar {
+  from { opacity: 0; transform: translateX(-16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes borderPulse {
+  0%, 100% { border-color: rgba(16, 185, 129, 0.4); }
+  50%       { border-color: rgba(16, 185, 129, 1); }
+}
+
+@keyframes rippleAnim {
+  to { transform: scale(1); opacity: 0; }
+}
+
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(16px) scale(0.99); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ─── BASE ──────────────────────────────────────────────── */
 
 @layer base {
-  * {
-    box-sizing: border-box;
+  * { box-sizing: border-box; }
+
+  html, body {
+    max-width: 100vw;
+    overflow-x: hidden;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color-scheme: dark;
   }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-  background-color: var(--bg-main);
-  color: var(--text-main);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  color-scheme: dark;
+  /* Smooth scroll global */
+  html { scroll-behavior: smooth; }
+
+  /* Reduced motion — respect user preference */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
-}
+
+/* ─── COMPONENTS ────────────────────────────────────────── */
 
 @layer components {
   .input-field {
     @apply w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition-all duration-200 focus:border-gray-900 focus:bg-white focus:ring-2 focus:ring-gray-900/10;
   }
+
+  /* ════════════════════════════════════════
+     BUTTON SYSTEM
+     ════════════════════════════════════════ */
+
+  /* Base — semua tombol inherit ini */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-semibold
+           select-none cursor-pointer border-none outline-none
+           transition-all duration-200 ease-out
+           active:scale-[0.97] active:brightness-95
+           disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none
+           focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent-cyan;
+  }
+
+  /* Primary — aksi utama */
+  .btn-primary {
+    @apply btn bg-accent-cyan text-white rounded-lg px-5 py-2.5 text-[13px]
+           hover:bg-accent-cyan-hover hover:shadow-[0_4px_14px_rgba(6,182,212,0.35)]
+           hover:-translate-y-px;
+  }
+
+  /* Secondary — aksi sekunder */
+  .btn-secondary {
+    @apply btn bg-bg-card border border-border-color text-text-main rounded-lg px-5 py-2.5 text-[13px]
+           hover:bg-bg-hover hover:text-accent-cyan
+           hover:-translate-y-px;
+  }
+
+  /* Ghost — aksi tersier / inline */
+  .btn-ghost {
+    @apply btn bg-transparent text-text-secondary rounded-lg px-4 py-2 text-[13px]
+           hover:bg-bg-hover hover:text-text-main;
+  }
+
+  /* Danger — aksi destruktif */
+  .btn-danger {
+    @apply btn bg-red-500 text-white rounded-lg px-5 py-2.5 text-[13px]
+           hover:bg-red-600 hover:shadow-[0_4px_14px_rgba(239,68,68,0.3)]
+           hover:-translate-y-px;
+  }
+
+  /* Icon button — tombol ikon saja */
+  .btn-icon {
+    @apply btn bg-transparent text-text-secondary rounded-lg p-2
+           hover:bg-bg-hover hover:text-text-main;
+  }
+
+  /* Pagination button */
+  .btn-page {
+    @apply btn w-7 h-7 rounded-[4px] text-[12px] bg-transparent text-text-secondary
+           hover:bg-bg-hover hover:text-text-main;
+  }
+  .btn-page-active {
+    @apply btn w-7 h-7 rounded-[4px] text-[12px] bg-bg-hover text-text-main font-bold;
+  }
+
+  /* ── Page enter animation ── */
+  .page-enter {
+    animation: fadeSlideUp 0.4s ease-out both;
+  }
+
+  /* ── Card hover lift ── */
+  .card-hover {
+    @apply transition-all duration-200 ease-out;
+  }
+  .card-hover:hover {
+    @apply -translate-y-0.5 shadow-md;
+  }
+
+  /* ── Sidebar nav item ── */
+  .nav-item {
+    @apply transition-all duration-200 ease-out;
+    animation: slideInSidebar 0.3s ease-out both;
+  }
+
+  /* ── Staggered children ── */
+  .stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+  .stagger-children > *:nth-child(2) { animation-delay: 60ms; }
+  .stagger-children > *:nth-child(3) { animation-delay: 120ms; }
+  .stagger-children > *:nth-child(4) { animation-delay: 180ms; }
+  .stagger-children > *:nth-child(5) { animation-delay: 240ms; }
+  .stagger-children > *:nth-child(6) { animation-delay: 300ms; }
+
+  /* ── Skeleton shimmer ── */
+  .skeleton {
+    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    @apply rounded;
+  }
+
+  /* ── Live indicator pulse ── */
+  .live-dot {
+    @apply w-2 h-2 rounded-full bg-emerald-400;
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+
+  /* ── Fade slide up utility ── */
+  .animate-fade-up   { animation: fadeSlideUp 0.5s ease-out both; }
+  .animate-fade-in   { animation: fadeIn 0.4s ease-out both; }
+  .animate-scale-in  { animation: scaleIn 0.3s ease-out both; }
+
+  /* ── Progress bar animated fill ── */
+  .progress-animated {
+    animation: progressFill 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+
+  /* ── Traffic light glow ── */
+  .light-red-on    { background: #ef4444; box-shadow: 0 0 12px 3px rgba(239,68,68,0.6); }
+  .light-yellow-on { background: #eab308; box-shadow: 0 0 12px 3px rgba(234,179,8,0.6); }
+  .light-green-on  { background: #22c55e; box-shadow: 0 0 12px 3px rgba(34,197,94,0.6); }
+  .light-off-red    { background: rgba(239,68,68,0.15); }
+  .light-off-yellow { background: rgba(234,179,8,0.15); }
+  .light-off-green  { background: rgba(34,197,94,0.15); }
+
+  /* ── Tooltip fade ── */
+  .tooltip { @apply invisible opacity-0 transition-all duration-150 pointer-events-none; }
+  .tooltip-trigger:hover .tooltip { @apply visible opacity-100; }
+
+  /* ── Ripple button ── */
+  .ripple {
+    @apply relative overflow-hidden;
+  }
+
+  /* ── Scroll reveal ── */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  [data-reveal="left"] {
+    transform: translateX(-24px);
+  }
+  [data-reveal="right"] {
+    transform: translateX(24px);
+  }
+  [data-reveal="scale"] {
+    transform: scale(0.95);
+  }
+  [data-reveal].revealed {
+    opacity: 1;
+    transform: translateY(0) translateX(0) scale(1);
+  }
+  [data-reveal-delay="1"].revealed { transition-delay: 80ms; }
+  [data-reveal-delay="2"].revealed { transition-delay: 160ms; }
+  [data-reveal-delay="3"].revealed { transition-delay: 240ms; }
+  [data-reveal-delay="4"].revealed { transition-delay: 320ms; }
+  [data-reveal-delay="5"].revealed { transition-delay: 400ms; }
+
+  /* ── Page transition ── */
+  .page-transition {
+    animation: pageEnter 0.45s ease-out both;
+  }
 }
+
+/* ─── UTILITIES ─────────────────────────────────────────── */
+
+@layer utilities {
+  .delay-75  { animation-delay: 75ms; }
+  .delay-150 { animation-delay: 150ms; }
+  .delay-225 { animation-delay: 225ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+  .delay-500 { animation-delay: 500ms; }
+}
+

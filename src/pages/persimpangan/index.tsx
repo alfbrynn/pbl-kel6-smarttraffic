@@ -3,6 +3,7 @@ import MainLayout from '@/components/layouts/MainLayout';
 import ProfileCard from '@/components/persimpangan/ProfilCard';
 import ParameterCard from '@/components/persimpangan/ParameterCard';
 import Emergency from '@/components/persimpangan/EmergencyCard';
+import StatsRow from '@/components/persimpangan/StatsRow';
 
 export default function Persimpangan() {
   return (
@@ -15,16 +16,16 @@ export default function Persimpangan() {
       <MainLayout>
         <div className="flex flex-col gap-6">
 
-          {/* TOP ROW */}
-          <div className="grid grid-cols-1 gap-6">
-            {/* PROFILE LOKASI */}
-            <ProfileCard />
-          </div>
+          {/* STATS ROW */}
+          <StatsRow />
 
-          {/* MIDDLE ROW */}
+          {/* PROFILE LOKASI */}
+          <ProfileCard />
+
+          {/* PARAMETER */}
           <ParameterCard />
 
-          {/* BOTTOM ROW */}
+          {/* EMERGENCY */}
           <Emergency />
 
           <div className="text-center pt-4 pb-0 text-[12px] text-[#94a3b8]">

@@ -107,36 +107,39 @@ export default function Home() {
         </nav>
 
         {/* ── HERO ── */}
-        <section className="relative h-screen min-h-[600px] flex items-center overflow-hidden bg-[#0a1628]">
+        <section className="relative h-screen min-h-[600px] flex items-center overflow-hidden bg-[#0a1628]" data-parallax>
           <div className="absolute inset-0">
-            {/* Highway night long exposure — Unsplash CDN */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
+              data-parallax-img
               src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1920&q=80&auto=format&fit=crop"
               alt="City Traffic"
-              className="w-full h-full object-cover object-center opacity-40"
+              className="w-full h-full object-cover object-center opacity-40 will-change-transform"
             />
             <div className="absolute inset-0" style={{background:'linear-gradient(135deg, rgba(10,22,40,0.95) 0%, rgba(10,22,40,0.6) 50%, rgba(10,22,40,0.3) 100%)'}} />
           </div>
           <div className="relative z-10 w-full px-8 flex items-center justify-between">
             <div className="max-w-2xl">
-              <div className="inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase text-emerald-400 border border-emerald-500/40 bg-emerald-500/10 px-4 py-1.5 mb-8">
+              <div className="inline-flex items-center gap-2 text-xs font-semibold tracking-widest uppercase text-emerald-400 border border-emerald-500/40 bg-emerald-500/10 px-4 py-1.5 mb-8"
+                data-reveal data-reveal-delay="1">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 NEXT-GEN TELEMETRY
               </div>
-              <h1 className="text-[5.5rem] font-black leading-[0.95] text-white mb-6 tracking-tight">
+              <h1 className="text-[5.5rem] font-black leading-[0.95] text-white mb-6 tracking-tight"
+                data-reveal data-reveal-delay="2">
                 Kinetic<br />
                 <span className="text-emerald-400">Intelligence</span><br />
                 for Urban Flow.
               </h1>
-              <p className="text-white/60 text-lg leading-relaxed mb-10 max-w-md">
+              <p className="text-white/60 text-lg leading-relaxed mb-10 max-w-md"
+                data-reveal data-reveal-delay="3">
                 A living infrastructure operating system designed for the speed of light. Real-time city-scale data transformed into actionable precision.
               </p>
-              <div className="flex gap-4">
-                <a href="/beranda" className="bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-bold px-8 py-4 transition-all hover:shadow-lg hover:shadow-emerald-500/30 tracking-widest">
+              <div className="flex gap-4" data-reveal data-reveal-delay="4">
+                <a href="/beranda" className="ripple bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-bold px-8 py-4 transition-all hover:shadow-lg hover:shadow-emerald-500/30 hover:-translate-y-0.5 tracking-widest active:scale-[0.97]">
                   LAUNCH DASHBOARD
                 </a>
-                <a href="#monitoring" className="border border-white/30 text-white text-sm font-bold px-8 py-4 hover:bg-white/10 transition-colors tracking-widest">
+                <a href="#monitoring" className="ripple border border-white/30 text-white text-sm font-bold px-8 py-4 hover:bg-white/10 hover:-translate-y-0.5 transition-all tracking-widest active:scale-[0.97]">
                   EXPLORE PLATFORM
                 </a>
               </div>

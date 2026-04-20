@@ -79,10 +79,16 @@ const Sidebar = () => {
                            (item.path !== '/' && router.pathname.startsWith(item.path));
           
           return (
-            <Link href={item.path} key={item.name} 
-              className={`flex items-center px-6 py-[14px] text-[14px] font-semibold cursor-pointer relative transition-all duration-200 ease-in-out hover:bg-bg-hover hover:text-text-main 
-              ${isActive ? 'bg-bg-hover text-accent-cyan after:content-[""] after:absolute after:right-0 after:top-0 after:bottom-0 after:w-1 after:bg-accent-cyan' : 'text-text-secondary'}`}>
-              <span className="mr-3 flex items-center justify-center">{item.icon}</span>
+            <Link href={item.path} key={item.name}
+              className={`flex items-center px-6 py-[14px] text-[14px] font-semibold cursor-pointer relative
+                transition-colors duration-150 ease-out
+                hover:bg-bg-hover hover:text-text-main
+              ${isActive
+                ? 'bg-bg-hover text-accent-cyan after:content-[""] after:absolute after:right-0 after:top-0 after:bottom-0 after:w-1 after:bg-accent-cyan after:rounded-l-full'
+                : 'text-text-secondary'}`}>
+              <span className="mr-3 flex items-center justify-center">
+                {item.icon}
+              </span>
               {item.name}
             </Link>
           );

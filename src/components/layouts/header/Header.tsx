@@ -43,7 +43,7 @@ const Header = () => {
       </div>
 
       <div className="flex items-center gap-5">
-        <button className="bg-transparent border-none cursor-pointer text-text-secondary flex items-center justify-center relative p-1 transition-colors duration-200 hover:text-text-main" aria-label="Toggle dark mode" onClick={toggleTheme}>
+        <button className="btn-icon" aria-label="Toggle dark mode" onClick={toggleTheme}>
           {theme === 'dark' ? (
             <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
@@ -63,7 +63,7 @@ const Header = () => {
           )}
         </button>
 
-        <button className="bg-transparent border-none cursor-pointer text-text-secondary flex items-center justify-center relative p-1 transition-colors duration-200 hover:text-text-main" aria-label="Notifications">
+        <button className="btn-icon relative" aria-label="Notifications">
           <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
             <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
