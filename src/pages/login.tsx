@@ -58,7 +58,11 @@ const LoginPage: NextPage = () => {
               {/* Logo & Title */}
               <div className="flex flex-col items-center mb-8">
                 <div className="w-14 h-14 rounded-2xl bg-gray-900 flex items-center justify-center mb-4 overflow-hidden">
-                  <img src="/Background.png" alt="SMARTRAF Logo" className="w-10 h-10 object-contain" />
+                  <img
+                src="/logo.png"
+                alt="SMARTRAF"
+                className="w-10 h-10 object-contain"
+              />
                 </div>
                 <h1 className="text-lg font-bold tracking-widest text-gray-900 uppercase">
                   SMARTRAF

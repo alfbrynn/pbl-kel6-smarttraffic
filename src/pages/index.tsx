@@ -85,7 +85,7 @@ export default function Home() {
         <nav className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4 transition-all duration-500 ${
           scrolled ? "bg-[#0a1628]/95 backdrop-blur shadow-lg" : "bg-transparent"
         }`}>
-          <span className="text-sm font-black tracking-widest uppercase text-white">SMARTRAF</span>
+          <img src="/logo.png" alt="SMARTRAF" className="h-10 w-auto object-contain" />
           <div className="hidden md:flex items-center gap-8 text-sm">
             {NAV_ITEMS.map(({ label, href }) => (
               <a key={href} href={`#${href}`}
@@ -112,11 +112,11 @@ export default function Home() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               data-parallax-img
-              src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1920&q=80&auto=format&fit=crop"
+              src="/city-traffic.jpg"
               alt="City Traffic"
-              className="w-full h-full object-cover object-center opacity-40 will-change-transform"
+              className="w-full h-full object-cover object-center opacity-70 will-change-transform"
             />
-            <div className="absolute inset-0" style={{background:'linear-gradient(135deg, rgba(10,22,40,0.95) 0%, rgba(10,22,40,0.6) 50%, rgba(10,22,40,0.3) 100%)'}} />
+            <div className="absolute inset-0" style={{background:'linear-gradient(135deg, rgba(10,22,40,0.75) 0%, rgba(10,22,40,0.4) 50%, rgba(10,22,40,0.15) 100%)'}} />
           </div>
           <div className="relative z-10 w-full px-8 flex items-center justify-between">
             <div className="max-w-2xl">
@@ -471,7 +471,8 @@ export default function Home() {
         <footer className="bg-[#060e1a] py-12">
           <div className="w-full px-8 flex flex-col md:flex-row items-start justify-between gap-8">
             <div>
-              <div className="text-sm font-black tracking-widest uppercase text-white mb-2">SMARTRAF</div>
+              <img src="/logo.png" alt="SMARTRAF" className="h-8 w-auto object-contain" />
+              <span className="text-sm font-black tracking-widest uppercase text-white">SMARTRAF</span>
               <p className="text-xs text-white/30 max-w-xs leading-relaxed">
                 © 2024 SMARTRAF. All rights reserved.<br />Integrated Urban Traffic Management System.
               </p>
