@@ -4,6 +4,8 @@ import type { NextPage } from "next"
 import Head from "next/head"
 import { useState, FormEvent } from "react"
 import { useRouter } from "next/router"
+import { signInWithEmailAndPassword } from "firebase/auth"
+import { auth } from "@/utils/firebase"
 
 const LoginPage: NextPage = () => {
   const router = useRouter()
@@ -17,10 +19,27 @@ const LoginPage: NextPage = () => {
     e.preventDefault()
     setError("")
     setLoading(true)
-    // dummy auth — accept any email & password
-    await new Promise((r) => setTimeout(r, 800))
-    setLoading(false)
-    router.push("/beranda")
+    try {
+      await signInWithEmailAndPassword(auth, email, password)
+      router.push("/beranda")
+    } catch (err: unknown) {
+      const code = (err as { code?: string }).code
+      if (
+        code === "auth/user-not-found" ||
+        code === "auth/wrong-password" ||
+        code === "auth/invalid-credential"
+      ) {
+        setError("Email atau kata sandi salah.")
+      } else if (code === "auth/invalid-email") {
+        setError("Format email tidak valid.")
+      } else if (code === "auth/too-many-requests") {
+        setError("Terlalu banyak percobaan. Coba lagi beberapa saat.")
+      } else {
+        setError("Terjadi kesalahan. Silakan coba lagi.")
+      }
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -39,7 +58,11 @@ const LoginPage: NextPage = () => {
               {/* Logo & Title */}
               <div className="flex flex-col items-center mb-8">
                 <div className="w-14 h-14 rounded-2xl bg-gray-900 flex items-center justify-center mb-4 overflow-hidden">
-                  <img src="/Background.png" alt="SMARTRAF Logo" className="w-10 h-10 object-contain" />
+                  <img
+                src="/logo.png"
+                alt="SMARTRAF"
+                className="w-10 h-10 object-contain"
+              />
                 </div>
                 <h1 className="text-lg font-bold tracking-widest text-gray-900 uppercase">
                   SMARTRAF
@@ -66,7 +89,7 @@ const LoginPage: NextPage = () => {
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="nama@smartraf.id"
                       required
-                      disabled={false}
+                      autoComplete="email"
                       className="input-field pl-10"
                     />
                   </div>
@@ -97,7 +120,7 @@ const LoginPage: NextPage = () => {
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="••••••••"
                       required
-                      disabled={false}
+                      autoComplete="current-password"
                       className="input-field pl-10 pr-10"
                     />
                     <button
@@ -127,7 +150,7 @@ const LoginPage: NextPage = () => {
                 )}
 
                 {/* Submit */}
-                <button type="submit" disabled={loading} className="btn-primary flex items-center justify-center gap-2 mt-2">
+                <button type="submit" disabled={loading} className="btn-primary w-full flex items-center justify-center gap-2 mt-2">
                   {loading ? (
                     <>
                       <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
