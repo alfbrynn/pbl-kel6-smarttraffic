@@ -23,7 +23,7 @@ export default function PredictionCard() {
                     </p>
                 </div>
             </div>
-            <button className="bg-accent-cyan text-white border-none rounded-[6px] p-[10px_24px] text-[13px] font-semibold cursor-pointer transition-colors duration-200 hover:bg-accent-cyan-hover">Detail Analisis</button>
+            <button className="btn-primary">Detail Analisis</button>
         </div>
     )
 }

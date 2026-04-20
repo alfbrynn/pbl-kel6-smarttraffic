@@ -69,8 +69,13 @@ const Sidebar = () => {
   return (
     <aside className="w-[250px] h-screen fixed top-0 left-0 bg-bg-card flex flex-col z-[100] overflow-y-auto border-r border-border-color">
       <div className="p-[30px_24px_20px_24px]">
-        <h1 className="text-[18px] font-bold text-text-main m-0 leading-[1.2]">SMARTRAF</h1>
-        <p className="text-[12px] text-text-secondary mt-1">IoT Controller</p>
+        <div className="flex items-center gap-2">
+          <img src="/logo.png" alt="SMARTRAF" className="h-10 w-auto object-contain" />
+          <div>
+            <h1 className="text-[18px] font-bold text-text-main m-0 leading-[1.2]">SMARTRAF</h1>
+            <p className="text-[12px] text-text-secondary mt-0.5">IoT Controller</p>
+          </div>
+        </div>
       </div>
 
       <nav className="flex flex-col mt-[10px]">
@@ -79,10 +84,16 @@ const Sidebar = () => {
                            (item.path !== '/' && router.pathname.startsWith(item.path));
           
           return (
-            <Link href={item.path} key={item.name} 
-              className={`flex items-center px-6 py-[14px] text-[14px] font-semibold cursor-pointer relative transition-all duration-200 ease-in-out hover:bg-bg-hover hover:text-text-main 
-              ${isActive ? 'bg-bg-hover text-accent-cyan after:content-[""] after:absolute after:right-0 after:top-0 after:bottom-0 after:w-1 after:bg-accent-cyan' : 'text-text-secondary'}`}>
-              <span className="mr-3 flex items-center justify-center">{item.icon}</span>
+            <Link href={item.path} key={item.name}
+              className={`flex items-center px-6 py-[14px] text-[14px] font-semibold cursor-pointer relative
+                transition-colors duration-150 ease-out
+                hover:bg-bg-hover hover:text-text-main
+              ${isActive
+                ? 'bg-bg-hover text-accent-cyan after:content-[""] after:absolute after:right-0 after:top-0 after:bottom-0 after:w-1 after:bg-accent-cyan after:rounded-l-full'
+                : 'text-text-secondary'}`}>
+              <span className="mr-3 flex items-center justify-center">
+                {item.icon}
+              </span>
               {item.name}
             </Link>
           );
