@@ -13,7 +13,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
     <div className={`flex min-h-screen ${collapsed ? 'pl-[64px]' : 'pl-[250px]'} bg-bg-main transition-all duration-300 ease-out`}>
       <Sidebar collapsed={collapsed} onToggle={() => setCollapsed(!collapsed)} />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header />
+        <Header collapsed={collapsed} />
         <main className="flex-1 p-8 pt-[104px] overflow-y-auto">
           {children}
         </main>

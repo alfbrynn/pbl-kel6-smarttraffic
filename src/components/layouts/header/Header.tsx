@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-const Header = () => {
+
+interface HeaderProps {
+  collapsed: boolean;
+}
+
+const Header = ({ collapsed }: HeaderProps) => {
   const [theme, setTheme] = useState('light');
 
   useEffect(() => {
@@ -21,7 +26,9 @@ const Header = () => {
   };
 
   return (
-    <header className="flex items-center justify-between fixed left-[250px] right-0 top-0 h-[72px] px-8 bg-bg-card border-b border-border-color z-50">
+    <header
+      className={`flex items-center justify-between fixed ${collapsed ? 'left-[64px]' : 'left-[250px]'} right-0 top-0 h-[72px] px-8 bg-bg-card border-b border-border-color z-50 transition-all duration-300 ease-out`}
+    >
       <div className="flex items-center">
         <h1 className="text-[18px] font-semibold text-text-main m-0">Pusat Kontrol</h1>
         
