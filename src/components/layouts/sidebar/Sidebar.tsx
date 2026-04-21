@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-const Sidebar = () => {
+
+interface SidebarProps {
+  collapsed: boolean;
+  onToggle: () => void;
+}
+
+const Sidebar = ({ collapsed, onToggle }: SidebarProps) => {
   const router = useRouter();
-  
+
   const navItems = [
     {
       name: 'Beranda',
@@ -67,34 +73,60 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="w-[250px] h-screen fixed top-0 left-0 bg-bg-card flex flex-col z-[100] overflow-y-auto border-r border-border-color">
-      <div className="p-[30px_24px_20px_24px]">
-        <div className="flex items-center gap-2">
-          <img src="/logo.png" alt="SMARTRAF" className="h-10 w-auto object-contain" />
-          <div>
-            <h1 className="text-[18px] font-bold text-text-main m-0 leading-[1.2]">SMARTRAF</h1>
-            <p className="text-[12px] text-text-secondary mt-0.5">IoT Controller</p>
+    <aside
+      className={`${collapsed ? 'w-[64px]' : 'w-[250px]'} h-screen fixed top-0 left-0 bg-bg-card flex flex-col z-[100] overflow-y-auto border-r border-border-color transition-all duration-300 ease-out`}
+    >
+      {/* Logo + toggle */}
+      <div className={`flex items-center ${collapsed ? 'justify-center px-0 py-5' : 'justify-between px-4 py-5'}`}>
+        {!collapsed && (
+          <div className="flex items-center gap-2 overflow-hidden">
+            <img src="/logo.png" alt="SMARTRAF" className="h-10 w-auto object-contain flex-shrink-0" />
+            <div>
+              <h1 className="text-[16px] font-bold text-text-main m-0 leading-[1.2] whitespace-nowrap">SMARTRAF</h1>
+              <p className="text-[11px] text-text-secondary mt-0.5 whitespace-nowrap">IoT Controller</p>
+            </div>
           </div>
-        </div>
+        )}
+        {collapsed && (
+          <img src="/logo.png" alt="SMARTRAF" className="h-8 w-auto object-contain" />
+        )}
+        <button
+          onClick={onToggle}
+          className={`flex-shrink-0 p-1.5 rounded-lg text-text-secondary hover:bg-bg-hover hover:text-text-main transition-colors duration-150 ${collapsed ? 'mt-2' : ''}`}
+          aria-label={collapsed ? 'Buka sidebar' : 'Tutup sidebar'}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
       </div>
 
-      <nav className="flex flex-col mt-[10px]">
+      {/* Nav */}
+      <nav className="flex flex-col mt-2">
         {navItems.map((item) => {
-          const isActive = router.pathname === item.path || 
-                           (item.path !== '/' && router.pathname.startsWith(item.path));
-          
+          const isActive = router.pathname === item.path ||
+            (item.path !== '/' && router.pathname.startsWith(item.path));
+
           return (
-            <Link href={item.path} key={item.name}
-              className={`flex items-center px-6 py-[14px] text-[14px] font-semibold cursor-pointer relative
+            <Link
+              href={item.path}
+              key={item.name}
+              title={collapsed ? item.name : undefined}
+              className={`flex items-center ${collapsed ? 'justify-center px-0 py-[14px]' : 'px-6 py-[14px]'} text-[14px] font-semibold cursor-pointer relative
                 transition-colors duration-150 ease-out
                 hover:bg-bg-hover hover:text-text-main
-              ${isActive
-                ? 'bg-bg-hover text-accent-cyan after:content-[""] after:absolute after:right-0 after:top-0 after:bottom-0 after:w-1 after:bg-accent-cyan after:rounded-l-full'
-                : 'text-text-secondary'}`}>
-              <span className="mr-3 flex items-center justify-center">
+                ${isActive
+                  ? 'bg-bg-hover text-accent-cyan after:content-[""] after:absolute after:right-0 after:top-0 after:bottom-0 after:w-1 after:bg-accent-cyan after:rounded-l-full'
+                  : 'text-text-secondary'}`}
+            >
+              <span className={`flex items-center justify-center flex-shrink-0 ${!collapsed ? 'mr-3' : ''}`}>
                 {item.icon}
               </span>
-              {item.name}
+              {!collapsed && (
+                <span className="whitespace-nowrap overflow-hidden">{item.name}</span>
+              )}
             </Link>
           );
         })}
