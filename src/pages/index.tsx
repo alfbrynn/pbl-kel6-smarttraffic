@@ -357,17 +357,18 @@ export default function Home() {
         </section>
 
         {/* ── CTA ── */}
-        <section className="py-28 bg-[#0a1628] text-center relative overflow-hidden">
+        <section className="py-28 text-center relative overflow-hidden" style={{ background: "linear-gradient(135deg, #0e7490 0%, #0a1628 100%)" }}>
+          <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 20% 50%, white 0%, transparent 50%), radial-gradient(circle at 80% 50%, white 0%, transparent 50%)" }} />
           <div className="relative z-10 w-full px-8">
             <h2 className="text-5xl font-black text-white mb-4">Siap mengelola kota lebih cerdas?</h2>
-            <p className="text-white/40 text-lg mb-12 max-w-xl mx-auto">
+            <p className="text-white/70 text-lg mb-12 max-w-xl mx-auto">
               Bergabung dengan generasi berikutnya pengelola kota pintar menggunakan SMARTRAF.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="/login" className="bg-white text-[#0a1628] font-bold px-10 py-4 hover:bg-white/90 transition-colors text-sm tracking-widest">
+              <a href="/login" className="bg-white text-[#0e7490] font-bold px-10 py-4 hover:bg-gray-100 transition-colors text-sm tracking-widest">
                 MULAI SEKARANG
               </a>
-              <a href="#monitoring" className="border border-white/20 text-white/60 font-bold px-10 py-4 hover:bg-white/5 hover:text-white transition-colors text-sm tracking-widest">
+              <a href="#monitoring" className="border-2 border-white text-white font-bold px-10 py-4 hover:bg-white/10 transition-colors text-sm tracking-widest">
                 PELAJARI PLATFORM
               </a>
             </div>
