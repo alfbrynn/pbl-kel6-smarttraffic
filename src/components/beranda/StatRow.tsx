@@ -109,8 +109,8 @@ export default function StatsRow() {
     },
     {
       label: "STATUS NORMAL",
-      value: `${cNormal}`,
-      suffix: "%",
+      value: jalurValues.length === 0 ? "—" : `${cNormal}`,
+      suffix: jalurValues.length === 0 ? "" : "%",
       badge: null,
       sub: "Jalur dalam kondisi lancar",
       color: cNormal >= 75 ? "text-emerald-600" : cNormal >= 50 ? "text-amber-500" : "text-red-500",
@@ -123,7 +123,7 @@ export default function StatsRow() {
     },
     {
       label: "ALERT SISTEM",
-      value: String(cAlert).padStart(2, '0'),
+      value: jalurValues.length === 0 ? "—" : String(cAlert),
       suffix: "",
       badge: null,
       sub: "Jalur perlu perhatian",
@@ -142,8 +142,12 @@ export default function StatsRow() {
       {stats.map((s, i) => (
         <div
           key={s.label}
-          className="bg-bg-card rounded-custom p-5 shadow-[0_1px_3px_rgba(0,0,0,0.08)] border border-border-color
-            transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)]"
+          className={`rounded-custom p-5 shadow-[0_1px_3px_rgba(0,0,0,0.08)] border
+            transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)]
+            ${s.label === 'ALERT SISTEM' && cAlert > 0
+              ? 'bg-red-50 border-red-300'
+              : 'bg-bg-card border-border-color'
+            }`}
           style={{
             opacity: triggered ? 1 : 0,
             transform: triggered ? 'translateY(0)' : 'translateY(16px)',

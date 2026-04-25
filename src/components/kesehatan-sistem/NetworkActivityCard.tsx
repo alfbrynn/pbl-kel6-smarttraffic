@@ -11,10 +11,13 @@ export default function NetworkActivityCard() {
             </div>
             <div className="w-full h-[180px] bg-bg-card-alt rounded-lg flex items-end justify-center px-5 gap-1.5">
                 {bars.map((h, i) => (
-                    <div 
-                        key={i} 
-                        className={`w-3.5 rounded-t-[2px] ${h > 80 ? 'bg-accent-cyan' : 'bg-border-color'}`} 
-                        style={{ height: `${h}%` }}>
+                    <div
+                        key={i}
+                        className="w-3.5 rounded-t-[2px]"
+                        style={{
+                            height: `${h}%`,
+                            backgroundColor: h > 80 ? '#0e7490' : 'rgba(14,116,144,0.35)',
+                        }}>
                     </div>
                 ))}
             </div>

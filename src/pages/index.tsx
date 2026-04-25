@@ -84,23 +84,23 @@ export default function Home() {
         }`}>
           <div className="flex items-center gap-2.5">
             <img src="/logo.png" alt="SMARTRAF" className="h-14 w-auto object-contain" />
-            <span className="text-sm font-black tracking-widest uppercase text-white">SMARTRAF</span>
+            <span className="text-sm font-black tracking-widest uppercase text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">SMARTRAF</span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm">
             {NAV_ITEMS.map(({ label, href }) => (
               <a key={href} href={`#${href}`}
-                className={`transition-all duration-300 pb-0.5 ${
+                className={`transition-all duration-300 pb-0.5 font-semibold drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)] ${
                   activeSection === href
-                    ? "text-white font-semibold border-b border-white/60"
-                    : "text-white/50 hover:text-white"
+                    ? "text-white border-b border-white/60"
+                    : "text-white/90 hover:text-white"
                 }`}>
                 {label}
               </a>
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href="/login" className="text-sm text-white/50 hover:text-white transition-colors">Login</a>
-            <a href="#" className="text-sm bg-white/10 hover:bg-white/20 border border-white/20 text-white px-5 py-2 font-semibold transition-colors rounded-lg">
+            <a href="/login" className="text-sm font-semibold text-white/90 hover:text-white transition-colors drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">Login</a>
+            <a href="#" className="text-sm bg-white/15 hover:bg-white/25 border border-white/30 text-white font-semibold px-5 py-2 transition-colors rounded-lg">
               Get Started
             </a>
           </div>
@@ -233,36 +233,38 @@ export default function Home() {
         <section id="ai-analytics" className="py-20 bg-[#0a1628]">
           <div className="w-full px-8">
             <div className="text-center mb-14">
-              <div className="text-xs font-semibold tracking-widest uppercase text-white/30 mb-3">AI ANALYTICS</div>
-              <h2 className="text-4xl font-black text-white">Built for Urban Intelligence</h2>
+              <div className="text-xs font-semibold tracking-widest uppercase text-[#22d3ee] mb-3">AI ANALYTICS</div>
+              <h2 className="text-4xl font-black text-white">Dibangun untuk Kecerdasan Kota</h2>
             </div>
             <div className="flex flex-col gap-5">
               <div className="flex gap-5">
                 {[r1, r2].map((rv, idx) => {
                   const cards = [
                     {
-                      flex: "flex-[2]", borderColor: "border-l-cyan-500",
-                      icon: <svg className="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>,
-                      title: "Predictive Analytics",
+                      flex: "flex-[2]", border: "border-[#22d3ee]",
+                      icon: <svg className="w-5 h-5 text-[#22d3ee]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>,
+                      iconBg: "bg-[#0e7490]/10",
+                      title: "Analitik Prediktif",
                       desc: "Model AI memproses jutaan titik data untuk memprediksi kemacetan sebelum terjadi.",
-                      extra: <div className="flex gap-8 mt-6"><div><div className="text-3xl font-black text-cyan-400">98.4%</div><div className="text-xs text-white/30 tracking-widest mt-1">ACCURACY</div></div><div><div className="text-3xl font-black text-cyan-400">&lt;2ms</div><div className="text-xs text-white/30 tracking-widest mt-1">LATENCY</div></div></div>,
+                      extra: <div className="flex gap-8 mt-6"><div><div className="text-3xl font-black text-[#22d3ee]">98.4%</div><div className="text-xs text-white/40 tracking-widest mt-1">AKURASI</div></div><div><div className="text-3xl font-black text-[#22d3ee]">&lt;2ms</div><div className="text-xs text-white/40 tracking-widest mt-1">LATENSI</div></div></div>,
                     },
                     {
-                      flex: "flex-1", borderColor: "border-l-slate-500",
-                      icon: <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" /></svg>,
-                      title: "Eco Optimization",
+                      flex: "flex-1", border: "border-teal-400",
+                      icon: <svg className="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" /></svg>,
+                      iconBg: "bg-teal-500/10",
+                      title: "Optimasi Emisi",
                       desc: "Kurangi emisi karbon kota dengan mengoptimalkan arus kendaraan di area padat.",
-                      extra: null,
+                      extra: <div className="flex gap-8 mt-6"><div><div className="text-3xl font-black text-teal-400">-23%</div><div className="text-xs text-white/40 tracking-widest mt-1">EMISI CO₂</div></div></div>,
                     },
                   ];
                   const c = cards[idx];
                   return (
                     <div key={idx} ref={rv.ref}
-                      className={`${c.flex} bg-white/5 border border-white/8 border-l-4 ${c.borderColor} p-8 transition-all duration-700 ${rv.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+                      className={`${c.flex} bg-white/5 border-l-4 ${c.border} p-8 transition-all duration-700 ${rv.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
                       style={{ transitionDelay: `${idx * 150}ms` }}>
-                      <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center mb-5">{c.icon}</div>
+                      <div className={`w-10 h-10 ${c.iconBg} rounded-xl flex items-center justify-center mb-5`}>{c.icon}</div>
                       <h3 className="text-xl font-bold text-white mb-3">{c.title}</h3>
-                      <p className="text-sm text-white/40 leading-relaxed">{c.desc}</p>
+                      <p className="text-sm text-white/50 leading-relaxed">{c.desc}</p>
                       {c.extra}
                     </div>
                   );
@@ -272,28 +274,30 @@ export default function Home() {
                 {[r3, r4].map((rv, idx) => {
                   const cards = [
                     {
-                      flex: "flex-1", borderColor: "border-l-blue-500",
+                      flex: "flex-1", border: "border-blue-400",
                       icon: <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>,
-                      title: "Hardened Security",
+                      iconBg: "bg-blue-500/10",
+                      title: "Keamanan Berlapis",
                       desc: "Enkripsi tingkat tinggi untuk semua aliran data dan node pemrosesan.",
-                      extra: null,
+                      extra: <div className="flex gap-8 mt-6"><div><div className="text-3xl font-black text-blue-400">256-bit</div><div className="text-xs text-white/40 tracking-widest mt-1">ENKRIPSI</div></div></div>,
                     },
                     {
-                      flex: "flex-[2]", borderColor: "border-l-cyan-500",
-                      icon: <svg className="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>,
-                      title: "Unified Integration",
+                      flex: "flex-[2]", border: "border-[#22d3ee]",
+                      icon: <svg className="w-5 h-5 text-[#22d3ee]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>,
+                      iconBg: "bg-[#0e7490]/10",
+                      title: "Integrasi Terpadu",
                       desc: "Terhubung dengan hardware lama dan sensor IoT modern melalui API universal.",
-                      extra: null,
+                      extra: <div className="flex gap-8 mt-6"><div><div className="text-3xl font-black text-[#22d3ee]">50+</div><div className="text-xs text-white/40 tracking-widest mt-1">TIPE SENSOR</div></div><div><div className="text-3xl font-black text-[#22d3ee]">99.9%</div><div className="text-xs text-white/40 tracking-widest mt-1">UPTIME API</div></div></div>,
                     },
                   ];
                   const c = cards[idx];
                   return (
                     <div key={idx} ref={rv.ref}
-                      className={`${c.flex} bg-white/5 border border-white/8 border-l-4 ${c.borderColor} p-8 transition-all duration-700 ${rv.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+                      className={`${c.flex} bg-white/5 border-l-4 ${c.border} p-8 transition-all duration-700 ${rv.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
                       style={{ transitionDelay: `${(idx + 2) * 150}ms` }}>
-                      <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center mb-5">{c.icon}</div>
+                      <div className={`w-10 h-10 ${c.iconBg} rounded-xl flex items-center justify-center mb-5`}>{c.icon}</div>
                       <h3 className="text-xl font-bold text-white mb-3">{c.title}</h3>
-                      <p className="text-sm text-white/40 leading-relaxed">{c.desc}</p>
+                      <p className="text-sm text-white/50 leading-relaxed">{c.desc}</p>
                       {c.extra}
                     </div>
                   );
@@ -302,17 +306,16 @@ export default function Home() {
             </div>
           </div>
         </section>
-
         {/* ── TRUSTED BY ── */}
-        <section id="infrastructure" className="py-16 bg-white">
+        <section id="infrastructure" className="py-16 bg-white border-t border-gray-100">
           <div className="w-full px-8">
-            <div className="text-center text-xs font-semibold tracking-widest uppercase text-gray-300 mb-12">
+            <div className="text-center text-xs font-semibold tracking-widest uppercase text-gray-400 mb-12">
               TRUSTED BY GLOBAL SMART CITY LEADERS
             </div>
             <div className="flex items-center justify-center gap-10 flex-wrap">
               {["SEGCORE","VOLT-X","METRA","SYNAPSE","AERIS"].map((name) => (
-                <div key={name} className="opacity-30 hover:opacity-60 transition-opacity duration-300 cursor-pointer">
-                  <span className="text-sm font-black tracking-widest text-gray-400">{name}</span>
+                <div key={name} className="opacity-40 hover:opacity-80 transition-opacity duration-300 cursor-pointer">
+                  <span className="text-sm font-black tracking-widest text-gray-500">{name}</span>
                 </div>
               ))}
             </div>
@@ -323,12 +326,12 @@ export default function Home() {
         <section id="data-profile" className="py-24 bg-white">
           <div className="w-full px-8 flex flex-col md:flex-row items-center gap-16">
             <div className="flex-1">
-              <div className="text-6xl text-gray-100 font-serif leading-none mb-4">"</div>
-              <p className="text-2xl text-gray-600 leading-relaxed mb-8 font-light">
+              <div className="text-6xl text-gray-200 font-serif leading-none mb-4">"</div>
+              <p className="text-2xl text-gray-700 leading-relaxed mb-8 font-light">
                 SMARTRAF telah mengubah cara kami mengelola infrastruktur kota. Data yang kompleks menjadi lebih mudah dipahami oleh para pengambil keputusan.
               </p>
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-cyan-50 border border-cyan-200 flex items-center justify-center text-sm font-bold text-cyan-600">SV</div>
+                <div className="w-12 h-12 rounded-full bg-teal-50 border border-teal-200 flex items-center justify-center text-sm font-bold text-[#0e7490]">SV</div>
                 <div>
                   <div className="text-sm font-semibold text-gray-900">Dr. Steve Vance</div>
                   <div className="text-xs text-gray-400 mt-0.5">Director of Infrastructure, Metropolis City</div>
@@ -337,17 +340,17 @@ export default function Home() {
             </div>
             <div className="bg-gray-50 border border-gray-100 p-8 min-w-[280px] rounded-2xl">
               <div className="flex items-center justify-between mb-6">
-                <span className="text-sm font-semibold text-gray-700">Efficiency Score</span>
-                <span className="text-sm font-bold text-cyan-500">+302%</span>
+                <span className="text-sm font-semibold text-gray-800">Skor Efisiensi</span>
+                <span className="text-sm font-bold text-[#0e7490]">+302%</span>
               </div>
               <div className="space-y-4">
-                {[{label:"Traffic Flow",val:92},{label:"Energy Use",val:74},{label:"Response Time",val:88}].map((item) => (
+                {[{label:"Arus Lalu Lintas",val:92},{label:"Efisiensi Energi",val:74},{label:"Waktu Respons",val:88}].map((item) => (
                   <div key={item.label}>
                     <div className="flex justify-between text-xs text-gray-400 mb-2">
                       <span>{item.label}</span><span>{item.val}%</span>
                     </div>
                     <div className="h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                      <div className="h-full bg-cyan-500 rounded-full" style={{ width: `${item.val}%` }} />
+                      <div className="h-full rounded-full" style={{ width: `${item.val}%`, backgroundColor: "#0e7490" }} />
                     </div>
                   </div>
                 ))}
@@ -382,7 +385,7 @@ export default function Home() {
               <img src="/logo.png" alt="SMARTRAF" className="h-10 w-auto object-contain" />
               <div>
                 <div className="text-sm font-black tracking-widest uppercase text-white">SMARTRAF</div>
-                <p className="text-xs text-white/30 mt-0.5">© 2024. Integrated Urban Traffic Management System.</p>
+                <p className="text-xs text-white/30 mt-0.5">© 2026. Integrated Urban Traffic Management System.</p>
               </div>
             </div>
             <div className="flex gap-10 text-xs text-white/30">

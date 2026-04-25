@@ -113,7 +113,7 @@ export default function StatsRow() {
     },
     {
       label: "ALERT SISTEM",
-      value: String(cAlert).padStart(2, '0'),
+      value: String(cAlert),
       suffix: "",
       badge: null,
       color: cAlert > 0 ? "text-red-500" : "text-text-main",

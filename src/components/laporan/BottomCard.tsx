@@ -26,7 +26,10 @@ export default function BottomCards() {
                         </div>
                         <div className="flex flex-col">
                             <span className="text-[10px] font-bold text-text-secondary tracking-[0.5px] uppercase mb-1">WAKTU TEMPUH</span>
-                            <span className="text-[24px] font-bold text-text-main tracking-tight">-4.2<small style={{ fontSize: '14px', letterSpacing: '0' }}>m</small></span>
+                            <span className="text-[24px] font-bold text-text-main tracking-tight">
+                              {/* Tampilkan — jika nilai negatif atau tidak valid */}
+                              —
+                            </span>
                         </div>
                     </div>
                 </div>

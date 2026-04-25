@@ -61,8 +61,8 @@ export default function Emergency() {
             <p className="text-[13px] text-accent-orange mt-1 mb-0 font-medium">Otomasi Override Prioritas (Ambulans/Pemadam)</p>
           </div>
         </div>
-        <div className="flex items-center gap-2 bg-bg-card border border-accent-red text-accent-red text-[11px] font-bold px-4 py-2 rounded-[20px] tracking-[0.5px]">
-          <span className="w-1.5 h-1.5 bg-[#ef4444] rounded-full animate-pulse"/>
+        <div className="flex items-center gap-2 bg-red-600 text-white text-[11px] font-bold px-4 py-2 rounded-[20px] tracking-[0.5px]">
+          <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"/>
           SIAGA KENDALI MANUAL
         </div>
       </div>

@@ -104,7 +104,7 @@ const LoginPage: NextPage = () => {
 
             {/* Footer */}
             <div className="relative z-10">
-              <p className="text-xs" style={{ color: "rgba(186,230,253,0.4)" }}>© 2024 SMARTRAF IoT Traffic System</p>
+              <p className="text-xs" style={{ color: "rgba(186,230,253,0.4)" }}>© 2026 SMARTRAF IoT Traffic System</p>
             </div>
           </div>
 
