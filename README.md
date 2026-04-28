@@ -16,7 +16,7 @@ berdasarkan kepadatan kendaraan secara real-time menggunakan sensor HC-SR04 dan 
 
 **Kelompok 6 · D-IV Teknik Informatika · Politeknik Negeri Malang · 2026**
 
-[📋 Dokumentasi Notion](https://notion.so) · [🌐 Live Dashboard](https://smartraf.web.app/) · [🐛 Report Bug](../../issues)
+[📋 Dokumentasi Notion](https://notion.so) · [🌐 Live Dashboard](https://smartraf.web.app/) · [🐛 Report Bug](https://github.com/RizkyFebrian7/smartraf/issues)
 
 </div>
 
