@@ -2,6 +2,7 @@ import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import MainLayout from '@/components/layouts/MainLayout'
 
 function initScrollReveal() {
   const observer = new IntersectionObserver(
@@ -40,5 +41,14 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   }, [router])
 
-  return <Component {...pageProps} />
+  // Don't wrap MainLayout on login page
+  if (router.pathname === '/login') {
+    return <Component {...pageProps} />
+  }
+
+  return (
+    <MainLayout>
+      <Component {...pageProps} />
+    </MainLayout>
+  )
 }

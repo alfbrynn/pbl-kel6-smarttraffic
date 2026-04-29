@@ -65,7 +65,7 @@ export default function StatsRow() {
     {
       label: "Titik Perhatian",
       value: terpadat ? `Jalur ${terpadat[0].charAt(0).toUpperCase() + terpadat[0].slice(1)}` : "Stabil",
-      desc: terpadat ? `Antrean tertinggi: ${terpadat[1].jarak_cm} cm` : "Tidak ada antrean panjang",
+      desc: terpadat ? `Antrean terpanjang: ${terpadat[1].jarak_cm} cm` : "Tidak ada antrean panjang",
       icon: "📍",
       iconBg: "bg-bg-card-alt",
       valColor: "text-text-main",
