@@ -41,8 +41,9 @@ export default function App({ Component, pageProps }: AppProps) {
     }
   }, [router])
 
-  // Don't wrap MainLayout on login page
-  if (router.pathname === '/login') {
+  // PERBAIKAN: Jangan bungkus halaman login dan landing page ('/') dengan MainLayout
+  const noLayoutPages = ['/login', '/'];
+  if (noLayoutPages.includes(router.pathname)) {
     return <Component {...pageProps} />
   }
 
