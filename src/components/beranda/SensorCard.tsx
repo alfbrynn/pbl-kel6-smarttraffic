@@ -1,10 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { doc, onSnapshot } from 'firebase/firestore';
-
 import { db } from '@/utils/firebase';
 
+interface JalurDetail {
+    status_lampu?: string;
+    status_kepadatan?: string;
+    realtime_antrean?: number;
+}
+
+interface DataSimpang {
+    jalur?: {
+        selatan?: JalurDetail;
+        timur?: JalurDetail;
+        barat?: JalurDetail;
+    };
+}
+
 export default function LiveSchema() {
-    const [dataSimpang, setDataSimpang] = useState<any>(null);
+    const [dataSimpang, setDataSimpang] = useState<DataSimpang | null>(null);
     const [statusKoneksi, setStatusKoneksi] = useState('Menghubungkan...');
 
     useEffect(() => {
@@ -12,7 +25,7 @@ export default function LiveSchema() {
 
         const unsubscribe = onSnapshot(docRef, (docSnap) => {
             if (docSnap.exists()) {
-                setDataSimpang(docSnap.data());
+                setDataSimpang(docSnap.data() as DataSimpang);
                 setStatusKoneksi('Sync Active');
             } else {
                 setStatusKoneksi('Menunggu Data...');
@@ -33,7 +46,7 @@ export default function LiveSchema() {
     };
 
     return (
-        <div className="bg-white dark:bg-slate-800 rounded-xl shadow-md flex flex-col h-full overflow-hidden border border-slate-200 dark:border-slate-700">
+        <div className="bg-bg-card rounded-xl shadow-sm flex flex-col h-full overflow-hidden border border-border-color transition-all duration-200 hover:-translate-y-0.5">
 
             <div className="px-6 py-4 flex justify-between items-center border-b border-slate-200 dark:border-slate-700 relative z-30 bg-white dark:bg-slate-800">
                 <h3 className="text-[15px] font-semibold text-slate-800 dark:text-white">Live Skema Persimpangan</h3>
@@ -43,30 +56,22 @@ export default function LiveSchema() {
                 </div>
             </div>
 
-            <div className="flex-1 relative min-h-[320px] overflow-hidden bg-slate-50 dark:bg-slate-900 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:24px_24px]">
+            <div className="flex-1 relative min-h-[380px] overflow-hidden bg-bg-card-alt bg-slate-50 dark:bg-slate-900">
 
-                <div className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-28 bg-slate-300 dark:bg-slate-700 shadow-lg">
-                    <div className="absolute w-1 h-full left-1/2 -translate-x-1/2 border-l-4 border-dashed border-white dark:border-slate-500 opacity-70"></div>
-                </div>
-
+                {/* Jalan Horizontal Utama (Barat - Timur) */}
                 <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-28 bg-slate-300 dark:bg-slate-700 shadow-lg">
                     <div className="absolute h-1 w-full top-1/2 -translate-y-1/2 border-t-4 border-dashed border-white dark:border-slate-500 opacity-70"></div>
                 </div>
 
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 bg-slate-400 dark:bg-slate-600 z-10 flex items-center justify-center">
-                    <div className="w-20 h-20 border-2 border-yellow-400/50 dark:border-yellow-500/50"></div>
+                {/* Jalan Vertikal (Ke Selatan saja, membentuk T) */}
+                <div className="absolute top-1/2 bottom-0 left-1/2 -translate-x-1/2 w-28 bg-slate-300 dark:bg-slate-700 shadow-lg">
+                    <div className="absolute w-1 h-full left-1/2 -translate-x-1/2 border-l-4 border-dashed border-white dark:border-slate-500 opacity-70"></div>
                 </div>
 
-                {/* SENSOR UTARA */}
-                <div className="absolute top-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center">
-                    <span className="text-[11px] font-extrabold text-slate-700 dark:text-slate-200 mb-2 bg-white/90 dark:bg-slate-800/90 px-2 py-0.5 rounded shadow-sm border border-slate-200 dark:border-slate-600">
-                        UTARA {dataSimpang?.jalur?.utara?.realtime_antrean ? `(${dataSimpang.jalur.utara.realtime_antrean}cm)` : ''}
-                    </span>
-                    <div className={`w-5 h-5 rounded-full border-2 border-white dark:border-slate-800 relative flex justify-center items-center ${getLampuClass(dataSimpang?.jalur?.utara?.status_lampu)}`}>
-                        {dataSimpang?.jalur?.utara?.status_kepadatan === 'Padat' && (
-                            <div className="absolute w-10 h-10 rounded-full border-2 border-red-500 opacity-40 animate-ping"></div>
-                        )}
-                    </div>
+                {/* Area Kotak Tengah Persimpangan */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 bg-slate-400 dark:bg-slate-600 z-10 flex items-center justify-center">
+                    {/* Mengubah kotak kuning agar terbuka di bawah dan kiri-kanan (T-Shape Box) */}
+                    <div className="w-20 h-20 border-b-0 border-2 border-yellow-400/50 dark:border-yellow-500/50"></div>
                 </div>
 
                 {/* SENSOR SELATAN */}

@@ -9,39 +9,50 @@
     'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
     'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
 
-  --bg-main: #f4f6fa;
-  --bg-card: #ffffff;
-  --bg-card-alt: #f1f5f9;
-  --bg-hover: #f1f4f9;
-  --text-main: #1a2533;
-  --text-secondary: #64748b;
-  --accent-cyan: #2b3240;
-  --accent-cyan-hover: #1e293b;
+  /* --- LIGHT MODE --- */
+  --bg-main: #f8fafc;        /* Slate 50: Lebih putih dan bersih dari sebelumnya */
+  --bg-card: #ffffff;        /* Putih murni untuk card */
+  --bg-card-alt: #f1f5f9;    /* Slate 100 untuk area sekunder */
+  --bg-hover: #e2e8f0;       /* Slate 200 untuk efek hover */
+  
+  --text-main: #0f172a;      /* Slate 900: Kontras teks yang tajam */
+  --text-secondary: #64748b; /* Slate 500: Teks pendukung */
+  
+  --accent-cyan: #0ea5e9;       /* Sky 500: Biru/Cyan cerah dan modern */
+  --accent-cyan-hover: #0284c7; /* Sky 600 */
+  
   --accent-green: #10b981;
   --accent-green-bg: #dcfce7;
   --accent-red: #ef4444;
   --accent-red-bg: #fee2e2;
-  --accent-orange: #d97706;
-  --accent-orange-bg: #ffedd5;
-  --border-color: #e2e8f0;
+  --accent-orange: #f59e0b;
+  --accent-orange-bg: #fef3c7;
+  
+  --border-color: #e2e8f0;   /* Slate 200 */
 }
 
-[data-theme='dark'] {
-  --bg-main: #0f172a;
-  --bg-card: #1e293b;
-  --bg-card-alt: #0B1120;
+/* --- DARK MODE --- */
+/* Jika Anda menggunakan class "dark" dari Tailwind, ubah selector ini menjadi .dark */
+[data-theme='dark'], .dark {
+  --bg-main: #0b1120;        /* Biru malam yang sangat pekat (mendalam) */
+  --bg-card: #151e2e;        /* Sedikit lebih terang dari background utama */
+  --bg-card-alt: #1e293b;
   --bg-hover: #334155;
+  
   --text-main: #f8fafc;
   --text-secondary: #94a3b8;
-  --accent-cyan: #06b6d4;
-  --accent-cyan-hover: #0891b2;
+  
+  --accent-cyan: #38bdf8;       /* Sky 400: Lebih terang agar pop-out di dark mode */
+  --accent-cyan-hover: #7dd3fc;
+  
   --accent-green: #10b981;
   --accent-green-bg: rgba(16, 185, 129, 0.15);
   --accent-red: #ef4444;
   --accent-red-bg: rgba(239, 68, 68, 0.15);
   --accent-orange: #f59e0b;
   --accent-orange-bg: rgba(245, 158, 11, 0.15);
-  --border-color: #334155;
+  
+  --border-color: #1e293b;
 }
 
 /* ─── KEYFRAMES ─────────────────────────────────────────── */

@@ -1,116 +1,94 @@
 import React, { useEffect, useState } from 'react';
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import { onSnapshot, doc } from 'firebase/firestore';
 import { db } from '@/utils/firebase';
-import { doc } from 'firebase/firestore';
 
-interface JalurData {
-  jalur_arah: string;
-  jarak_cm: number;
-  jumlah_kendaraan: number;
-  status_kepadatan: string;
-  status_lampu: string;
-  sisa_waktu_detik: number;
-  sensor_id: string;
+function LaneCard({ jalur, data }: { jalur: any, data: any }) {
+  const [countdown, setCountdown] = useState(0);
+  const [prevLampu, setPrevLampu] = useState('MATI');
+
+  // 1. SMART SYNC LOGIC (Anti-Glitch)
+  useEffect(() => {
+    if (!data) return;
+
+    setCountdown((waktuLokalSaatIni) => {
+      const lampuBerubah = data.status_lampu !== prevLampu;
+      const latensiDrift = Math.abs(waktuLokalSaatIni - data.sisa_waktu_detik);
+
+      // Hanya paksa sinkronisasi jika lampu berganti ATAU selisih waktu > 2 detik
+      if (lampuBerubah || latensiDrift > 2) {
+        setPrevLampu(data.status_lampu);
+        return data.sisa_waktu_detik;
+      }
+
+      // Jika selisih kecil (hanya delay internet biasa), abaikan data server, 
+      // biarkan timer lokal yang jalan terus agar UI mulus.
+      return waktuLokalSaatIni;
+    });
+  }, [data?.sisa_waktu_detik, data?.status_lampu, prevLampu]);
+
+  // 2. LOKAL TIMER (Smooth 1s)
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const lampu = data?.status_lampu ?? 'MATI';
+  const status = data?.status_kepadatan ?? 'Offline';
+
+  return (
+    <div className="bg-bg-card rounded-xl p-4 flex flex-col border border-border-color hover:-translate-y-0.5 transition-all shadow-sm">
+      <div className="flex justify-between items-center mb-3">
+        <h3 className="text-[14px] font-semibold text-text-main">{jalur.nama}</h3>
+        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${status === 'Padat' ? 'bg-red-100 text-red-600' :
+          status === 'Lancar' ? 'bg-green-100 text-green-600' : 'bg-orange-100 text-orange-600'
+          }`}>
+          {status}
+        </span>
+      </div>
+
+      <div className="flex items-center gap-5">
+        <div className="bg-slate-800 w-10 rounded-2xl py-2 flex flex-col items-center gap-2 border border-slate-700">
+          <div className={`w-4 h-4 rounded-full transition-all duration-150 ${lampu === 'MERAH' ? 'bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.8)] scale-110' : 'bg-red-950 opacity-30'}`} />
+          <div className={`w-4 h-4 rounded-full transition-all duration-150 ${lampu === 'KUNING' ? 'bg-yellow-400 shadow-[0_0_12px_rgba(250,204,21,0.8)] scale-110' : 'bg-yellow-950 opacity-30'}`} />
+          <div className={`w-4 h-4 rounded-full transition-all duration-150 ${lampu === 'HIJAU' ? 'bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.8)] scale-110' : 'bg-emerald-950 opacity-30'}`} />
+        </div>
+
+        <div className="flex-1">
+          <div className="text-[10px] uppercase text-slate-400 font-bold tracking-wider">Antrean</div>
+          <div className="text-xl font-bold text-text-main">
+            {data?.jarak_cm ?? '--'} <span className="text-xs font-medium">CM</span>
+          </div>
+          <div className="flex justify-between mt-2 text-[11px] text-text-secondary border-t border-border-color pt-2">
+            <div>🚗 Total: <b className="text-text-main">{data?.jumlah_kendaraan ?? 0}</b></div>
+            <div>Sisa: <b className="text-blue-500 text-[14px]">{countdown}s</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-const jalurList = [
-  { arah: 'utara', nama: 'Jalur Utara', sensorId: 'SN-UTARA-01' },
-  { arah: 'selatan', nama: 'Jalur Selatan', sensorId: 'SN-SELATAN-02' },
-  { arah: 'timur', nama: 'Jalur Timur', sensorId: 'SN-TIMUR-03' },
-  { arah: 'barat', nama: 'Jalur Barat', sensorId: 'SN-BARAT-04' },
-];
-
 export default function TrafficGrid() {
-  const [dataMap, setDataMap] = useState<Record<string, JalurData>>({});
+  const [dataMap, setDataMap] = useState<any>({});
 
   useEffect(() => {
-    // Tembak langsung ke "kamar" real-time, BUKAN ke sejarah log
-    const docRef = doc(db, 'persimpangan', 'simpang-utama');
-
-    const unsub = onSnapshot(docRef, (docSnap) => {
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        // data.jalur otomatis berisi objek { utara: {...}, selatan: {...}, ... }
-        setDataMap(data.jalur || {});
-      }
+    const unsub = onSnapshot(doc(db, 'persimpangan', 'simpang-utama'), (snap) => {
+      if (snap.exists()) setDataMap(snap.data().jalur || {});
     });
-
     return () => unsub();
   }, []);
 
-  const getStatusStyle = (status: string) => {
-    switch (status) {
-      case 'Padat': return 'bg-[#fee2e2] text-[#991b1b]';
-      case 'Cukup Padat': return 'bg-[#fef3c7] text-[#92400e]';
-      case 'Lancar': return 'bg-[#dcfce7] text-[#166534]';
-      default: return 'bg-[#f1f5f9] text-[#64748b]';
-    }
-  };
-
-  const getBarColor = (status: string) => {
-    switch (status) {
-      case 'Padat': return 'bg-[#ef4444]';
-      case 'Cukup Padat': return 'bg-[#f59e0b]';
-      default: return 'bg-[#22c55e]';
-    }
-  };
+  const jalurList = [
+    { arah: 'barat', nama: 'Jalur Barat' },
+    { arah: 'timur', nama: 'Jalur Timur' },
+    { arah: 'selatan', nama: 'Jalur Selatan' },
+  ];
 
   return (
-    <div className="grid grid-cols-2 gap-6">
-      {jalurList.map((j) => {
-        const d = dataMap[j.arah];
-        const jarak = d?.jarak_cm ?? 0;
-        const status = d?.status_kepadatan ?? 'Menunggu';
-        const lampu = d?.status_lampu ?? 'MATI';
-        const barPct = Math.min((jarak / 150) * 100, 100);
-
-        return (
-          <div key={j.arah} className="bg-bg-card rounded-custom p-6 flex flex-col shadow-[0_1px_3px_rgba(0,0,0,0.08)] border border-border-color
-            transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)]">
-            <div className="flex justify-between items-start mb-6">
-              <div>
-                <h3 className="text-[16px] font-semibold text-text-main m-0">{j.nama}</h3>
-                <p className="text-[12px] text-text-secondary mt-1">ID Sensor: {j.sensorId}</p>
-              </div>
-              <div className={`px-3 py-1 rounded-[20px] text-[12px] font-semibold ${getStatusStyle(status)}`}>
-                {status}
-              </div>
-            </div>
-            <div className="flex items-start gap-8">
-              {/* Traffic light */}
-              <div className="bg-[#1e293b] w-12 rounded-[24px] py-[10px] flex flex-col items-center gap-2">
-                <div className={`w-6 h-6 rounded-full ${lampu === 'MERAH' ? 'opacity-100 shadow-[0_0_10px_currentColor] bg-[#ef4444]' : 'opacity-20 bg-[#ef4444]'}`} />
-                <div className={`w-6 h-6 rounded-full ${lampu === 'KUNING' ? 'opacity-100 shadow-[0_0_10px_currentColor] bg-[#eab308]' : 'opacity-20 bg-[#eab308]'}`} />
-                <div className={`w-6 h-6 rounded-full ${lampu === 'HIJAU' ? 'opacity-100 shadow-[0_0_10px_currentColor] bg-[#22c55e]' : 'opacity-20 bg-[#22c55e]'}`} />
-              </div>
-              <div className="flex-1">
-                <div className="text-[11px] text-[#94a3b8] font-semibold uppercase tracking-[0.5px]">JARAK ANTREAN</div>
-                <div className="text-[28px] font-bold text-text-main mt-1 mb-4">
-                  {jarak}<small className="text-[14px] text-[#94a3b8] font-medium ml-1">CM</small>
-                </div>
-
-                {/* TAMBAHKAN BLOK INI UNTUK SENSOR IR */}
-                <div className="text-[12px] text-[#64748b] font-medium mb-2 flex items-center gap-1">
-                  <span>🚗 Total Kendaraan:</span>
-                  <span className="font-bold text-slate-800">{d?.jumlah_kendaraan ?? 0}</span>
-                </div>
-
-                <div className="h-1.5 bg-bg-card-alt rounded-[3px] overflow-hidden">
-                  <div
-                    className={`h-full rounded-[3px] transition-all duration-500 ${getBarColor(status)}`}
-                    style={{ width: `${barPct}%` }}
-                  />
-                </div>
-                {d?.sisa_waktu_detik !== undefined && (
-                  <div className="text-[11px] text-[#94a3b8] mt-2">
-                    Sisa waktu: <span className="font-semibold text-text-main">{d.sisa_waktu_detik}s</span>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        );
-      })}
+    <div className="flex flex-col gap-4">
+      {jalurList.map((j) => <LaneCard key={j.arah} jalur={j} data={dataMap[j.arah]} />)}
     </div>
   );
 }
