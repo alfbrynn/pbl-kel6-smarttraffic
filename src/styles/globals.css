@@ -34,25 +34,25 @@
 /* --- DARK MODE --- */
 /* Jika Anda menggunakan class "dark" dari Tailwind, ubah selector ini menjadi .dark */
 [data-theme='dark'], .dark {
-  --bg-main: #0b1120;        /* Biru malam yang sangat pekat (mendalam) */
-  --bg-card: #151e2e;        /* Sedikit lebih terang dari background utama */
-  --bg-card-alt: #1e293b;
-  --bg-hover: #334155;
+  --bg-main: #131314;        /* Deep neutral black ala Gemini */
+  --bg-card: #1e1f20;        /* Card background yang sedikit lebih terang */
+  --bg-card-alt: #28292a;    /* Area sekunder */
+  --bg-hover: #333537;       /* Efek hover yang halus */
   
-  --text-main: #f8fafc;
-  --text-secondary: #94a3b8;
+  --text-main: #e3e3e3;      /* Abu-abu hampir putih untuk kenyamanan mata */
+  --text-secondary: #c4c7c5; /* Teks pendukung */
   
-  --accent-cyan: #38bdf8;       /* Sky 400: Lebih terang agar pop-out di dark mode */
-  --accent-cyan-hover: #7dd3fc;
+  --accent-cyan: #8ab4f8;       /* Blue ala Google/Gemini */
+  --accent-cyan-hover: #aecbfa;
   
-  --accent-green: #10b981;
-  --accent-green-bg: rgba(16, 185, 129, 0.15);
-  --accent-red: #ef4444;
-  --accent-red-bg: rgba(239, 68, 68, 0.15);
-  --accent-orange: #f59e0b;
-  --accent-orange-bg: rgba(245, 158, 11, 0.15);
+  --accent-green: #81c995;
+  --accent-green-bg: rgba(129, 201, 149, 0.15);
+  --accent-red: #f28b82;
+  --accent-red-bg: rgba(242, 139, 130, 0.15);
+  --accent-orange: #fdd663;
+  --accent-orange-bg: rgba(253, 214, 99, 0.15);
   
-  --border-color: #1e293b;
+  --border-color: #333537;   /* Border yang sangat halus agar tidak kaku */
 }
 
 /* ─── KEYFRAMES ─────────────────────────────────────────── */

@@ -49,7 +49,7 @@ function LaneCard({ jalur, data }: { jalur: any, data: any }) {
       </div>
 
       <div className="flex items-center gap-5">
-        <div className="bg-slate-800 w-10 rounded-2xl py-2 flex flex-col items-center gap-2 border border-slate-700">
+        <div className="bg-[#131314] w-10 rounded-2xl py-2 flex flex-col items-center gap-2 border border-white/5">
           <div className={`w-4 h-4 rounded-full transition-all duration-150 ${lampu === 'MERAH' ? 'bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.8)] scale-110' : 'bg-red-950 opacity-30'}`} />
           <div className={`w-4 h-4 rounded-full transition-all duration-150 ${lampu === 'KUNING' ? 'bg-yellow-400 shadow-[0_0_12px_rgba(250,204,21,0.8)] scale-110' : 'bg-yellow-950 opacity-30'}`} />
           <div className={`w-4 h-4 rounded-full transition-all duration-150 ${lampu === 'HIJAU' ? 'bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.8)] scale-110' : 'bg-emerald-950 opacity-30'}`} />

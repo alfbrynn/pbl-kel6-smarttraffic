@@ -95,7 +95,7 @@ const Sidebar = ({ isCollapsed, onToggleSidebar }: SidebarProps) => {
               className={`flex items-center py-[14px] text-[14px] font-semibold cursor-pointer relative transition-colors duration-150 ease-out
                 ${isCollapsed ? 'justify-center px-0' : 'px-6'}
                 ${isActive
-                  ? 'bg-bg-hover text-accent-cyan after:content-[""] after:absolute after:right-0 after:top-0 after:bottom-0 after:w-1 after:bg-accent-cyan after:rounded-l-full'
+                  ? 'bg-[#131314] text-white dark:bg-bg-hover dark:text-accent-cyan after:content-[""] after:absolute after:right-0 after:top-0 after:bottom-0 after:w-1 dark:after:bg-accent-cyan after:bg-white after:rounded-l-full'
                   : 'text-text-secondary hover:bg-bg-hover hover:text-text-main'}`}>
 
               <span className={`flex items-center justify-center ${isCollapsed ? '' : 'mr-3'}`}>
