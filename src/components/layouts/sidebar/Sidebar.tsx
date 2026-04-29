@@ -2,14 +2,22 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
+/**
+ * Props untuk Komponen Sidebar
+ */
 interface SidebarProps {
   isCollapsed: boolean;
   onToggleSidebar: () => void;
 }
 
-const Sidebar = ({ isCollapsed, onToggleSidebar }: SidebarProps) => {
+/**
+ * Komponen Navigasi Sidebar
+ * Mengelola navigasi samping dan fungsionalitas collapse/expand sidebar.
+ */
+const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggleSidebar }) => {
   const router = useRouter();
 
+  // --- Konfigurasi Menu ---
   const navItems = [
     {
       name: 'Beranda',
@@ -73,37 +81,47 @@ const Sidebar = ({ isCollapsed, onToggleSidebar }: SidebarProps) => {
   ];
 
   return (
-    <aside className={`h-screen fixed top-0 left-0 bg-bg-card flex flex-col z-[100] border-r border-border-color transition-all duration-300 ease-in-out
-      ${isCollapsed ? 'w-[80px]' : 'w-[250px]'}`}>
-
-      {/* Tombol Collapse yang posisinya terkunci di kiri (pl-6) tanpa berpindah */}
+    <aside 
+      className={`h-screen fixed top-0 left-0 bg-bg-card flex flex-col z-[100] border-r border-border-color transition-all duration-300 ease-in-out
+      ${isCollapsed ? 'w-[80px]' : 'w-[250px]'}`}
+    >
+      {/* Header Sidebar & Tombol Toggle */}
       <div className="h-[72px] flex items-center pl-6">
-        <button onClick={onToggleSidebar} className="text-text-secondary hover:text-text-main transition-colors" aria-label="Toggle Sidebar">
+        <button 
+          onClick={onToggleSidebar} 
+          className="text-text-secondary hover:text-text-main transition-colors" 
+          aria-label="Toggle Sidebar"
+        >
           <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
       </div>
 
+      {/* Menu Navigasi */}
       <nav className="flex flex-col mt-2">
         {navItems.map((item) => {
           const isActive = router.pathname.startsWith(item.path);
 
           return (
-            <Link href={item.path} key={item.name}
+            <Link 
+              href={item.path} 
+              key={item.name}
               title={isCollapsed ? item.name : ''}
               className={`flex items-center py-[14px] text-[14px] font-semibold cursor-pointer relative transition-colors duration-150 ease-out
                 ${isCollapsed ? 'justify-center px-0' : 'px-6'}
                 ${isActive
-                  ? 'bg-[#131314] text-white dark:bg-bg-hover dark:text-accent-cyan after:content-[""] after:absolute after:right-0 after:top-0 after:bottom-0 after:w-1 dark:after:bg-accent-cyan after:bg-white after:rounded-l-full'
-                  : 'text-text-secondary hover:bg-bg-hover hover:text-text-main'}`}>
-
+                  ? 'bg-bg-hover text-text-main dark:text-accent-cyan after:content-[""] after:absolute after:right-0 after:top-0 after:bottom-0 after:w-1 after:bg-text-main dark:after:bg-accent-cyan after:rounded-l-full'
+                  : 'text-text-secondary hover:bg-bg-hover hover:text-text-main'}`}
+            >
+              {/* Ikon Menu */}
               <span className={`flex items-center justify-center ${isCollapsed ? '' : 'mr-3'}`}>
                 {item.icon}
               </span>
 
+              {/* Teks Menu (Sembunyi saat collapsed) */}
               {!isCollapsed && (
-                <span className="whitespace-nowrap">
+                <span className="whitespace-nowrap transition-opacity duration-200">
                   {item.name}
                 </span>
               )}

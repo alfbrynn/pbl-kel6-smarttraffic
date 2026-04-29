@@ -1,56 +1,71 @@
 import Head from 'next/head';
+import { useEffect, useState } from 'react';
 import StatsRow from '@/components/beranda/StatRow';
 import TrafficGrid from '@/components/beranda/TrafficGrid';
-import SensorCard from '@/components/beranda/SensorCard'; // Ini adalah Live Schema
-import { useEffect, useState } from 'react';
+import SensorCard from '@/components/beranda/SensorCard';
 
-export default function Home() {
-    const [mounted, setMounted] = useState(false);
+/**
+ * Halaman Utama Dashboard
+ * Pusat kontrol utama yang menampilkan statistik lalu lintas real-time,
+ * skema persimpangan interaktif, dan metrik per jalur.
+ */
+const HomePage: React.FC = () => {
+    // --- States (Status) ---
+    const [isMounted, setIsMounted] = useState(false);
 
+    // --- Side Effects (Efek Samping) ---
+    /**
+     * Memastikan hidrasi sisi klien sebelum rendering untuk menghindari ketidaksesuaian SSR
+     */
     useEffect(() => {
-        setMounted(true);
+        setIsMounted(true);
     }, []);
 
-    if (!mounted) return null;
+    if (!isMounted) return null;
 
     return (
         <>
             <Head>
-                <title>SMARTRAF - Pusat Kontrol</title>
-                <meta name="description" content="Dashboard Smart Traffic" />
+                <title>SMARTRAF | Pusat Kontrol</title>
+                <meta name="description" content="Sistem manajemen lalu lintas cerdas dashboard." />
             </Head>
 
-            {/* Mengurangi gap agar lebih hemat ruang vertikal */}
-            <div className="flex flex-col gap-4 h-full">
+            <div className="flex flex-col gap-5 h-full animate-fade-in">
 
-                {/* STATS ROW (Kompak) */}
+                {/* Barisan Statistik KPI */}
                 <StatsRow />
 
-                {/* SECTION HEADER */}
-                <div className="flex justify-between items-center mt-1">
-                    <h2 className="text-[16px] font-semibold text-text-main">Monitoring Persimpangan</h2>
-                    <div className="flex items-center text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-[20px]">
-                        <span className="w-1.5 h-1.5 bg-[#10b981] rounded-full mr-1.5 animate-pulse"></span>
-                        Live Update Aktif
+                {/* Bagian Monitoring Utama */}
+                <div className="flex justify-between items-center mt-2 px-1">
+                    <h2 className="text-[17px] font-bold text-text-main tracking-tight">
+                        Monitoring Real-time
+                    </h2>
+                    
+                    {/* Indikator Status Live */}
+                    <div className="flex items-center text-[10px] font-extrabold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-200 dark:border-emerald-500/20">
+                        <span className="w-2 h-2 bg-emerald-500 rounded-full mr-2 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
+                        Telemetri Aktif
                     </div>
                 </div>
 
-                {/* SPLIT LAYOUT: Kiri (Schema) & Kanan (Grid Vertikal) */}
-                <div className="grid grid-cols-1 xl:grid-cols-12 gap-5 items-start flex-1 pb-2">
+                {/* Layout Grid Dashboard */}
+                <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start flex-1 pb-6">
 
-                    {/* KIRI: Live Schema (Ambil 7 kolom agar sedikit lebih luas) */}
-                    <div className="xl:col-span-7 w-full h-full min-h-[380px]">
+                    {/* Konten Utama: Skema Persimpangan Live */}
+                    <section className="xl:col-span-7 w-full h-full min-h-[420px]">
                         <SensorCard />
-                    </div>
+                    </section>
 
-                    {/* KANAN: Traffic Grid (Ambil 5 kolom, susun vertikal) */}
-                    <div className="xl:col-span-5 w-full">
+                    {/* Konten Sekunder: Grid Metrik Jalur */}
+                    <section className="xl:col-span-5 w-full">
                         <TrafficGrid />
-                    </div>
+                    </section>
 
                 </div>
 
             </div>
         </>
     );
-}
+};
+
+export default HomePage;

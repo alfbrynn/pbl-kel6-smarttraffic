@@ -1,17 +1,31 @@
 "use client";
+
 import React, { useEffect, useState } from 'react';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '@/utils/firebase';
 
+/**
+ * Interface untuk Data Jalur Individual
+ */
 interface JalurData {
   jarak_cm: number;
   jumlah_kendaraan: number;
   status_kepadatan: string;
 }
 
-export default function StatsRow() {
+/**
+ * Komponen StatsRow
+ * Menampilkan barisan kartu statistik ringkasan berdasarkan data persimpangan real-time.
+ * Menghitung insight seperti status persimpangan keseluruhan dan titik terpadat.
+ */
+const StatsRow: React.FC = () => {
+  // --- States (Status) ---
   const [dataMap, setDataMap] = useState<Record<string, JalurData>>({});
 
+  // --- Side Effects (Efek Samping) ---
+  /**
+   * Mendengarkan update real-time dari dokumen persimpangan Firestore
+   */
   useEffect(() => {
     const docRef = doc(db, 'persimpangan', 'simpang-utama');
     const unsub = onSnapshot(docRef, (docSnap) => {
@@ -23,39 +37,44 @@ export default function StatsRow() {
     return () => unsub();
   }, []);
 
+  // --- Kalkulasi & Insight ---
   const jalurEntries = Object.entries(dataMap);
-  const totalKendaraan = jalurEntries.reduce((sum, [_, d]) => sum + (d.jumlah_kendaraan ?? 0), 0);
-  const alertCount = jalurEntries.filter(([_, d]) =>
+  const totalVehicles = jalurEntries.reduce((sum, [_, d]) => sum + (d.jumlah_kendaraan ?? 0), 0);
+  
+  // Hitung jalur yang padat
+  const congestedLanesCount = jalurEntries.filter(([_, d]) =>
     d.status_kepadatan === 'Padat' || d.status_kepadatan === 'Cukup Padat'
   ).length;
 
-  // --- LOGIKA INSIGHT ---
-  let statusUtama = "Lancar", statusColor = "text-accent-green",
+  // Tentukan status persimpangan keseluruhan
+  let statusTitle = "Lancar", statusColor = "text-accent-green",
     statusBg = "bg-accent-green-bg", statusIcon = "✅",
-    statusDesc = "Lalu lintas terpantau kondusif.";
+    statusDesc = "Arus lalu lintas saat ini terpantau optimal.";
 
-  if (alertCount >= 2) {
-    statusUtama = "Padat";
+  if (congestedLanesCount >= 2) {
+    statusTitle = "Padat";
     statusColor = "text-accent-red";
     statusBg = "bg-accent-red-bg";
     statusIcon = "🚨";
-    statusDesc = "Terjadi penumpukan di beberapa titik.";
-  } else if (alertCount === 1) {
-    statusUtama = "Ramai";
+    statusDesc = "Terjadi hambatan signifikan di beberapa titik.";
+  } else if (congestedLanesCount === 1) {
+    statusTitle = "Ramai";
     statusColor = "text-accent-orange";
     statusBg = "bg-accent-orange-bg";
     statusIcon = "⚠️";
-    statusDesc = "Satu jalur mulai mengalami antrean.";
+    statusDesc = "Satu jalur mulai mengalami peningkatan beban.";
   }
 
-  const terpadat = jalurEntries.length > 0
+  // Cari jalur dengan jarak terpendek (antrean tertinggi)
+  const busiestPoint = jalurEntries.length > 0
     ? [...jalurEntries].sort((a, b) => (a[1].jarak_cm ?? 150) - (b[1].jarak_cm ?? 150))[0]
     : null;
 
+  // Bangun konfigurasi insight
   const insights = [
     {
       label: "Status Persimpangan",
-      value: statusUtama,
+      value: statusTitle,
       desc: statusDesc,
       icon: statusIcon,
       iconBg: statusBg,
@@ -64,17 +83,17 @@ export default function StatsRow() {
     },
     {
       label: "Titik Perhatian",
-      value: terpadat ? `Jalur ${terpadat[0].charAt(0).toUpperCase() + terpadat[0].slice(1)}` : "Stabil",
-      desc: terpadat ? `Antrean terpanjang: ${terpadat[1].jarak_cm} cm` : "Tidak ada antrean panjang",
+      value: busiestPoint ? `Jalur ${busiestPoint[0].charAt(0).toUpperCase() + busiestPoint[0].slice(1)}` : "Stabil",
+      desc: busiestPoint ? `Panjang antrean: ${busiestPoint[1].jarak_cm} cm` : "Tidak ada antrean signifikan terdeteksi.",
       icon: "📍",
       iconBg: "bg-bg-card-alt",
       valColor: "text-text-main",
       anim: "animate-fade-up-2"
     },
     {
-      label: "IOT Terhubung",
+      label: "Konektivitas IoT",
       value: "Node Aktif",
-      desc: "Sensor mengirimkan data real-time",
+      desc: "Aliran telemetri real-time sedang aktif.",
       icon: "🌐",
       iconBg: "bg-bg-card-alt",
       valColor: "text-text-main",
@@ -82,8 +101,8 @@ export default function StatsRow() {
     },
     {
       label: "Volume Kendaraan",
-      value: `${totalKendaraan} Unit`,
-      desc: "Total terdeteksi melintas saat ini",
+      value: `${totalVehicles} Unit`,
+      desc: "Total kendaraan yang terdeteksi saat ini.",
       icon: "🚗",
       iconBg: "bg-bg-card-alt",
       valColor: "text-text-main",
@@ -95,31 +114,31 @@ export default function StatsRow() {
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
       {insights.map((item) => (
         <div key={item.label} className={item.anim}>
-          <div
-            className="bg-bg-card rounded-custom p-4 border border-border-color flex items-start gap-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 h-full cursor-default"
-          >
-            {/* Icon Style yang lebih subtle agar selaras dengan grid bawah */}
+          <div className="bg-bg-card rounded-custom p-4 border border-border-color flex items-start gap-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 h-full cursor-default">
+            
+            {/* Kontainer Ikon Kartu */}
             <div className={`shrink-0 w-10 h-10 rounded-lg flex items-center justify-center text-base ${item.iconBg}`}>
               {item.icon}
             </div>
 
+            {/* Konten Kartu */}
             <div className="flex-1 min-w-0">
-              {/* Label disamakan ukurannya dengan label 'Antrean' di TrafficGrid */}
               <p className="text-[10px] font-bold text-text-secondary uppercase tracking-wider mb-1">
                 {item.label}
               </p>
-              {/* Judul dengan font yang lebih proporsional */}
               <h3 className={`text-[16px] font-bold leading-tight ${item.valColor} truncate`}>
                 {item.value}
               </h3>
-              {/* Deskripsi yang lebih clean */}
               <p className="text-[11px] text-text-secondary mt-1.5 leading-relaxed">
                 {item.desc}
               </p>
             </div>
+
           </div>
         </div>
       ))}
     </div>
   );
-}
+};
+
+export default StatsRow;
