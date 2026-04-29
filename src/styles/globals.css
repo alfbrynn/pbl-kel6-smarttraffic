@@ -2,49 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 
+  --------------------------------------------------------------------------
+  SISTEM DESAIN & VARIABEL
+  --------------------------------------------------------------------------
+*/
+
 :root {
+  /* Metrik Sistem */
   --max-width: 1100px;
   --border-radius: 12px;
   --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
     'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
     'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
 
-  --bg-main: #f4f6fa;
-  --bg-card: #ffffff;
-  --bg-card-alt: #f1f5f9;
-  --bg-hover: #f1f4f9;
-  --text-main: #1a2533;
-  --text-secondary: #64748b;
-  --accent-cyan: #2b3240;
-  --accent-cyan-hover: #1e293b;
+  /* --- PALET MODE TERANG --- */
+  --bg-main: #f8fafc;        /* Latar belakang slate profesional */
+  --bg-card: #ffffff;        /* Putih murni untuk elevasi */
+  --bg-card-alt: #f1f5f9;    /* Permukaan sekunder */
+  --bg-hover: #e2e8f0;       /* Status interaktif */
+  
+  --text-main: #0f172a;      /* Teks utama kontras tinggi */
+  --text-secondary: #64748b; /* Teks sekunder yang aksesibel */
+  
+  --accent-cyan: #0ea5e9;    /* Warna brand utama */
+  --accent-cyan-hover: #0284c7;
+  
   --accent-green: #10b981;
   --accent-green-bg: #dcfce7;
   --accent-red: #ef4444;
   --accent-red-bg: #fee2e2;
-  --accent-orange: #d97706;
-  --accent-orange-bg: #ffedd5;
+  --accent-orange: #f59e0b;
+  --accent-orange-bg: #fef3c7;
+  
   --border-color: #e2e8f0;
 }
 
-[data-theme='dark'] {
-  --bg-main: #0f172a;
-  --bg-card: #1e293b;
-  --bg-card-alt: #0B1120;
-  --bg-hover: #334155;
-  --text-main: #f8fafc;
-  --text-secondary: #94a3b8;
-  --accent-cyan: #06b6d4;
-  --accent-cyan-hover: #0891b2;
-  --accent-green: #10b981;
-  --accent-green-bg: rgba(16, 185, 129, 0.15);
-  --accent-red: #ef4444;
-  --accent-red-bg: rgba(239, 68, 68, 0.15);
-  --accent-orange: #f59e0b;
-  --accent-orange-bg: rgba(245, 158, 11, 0.15);
-  --border-color: #334155;
+/* --- PALET MODE GELAP --- */
+[data-theme='dark'], .dark {
+  --bg-main: #131314;        /* Hitam netral pekat ala Gemini */
+  --bg-card: #1e1f20;        /* Hitam elevasi halus */
+  --bg-card-alt: #28292a;    /* Elevasi sekunder */
+  --bg-hover: #333537;       /* Status hover lembut */
+  
+  --text-main: #e3e3e3;      /* Putih gading yang nyaman */
+  --text-secondary: #c4c7c5; /* Teks sekunder redup */
+  
+  --accent-cyan: #8ab4f8;    /* Biru lembut untuk mode gelap */
+  --accent-cyan-hover: #aecbfa;
+  
+  --accent-green: #81c995;
+  --accent-green-bg: rgba(129, 201, 149, 0.15);
+  --accent-red: #f28b82;
+  --accent-red-bg: rgba(242, 139, 130, 0.15);
+  --accent-orange: #fdd663;
+  --accent-orange-bg: rgba(253, 214, 99, 0.15);
+  
+  --border-color: #333537;   /* Border minimalis */
 }
 
-/* ─── KEYFRAMES ─────────────────────────────────────────── */
+/* 
+  --------------------------------------------------------------------------
+  ANIMASI (KEYFRAMES)
+  --------------------------------------------------------------------------
+*/
 
 @keyframes fadeIn {
   from { opacity: 0; }
@@ -81,36 +106,16 @@
   50%       { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
 }
 
-@keyframes progressFill {
-  from { width: 0%; }
-  to   { width: var(--progress-width, 100%); }
-}
-
-@keyframes countUp {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideInSidebar {
-  from { opacity: 0; transform: translateX(-16px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes borderPulse {
-  0%, 100% { border-color: rgba(16, 185, 129, 0.4); }
-  50%       { border-color: rgba(16, 185, 129, 1); }
-}
-
-@keyframes rippleAnim {
-  to { transform: scale(1); opacity: 0; }
-}
-
 @keyframes pageEnter {
   from { opacity: 0; transform: translateY(16px) scale(0.99); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* ─── BASE ──────────────────────────────────────────────── */
+/* 
+  --------------------------------------------------------------------------
+  GAYA DASAR (BASE STYLES)
+  --------------------------------------------------------------------------
+*/
 
 @layer base {
   * { box-sizing: border-box; }
@@ -121,13 +126,12 @@
     background-color: var(--bg-main);
     color: var(--text-main);
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    color-scheme: dark;
+    color-scheme: dark light;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
-  /* Smooth scroll global */
   html { scroll-behavior: smooth; }
 
-  /* Reduced motion — respect user preference */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
@@ -136,176 +140,72 @@
   }
 }
 
-/* ─── COMPONENTS ────────────────────────────────────────── */
+/* 
+  --------------------------------------------------------------------------
+  KOMPONEN INTI
+  --------------------------------------------------------------------------
+*/
 
 @layer components {
-  .input-field {
-    @apply w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition-all duration-200 focus:border-gray-900 focus:bg-white focus:ring-2 focus:ring-gray-900/10;
-  }
-
-  /* ════════════════════════════════════════
-     BUTTON SYSTEM
-     ════════════════════════════════════════ */
-
-  /* Base — semua tombol inherit ini */
+  /* Sistem Tombol */
   .btn {
     @apply inline-flex items-center justify-center gap-2 font-semibold
            select-none cursor-pointer border-none outline-none
            transition-all duration-200 ease-out
            active:scale-[0.97] active:brightness-95
-           disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none
+           disabled:opacity-50 disabled:cursor-not-allowed
            focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-accent-cyan;
   }
 
-  /* Primary — aksi utama */
   .btn-primary {
     @apply btn bg-accent-cyan text-white rounded-lg px-5 py-2.5 text-[13px]
-           hover:bg-accent-cyan-hover hover:shadow-[0_4px_14px_rgba(6,182,212,0.35)]
-           hover:-translate-y-px;
+           hover:bg-accent-cyan-hover hover:shadow-lg hover:-translate-y-px;
   }
 
-  /* Secondary — aksi sekunder */
   .btn-secondary {
     @apply btn bg-bg-card border border-border-color text-text-main rounded-lg px-5 py-2.5 text-[13px]
-           hover:bg-bg-hover hover:text-accent-cyan
-           hover:-translate-y-px;
+           hover:bg-bg-hover hover:text-accent-cyan hover:-translate-y-px;
   }
 
-  /* Ghost — aksi tersier / inline */
-  .btn-ghost {
-    @apply btn bg-transparent text-text-secondary rounded-lg px-4 py-2 text-[13px]
-           hover:bg-bg-hover hover:text-text-main;
-  }
-
-  /* Danger — aksi destruktif */
-  .btn-danger {
-    @apply btn bg-red-500 text-white rounded-lg px-5 py-2.5 text-[13px]
-           hover:bg-red-600 hover:shadow-[0_4px_14px_rgba(239,68,68,0.3)]
-           hover:-translate-y-px;
-  }
-
-  /* Icon button — tombol ikon saja */
   .btn-icon {
     @apply btn bg-transparent text-text-secondary rounded-lg p-2
            hover:bg-bg-hover hover:text-text-main;
   }
 
-  /* Pagination button */
-  .btn-page {
-    @apply btn w-7 h-7 rounded-[4px] text-[12px] bg-transparent text-text-secondary
-           hover:bg-bg-hover hover:text-text-main;
-  }
-  .btn-page-active {
-    @apply btn w-7 h-7 rounded-[4px] text-[12px] bg-bg-hover text-text-main font-bold;
-  }
-
-  /* ── Page enter animation ── */
-  .page-enter {
-    animation: fadeSlideUp 0.4s ease-out both;
-  }
-
-  /* ── Card hover lift ── */
+  /* Status Interaktif */
   .card-hover {
-    @apply transition-all duration-200 ease-out;
-  }
-  .card-hover:hover {
-    @apply -translate-y-0.5 shadow-md;
+    @apply transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-md;
   }
 
-  /* ── Sidebar nav item ── */
-  .nav-item {
-    @apply transition-all duration-200 ease-out;
-    animation: slideInSidebar 0.3s ease-out both;
+  /* Animasi Kustom */
+  .page-enter {
+    animation: pageEnter 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) both;
   }
 
-  /* ── Staggered children ── */
-  .stagger-children > *:nth-child(1) { animation-delay: 0ms; }
-  .stagger-children > *:nth-child(2) { animation-delay: 60ms; }
-  .stagger-children > *:nth-child(3) { animation-delay: 120ms; }
-  .stagger-children > *:nth-child(4) { animation-delay: 180ms; }
-  .stagger-children > *:nth-child(5) { animation-delay: 240ms; }
-  .stagger-children > *:nth-child(6) { animation-delay: 300ms; }
+  .animate-fade-up { animation: fadeSlideUp 0.5s ease-out both; }
+  .animate-fade-in { animation: fadeIn 0.4s ease-out both; }
 
-  /* ── Skeleton shimmer ── */
-  .skeleton {
-    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
-    @apply rounded;
-  }
-
-  /* ── Live indicator pulse ── */
+  /* Indikator Pulse Live */
   .live-dot {
     @apply w-2 h-2 rounded-full bg-emerald-400;
     animation: pulseGlow 2s ease-in-out infinite;
   }
-
-  /* ── Fade slide up utility ── */
-  .animate-fade-up   { animation: fadeSlideUp 0.5s ease-out both; }
-  .animate-fade-in   { animation: fadeIn 0.4s ease-out both; }
-  .animate-scale-in  { animation: scaleIn 0.3s ease-out both; }
-
-  /* ── Progress bar animated fill ── */
-  .progress-animated {
-    animation: progressFill 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
-  }
-
-  /* ── Traffic light glow ── */
-  .light-red-on    { background: #ef4444; box-shadow: 0 0 12px 3px rgba(239,68,68,0.6); }
-  .light-yellow-on { background: #eab308; box-shadow: 0 0 12px 3px rgba(234,179,8,0.6); }
-  .light-green-on  { background: #22c55e; box-shadow: 0 0 12px 3px rgba(34,197,94,0.6); }
-  .light-off-red    { background: rgba(239,68,68,0.15); }
-  .light-off-yellow { background: rgba(234,179,8,0.15); }
-  .light-off-green  { background: rgba(34,197,94,0.15); }
-
-  /* ── Tooltip fade ── */
-  .tooltip { @apply invisible opacity-0 transition-all duration-150 pointer-events-none; }
-  .tooltip-trigger:hover .tooltip { @apply visible opacity-100; }
-
-  /* ── Ripple button ── */
-  .ripple {
-    @apply relative overflow-hidden;
-  }
-
-  /* ── Scroll reveal ── */
-  [data-reveal] {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-  }
-  [data-reveal="left"] {
-    transform: translateX(-24px);
-  }
-  [data-reveal="right"] {
-    transform: translateX(24px);
-  }
-  [data-reveal="scale"] {
-    transform: scale(0.95);
-  }
-  [data-reveal].revealed {
-    opacity: 1;
-    transform: translateY(0) translateX(0) scale(1);
-  }
-  [data-reveal-delay="1"].revealed { transition-delay: 80ms; }
-  [data-reveal-delay="2"].revealed { transition-delay: 160ms; }
-  [data-reveal-delay="3"].revealed { transition-delay: 240ms; }
-  [data-reveal-delay="4"].revealed { transition-delay: 320ms; }
-  [data-reveal-delay="5"].revealed { transition-delay: 400ms; }
-
-  /* ── Page transition ── */
-  .page-transition {
-    animation: pageEnter 0.45s ease-out both;
-  }
 }
 
-/* ─── UTILITIES ─────────────────────────────────────────── */
+/* 
+  --------------------------------------------------------------------------
+  UTILITAS
+  --------------------------------------------------------------------------
+*/
 
 @layer utilities {
-  .delay-75  { animation-delay: 75ms; }
-  .delay-150 { animation-delay: 150ms; }
-  .delay-225 { animation-delay: 225ms; }
+  .text-balance { text-wrap: balance; }
+  
+  /* Jeda Animasi Bertingkat */
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
   .delay-300 { animation-delay: 300ms; }
-  .delay-400 { animation-delay: 400ms; }
-  .delay-500 { animation-delay: 500ms; }
 }
+
+
 

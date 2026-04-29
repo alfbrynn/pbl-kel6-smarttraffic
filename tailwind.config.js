@@ -6,6 +6,7 @@ module.exports = {
     "./src/views/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/styles/**/*.css",
   ],
+  darkMode: ['class', '[data-theme="dark"]'],
   theme: {
     extend: {
       colors: {
