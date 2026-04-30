@@ -8,7 +8,7 @@ export default function Persimpangan() {
   return (
     <>
       <Head>
-        <title>Command Center | SMARTRAF</title>
+        <title>Pusat Kendali | SMARTRAF</title>
         <meta name="description" content="Manajemen Persimpangan T-Junction" />
       </Head>
 
@@ -17,8 +17,8 @@ export default function Persimpangan() {
         {/* HEADER DASHBOARD */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-border-color pb-4">
           <div>
-            <h1 className="text-2xl font-black text-text-main uppercase tracking-wide">Command Center</h1>
-            <p className="text-sm text-text-secondary mt-1">Sistem Pemantauan & Kendali T-Junction Aktif</p>
+            <h1 className="text-2xl font-black text-text-main uppercase tracking-wide">Pusat Kendali</h1>
+            <p className="text-sm text-text-secondary mt-1">Sistem Pemantauan & Kendali Simpang T Aktif</p>
           </div>
           <div className="flex items-center gap-2 bg-bg-card border border-border-color px-3 py-1.5 rounded-lg shadow-sm">
             <span className="w-2 h-2 rounded-full bg-accent-green animate-pulse shadow-[0_0_5px_#10b981]"></span>

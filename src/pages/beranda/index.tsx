@@ -38,7 +38,7 @@ const HomePage: React.FC = () => {
                 {/* Bagian Monitoring Utama */}
                 <div className="flex justify-between items-center mt-2 px-1">
                     <h2 className="text-[17px] font-bold text-text-main tracking-tight">
-                        Monitoring Real-time
+                        Pemantauan Waktu Nyata
                     </h2>
 
                     {/* Indikator Status Live */}

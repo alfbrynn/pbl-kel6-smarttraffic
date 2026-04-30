@@ -55,7 +55,7 @@ const LaneCard: React.FC<LaneCardProps> = ({ jalur, data }) => {
 
   // --- Derived Values (Nilai Turunan) ---
   const lampuStatus = data?.status_lampu ?? 'MATI';
-  const densityStatus = data?.status_kepadatan ?? 'Offline';
+  const densityStatus = data?.status_kepadatan ?? 'Tidak Aktif';
 
   return (
     <div className="bg-bg-card rounded-xl p-4 flex flex-col border border-border-color hover:-translate-y-0.5 transition-all shadow-sm">
@@ -88,7 +88,7 @@ const LaneCard: React.FC<LaneCardProps> = ({ jalur, data }) => {
           
           <div className="flex justify-between mt-2 text-[11px] text-text-secondary border-t border-border-color pt-2">
             <div>🚗 Kendaraan: <b className="text-text-main">{data?.jumlah_kendaraan ?? 0}</b></div>
-            <div>Timer: <b className="text-blue-500 text-[14px]">{countdown}s</b></div>
+            <div>Waktu: <b className="text-blue-500 text-[14px]">{countdown}d</b></div>
           </div>
         </div>
       </div>

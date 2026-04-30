@@ -1,8 +1,10 @@
 // pages/pusat-data/index.tsx
+import Head from 'next/head';
 import React from 'react';
 import HeaderPusatData from '@/components/pusat-data/HeaderPusatData';
 import CardRingkasan from '@/components/pusat-data/CardRingkasan';
 import TabelLogSensor from '@/components/pusat-data/TabelLogSensor';
+import DensityChart from '@/components/pusat-data/DensityChart';
 
 /**
  * Halaman Pusat Data Traffic
@@ -10,34 +12,51 @@ import TabelLogSensor from '@/components/pusat-data/TabelLogSensor';
  */
 export default function PusatDataPage() {
   return (
-    <div className="min-h-screen bg-bg-main p-8 text-text-main">
-      <HeaderPusatData />
+    <>
+      <Head>
+        <title>Pusat Data | SMARTRAF</title>
+        <meta name="description" content="Pusat Analisis Data Traffic" />
+      </Head>
 
-      <section className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
-        <div className="lg:col-span-2 bg-bg-card p-6 rounded-xl shadow-sm border border-border-color">
-          <h2 className="text-lg font-semibold mb-4 text-text-main">Pola Kepadatan Mingguan</h2>
-          <div className="w-full h-72">
-            {/* DensityChart akan dirender di sini */}
+      <div className="flex flex-col gap-5 h-full animate-fade-in">
+        
+        {/* HEADER DASHBOARD */}
+        <HeaderPusatData />
+
+        {/* BARIS ATAS: VISUALISASI & RINGKASAN */}
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch flex-1">
+          
+          {/* KOLOM KIRI - Pola Kepadatan (Span 8) */}
+          <div className="xl:col-span-8 flex flex-col h-full">
+            <DensityChart />
           </div>
+
+          {/* KOLOM KANAN - Ringkasan KPI (Span 4) */}
+          <div className="xl:col-span-4 flex flex-col gap-6 h-full">
+            <CardRingkasan title="Total Kendaraan" />
+            <CardRingkasan title="Efisiensi Rata-rata" />
+          </div>
+
         </div>
 
-        <div className="flex flex-col gap-6">
-          <CardRingkasan
-            title="Total Kendaraan"
-            value="12,450"
-            trendText="+5.2% dari minggu lalu"
-            trendType="positive"
-          />
-          <CardRingkasan
-            title="Efisiensi Rata-rata"
-            value="87%"
-            trendText="Kondisi Optimal"
-            trendType="neutral"
-          />
+        {/* BARIS BAWAH: LOG SENSOR */}
+        <div className="mt-2">
+          <TabelLogSensor />
         </div>
-      </section>
 
-      <TabelLogSensor />
-    </div>
+        {/* ── FOOTER ── */}
+        <footer className="mt-auto pt-4 pb-2 border-t border-border-color/30">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-2 opacity-30">
+            <div className="text-[12px] font-black tracking-[0.2em] uppercase text-text-main">
+              Smartraf
+            </div>
+            <p className="text-[9px] text-text-secondary font-medium tracking-wider">
+              © 2026 PBL KELOMPOK 6. POLITEKNIK NEGERI MALANG.
+            </p>
+          </div>
+        </footer>
+
+      </div>
+    </>
   );
 }
