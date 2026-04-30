@@ -80,7 +80,7 @@ export default function Home() {
       <div className="min-h-screen bg-bg-main font-sans text-text-main overflow-x-hidden">
 
         {/* ── NAVBAR ── */}
-        <nav className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-1 transition-all duration-500 ${scrolled ? "bg-bg-main/95 backdrop-blur-md shadow-lg border-b border-border-color" : "bg-transparent"
+        <nav className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-5 transition-all duration-500 ${scrolled ? "bg-bg-main/95 backdrop-blur-md shadow-lg border-b border-border-color py-3" : "bg-transparent"
           }`}>
           <div className="flex items-center select-none group cursor-pointer">
             <h1 className="text-[20px] font-black text-text-main leading-none m-0 tracking-tighter uppercase transition-transform group-hover:scale-105">
@@ -127,7 +127,7 @@ export default function Home() {
                 <span className="text-accent-cyan">Real-time</span><br />
                 T-Junction.
               </h1>
-              <p className="text-text-secondary text-lg leading-relaxed mb-10 max-w-md font-medium">
+              <p className="text-text-secondary text-lg leading-relaxed mb-16 max-w-md font-medium">
                 Sistem pengatur lampu lalu lintas adaptif untuk pertigaan berbasis IoT (Edge-Cloud Computing). Merespons antrean kendaraan secara dinamis melalui protokol MQTT.
               </p>
               <div className="flex gap-4">
