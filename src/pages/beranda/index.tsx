@@ -63,6 +63,18 @@ const HomePage: React.FC = () => {
 
                 </div>
 
+                {/* ── FOOTER ── */}
+                <footer className="mt-auto pt-4 pb-2 border-t border-border-color/30">
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-2 opacity-30">
+                        <div className="text-[12px] font-black tracking-[0.2em] uppercase text-text-main">
+                            Smartraf
+                        </div>
+                        <p className="text-[9px] text-text-secondary font-medium tracking-wider">
+                            © 2026 PBL KELOMPOK 6. POLITEKNIK NEGERI MALANG.
+                        </p>
+                    </div>
+                </footer>
+
             </div>
         </>
     );

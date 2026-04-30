@@ -12,7 +12,7 @@ export default function Persimpangan() {
         <meta name="description" content="Manajemen Persimpangan T-Junction" />
       </Head>
 
-      <div className="flex flex-col gap-5 p-6">
+      <div className="flex flex-col gap-5 animate-fade-in">
 
         {/* HEADER DASHBOARD */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-border-color pb-4">
@@ -26,37 +26,23 @@ export default function Persimpangan() {
           </div>
         </div>
 
-        {/* BARIS ATAS: VISUALISASI */}
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-5 items-stretch">
+        {/* BARIS ATAS: VISUALISASI (Tanpa Pembungkus Box) */}
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch">
 
           {/* KOLOM KIRI (Data Sensor) - Span 7 */}
           <div className="xl:col-span-7 flex flex-col h-full">
-            <div className="bg-bg-card rounded-xl shadow-sm border border-border-color flex flex-col h-full overflow-hidden">
-              <div className="p-4 border-b border-border-color bg-bg-card-alt flex items-center justify-between">
-                <h3 className="text-[13px] font-bold text-text-main uppercase tracking-wider">Data Kepadatan Sensor</h3>
-              </div>
-              <div className="p-4 flex-1">
-                <SensorCard />
-              </div>
-            </div>
+            <SensorCard />
           </div>
 
           {/* KOLOM KANAN (Status Lampu) - Span 5 */}
           <div className="xl:col-span-5 flex flex-col h-full">
-            <div className="bg-bg-card rounded-xl shadow-sm border border-border-color flex flex-col h-full overflow-hidden">
-              <div className="p-4 border-b border-border-color bg-bg-card-alt flex items-center justify-between">
-                <h3 className="text-[13px] font-bold text-text-main uppercase tracking-wider">Visualisasi Simpang</h3>
-              </div>
-              <div className="p-4 flex-1">
-                <TrafficGrid />
-              </div>
-            </div>
+            <TrafficGrid />
           </div>
 
         </div>
 
-        {/* BARIS BAWAH: KONTROL */}
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-5 items-stretch">
+        {/* BARIS BAWAH: KENDALI (Parameter & Darurat) */}
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 mt-2">
 
           {/* KOLOM KIRI (Pengaturan Parameter) - Span 8 (Lebih Panjang) */}
           <div className="xl:col-span-8 flex flex-col h-full">
@@ -70,10 +56,17 @@ export default function Persimpangan() {
 
         </div>
 
-        {/* FOOTER */}
-        <div className="text-center pt-6 text-[11px] font-bold tracking-widest uppercase text-text-secondary/40">
-          SMARTRAF 2026 — PBL KELOMPOK 6
-        </div>
+        {/* ── FOOTER ── */}
+        <footer className="mt-auto pt-4 pb-2 border-t border-border-color/30">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-2 opacity-30">
+            <div className="text-[12px] font-black tracking-[0.2em] uppercase text-text-main">
+              Smartraf
+            </div>
+            <p className="text-[9px] text-text-secondary font-medium tracking-wider">
+              © 2026 PBL KELOMPOK 6. POLITEKNIK NEGERI MALANG.
+            </p>
+          </div>
+        </footer>
 
       </div>
     </>
