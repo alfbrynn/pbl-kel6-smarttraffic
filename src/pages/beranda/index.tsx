@@ -40,11 +40,11 @@ const HomePage: React.FC = () => {
                     <h2 className="text-[17px] font-bold text-text-main tracking-tight">
                         Monitoring Real-time
                     </h2>
-                    
+
                     {/* Indikator Status Live */}
                     <div className="flex items-center text-[10px] font-extrabold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-200 dark:border-emerald-500/20">
                         <span className="w-2 h-2 bg-emerald-500 rounded-full mr-2 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
-                        Telemetri Aktif
+                        Koneksi Aktif
                     </div>
                 </div>
 

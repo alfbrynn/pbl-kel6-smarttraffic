@@ -40,7 +40,7 @@ const StatsRow: React.FC = () => {
   // --- Kalkulasi & Insight ---
   const jalurEntries = Object.entries(dataMap);
   const totalVehicles = jalurEntries.reduce((sum, [_, d]) => sum + (d.jumlah_kendaraan ?? 0), 0);
-  
+
   // Hitung jalur yang padat
   const congestedLanesCount = jalurEntries.filter(([_, d]) =>
     d.status_kepadatan === 'Padat' || d.status_kepadatan === 'Cukup Padat'
@@ -93,7 +93,7 @@ const StatsRow: React.FC = () => {
     {
       label: "Konektivitas IoT",
       value: "Node Aktif",
-      desc: "Aliran telemetri real-time sedang aktif.",
+      desc: "Koneksi real-time sedang aktif.",
       icon: "🌐",
       iconBg: "bg-bg-card-alt",
       valColor: "text-text-main",
@@ -115,7 +115,7 @@ const StatsRow: React.FC = () => {
       {insights.map((item) => (
         <div key={item.label} className={item.anim}>
           <div className="bg-bg-card rounded-custom p-4 border border-border-color flex items-start gap-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 h-full cursor-default">
-            
+
             {/* Kontainer Ikon Kartu */}
             <div className={`shrink-0 w-10 h-10 rounded-lg flex items-center justify-center text-base ${item.iconBg}`}>
               {item.icon}
