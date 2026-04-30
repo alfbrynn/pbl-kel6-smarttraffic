@@ -1,6 +1,6 @@
 // components/pusat-data/CardRingkasan.tsx
 import React, { useEffect, useState } from 'react';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot, collection, query, where } from 'firebase/firestore';
 import { db } from '@/utils/firebase';
 
 interface CardRingkasanProps {
@@ -13,46 +13,57 @@ export default function CardRingkasan({ title }: CardRingkasanProps) {
   const [trendType, setTrendType] = useState<'positive' | 'neutral' | 'negative'>('neutral');
 
   useEffect(() => {
-    const docRef = doc(db, 'persimpangan', 'simpang-utama');
+    let unsubscribe: () => void;
 
-    const unsubscribe = onSnapshot(docRef, (docSnap) => {
-      if (docSnap.exists()) {
-        const data = docSnap.data();
+    if (title === "Total Kendaraan Hari Ini") {
+      // Menghitung start of today
+      const now = new Date();
+      const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+
+      const q = query(
+        collection(db, 'kepadatan_jalan'),
+        where('timestamp_ms', '>=', startOfDay)
+      );
+
+      unsubscribe = onSnapshot(q, (snapshot) => {
+        let total = 0;
+        snapshot.forEach((doc) => {
+          total += (doc.data().jumlah_kendaraan || 0);
+        });
         
-        if (title === "Total Kendaraan") {
-          const jalur = data.jalur || {};
-          const total = (jalur.barat?.jumlah_kendaraan || 0) + 
-                        (jalur.timur?.jumlah_kendaraan || 0) + 
-                        (jalur.selatan?.jumlah_kendaraan || 0);
-          
-          setValue(total.toLocaleString());
-          setTrendText(total > 15 ? "Kepadatan Tinggi" : "Kepadatan Normal");
-          setTrendType(total > 15 ? "negative" : "positive");
-        } 
-        
-        else if (title === "Efisiensi Rata-rata") {
-          // Logika sederhana untuk efisiensi berdasarkan antrean
+        setValue(total.toLocaleString());
+        setTrendText("Akumulasi hari ini");
+        setTrendType("positive");
+      }, (error) => {
+        console.error("Error calculating total today:", error);
+        setValue("Error");
+      });
+    } 
+    
+    else if (title === "Efisiensi Rata-rata") {
+      const docRef = doc(db, 'persimpangan', 'simpang-utama');
+      unsubscribe = onSnapshot(docRef, (docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
           const jalur = data.jalur || {};
           const avgAntrean = ((jalur.barat?.realtime_antrean || 0) + 
                               (jalur.timur?.realtime_antrean || 0) + 
                               (jalur.selatan?.realtime_antrean || 0)) / 3;
           
-          // Semakin kecil antrean, semakin tinggi efisiensi
           const efficiency = Math.max(0, Math.min(100, 100 - (avgAntrean / 2)));
           setValue(`${Math.round(efficiency)}%`);
           setTrendText(efficiency > 80 ? "Kondisi Optimal" : "Perlu Penyesuaian");
           setTrendType(efficiency > 80 ? "positive" : "neutral");
         }
-      }
-    }, (error) => {
-      console.error(`Error fetching ${title}:`, error);
-      setValue('Error');
-    });
+      }, (error) => {
+        console.error("Error fetching efficiency:", error);
+        setValue("Error");
+      });
+    }
 
-    return () => unsubscribe();
+    return () => unsubscribe && unsubscribe();
   }, [title]);
 
-  // Logika warna berdasarkan trendType
   const bgColor = trendType === 'positive' ? 'bg-green-500/10' : trendType === 'neutral' ? 'bg-blue-500/10' : 'bg-red-500/10';
   const textColor = trendType === 'positive' ? 'text-green-500' : trendType === 'neutral' ? 'text-blue-500' : 'text-red-500';
 

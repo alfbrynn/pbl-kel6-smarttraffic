@@ -33,7 +33,7 @@ export default function PusatDataPage() {
 
           {/* KOLOM KANAN - Ringkasan KPI (Span 4) */}
           <div className="xl:col-span-4 flex flex-col gap-6 h-full">
-            <CardRingkasan title="Total Kendaraan" />
+            <CardRingkasan title="Total Kendaraan Hari Ini" />
             <CardRingkasan title="Efisiensi Rata-rata" />
           </div>
 
