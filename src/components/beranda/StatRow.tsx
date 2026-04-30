@@ -91,9 +91,9 @@ const StatsRow: React.FC = () => {
       anim: "animate-fade-up-2"
     },
     {
-      label: "Konektivitas IoT",
-      value: "Node Aktif",
-      desc: "Koneksi real-time sedang aktif.",
+      label: "Koneksi Sistem",
+      value: "Sistem Aktif",
+      desc: "Sinkronisasi data sedang berjalan.",
       icon: "🌐",
       iconBg: "bg-bg-card-alt",
       valColor: "text-text-main",

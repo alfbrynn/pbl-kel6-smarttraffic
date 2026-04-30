@@ -41,13 +41,13 @@ const LiveSchema: React.FC = () => {
         const unsubscribe = onSnapshot(docRef, (docSnap) => {
             if (docSnap.exists()) {
                 setDataSimpang(docSnap.data() as DataSimpang);
-                setStatusKoneksi('Sync Aktif');
+                setStatusKoneksi('Sinkronisasi Aktif');
             } else {
                 setStatusKoneksi('Menunggu Data...');
             }
         }, (error) => {
             console.error("Firebase Error:", error);
-            setStatusKoneksi('Gagal Sync');
+            setStatusKoneksi('Gagal Sinkron');
         });
 
         return () => unsubscribe();
@@ -76,9 +76,9 @@ const LiveSchema: React.FC = () => {
             
             {/* Header Komponen */}
             <div className="px-6 py-4 flex justify-between items-center border-b border-white/10 relative z-30 bg-[#1e1f20]">
-                <h3 className="text-[15px] font-semibold text-white">Live Skema Persimpangan</h3>
+                <h3 className="text-[15px] font-semibold text-white">Skema Persimpangan Langsung</h3>
                 <div className="flex items-center gap-2">
-                    <span className={`w-2 h-2 rounded-full ${statusKoneksi === 'Sync Aktif' ? 'bg-emerald-500 animate-pulse' : 'bg-red-500'}`}></span>
+                    <span className={`w-2 h-2 rounded-full ${statusKoneksi === 'Sinkronisasi Aktif' ? 'bg-emerald-500 animate-pulse' : 'bg-red-500'}`}></span>
                     <span className="text-[11px] font-bold text-white/60 uppercase tracking-wider">{statusKoneksi}</span>
                 </div>
             </div>
