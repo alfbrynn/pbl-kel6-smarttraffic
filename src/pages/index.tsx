@@ -80,27 +80,28 @@ export default function Home() {
       <div className="min-h-screen bg-white font-sans text-gray-900 overflow-x-hidden">
 
         {/* ── NAVBAR ── */}
-        <nav className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-1.5 transition-all duration-500 ${scrolled ? "bg-[#0a1628]/95 backdrop-blur shadow-lg" : "bg-transparent"
+        <nav className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-1 transition-all duration-500 ${scrolled ? "bg-[#0a1628]/95 backdrop-blur-md shadow-lg border-b border-white/5" : "bg-transparent"
           }`}>
-          <div className="flex items-center select-none">
-            <h1 className="text-[22px] font-bold text-white leading-none m-0 tracking-wide uppercase">
-              Smartraf
+          <div className="flex items-center select-none group cursor-pointer">
+            <h1 className="text-[20px] font-black text-white leading-none m-0 tracking-tighter uppercase transition-transform group-hover:scale-105">
+              Smart<span className="text-accent-cyan">raf</span>
             </h1>
           </div>
-          <div className="hidden md:flex items-center gap-8 text-sm">
+          <div className="hidden md:flex items-center gap-8 text-[13px]">
             {NAV_ITEMS.map(({ label, href }) => (
               <a key={href} href={`#${href}`}
-                className={`transition-all duration-300 pb-0.5 ${activeSection === href
-                  ? "text-white font-semibold border-b border-white/60"
+                className={`relative transition-all duration-300 py-1 group ${activeSection === href
+                  ? "text-white font-bold"
                   : "text-white/50 hover:text-white"
                   }`}>
                 {label}
+                <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-accent-cyan transition-transform duration-300 origin-left ${activeSection === href ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
               </a>
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href="/login" className="text-sm bg-white/10 hover:bg-white/20 border border-white/20 text-white px-5 py-2 font-semibold transition-colors rounded-lg">
-              Buka Dasbor
+            <a href="/login" className="text-[11px] bg-white/10 hover:bg-accent-cyan border border-white/20 hover:border-accent-cyan text-white px-5 py-1.5 font-black transition-all rounded-md tracking-widest uppercase hover:shadow-[0_0_20px_rgba(6,182,212,0.5)] hover:-translate-y-0.5 active:scale-95">
+              Masuk
             </a>
           </div>
         </nav>

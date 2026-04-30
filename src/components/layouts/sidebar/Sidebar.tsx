@@ -108,14 +108,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggleSidebar }) => {
               href={item.path} 
               key={item.name}
               title={isCollapsed ? item.name : ''}
-              className={`flex items-center py-[14px] text-[14px] font-semibold cursor-pointer relative transition-colors duration-150 ease-out
-                ${isCollapsed ? 'justify-center px-0' : 'px-6'}
+              className={`flex items-center py-[14px] px-6 text-[14px] font-semibold cursor-pointer relative transition-colors duration-150 ease-out
                 ${isActive
                   ? 'bg-bg-hover text-text-main dark:text-accent-cyan after:content-[""] after:absolute after:right-0 after:top-0 after:bottom-0 after:w-1 after:bg-text-main dark:after:bg-accent-cyan after:rounded-l-full'
                   : 'text-text-secondary hover:bg-bg-hover hover:text-text-main'}`}
             >
               {/* Ikon Menu */}
-              <span className={`flex items-center justify-center ${isCollapsed ? '' : 'mr-3'}`}>
+              <span className={`flex items-center justify-center ${isCollapsed ? 'w-6' : 'mr-3'}`}>
                 {item.icon}
               </span>
 
