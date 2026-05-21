@@ -1,41 +1,76 @@
 import Head from 'next/head';
+import { useEffect, useState } from 'react';
 import SensorCard from '@/components/beranda/SensorCard';
 import TrafficGrid from '@/components/beranda/TrafficGrid';
 import ParameterCard from '@/components/persimpangan/ParameterCard';
 import EmergencyCard from '@/components/persimpangan/EmergencyCard';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { db } from '@/utils/firebase';
 
 export default function Persimpangan() {
+  const [isMounted, setIsMounted] = useState(false);
+  const [isEmergency, setIsEmergency] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+
+    const docRef = doc(db, 'persimpangan', 'simpang-utama');
+    const unsubscribe = onSnapshot(docRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        const emergencyStatus = data.status_darurat && data.status_darurat !== 'OFF';
+        setIsEmergency(!!emergencyStatus);
+      }
+    }, (error) => {
+      console.error("Firebase Persimpangan Error:", error);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  if (!isMounted) return null;
+
   return (
     <>
       <Head>
-        <title>Pusat Kendali | SMARTRAF</title>
+        <title>Pusat Kendali | Smartraf</title>
         <meta name="description" content="Manajemen Persimpangan T-Junction" />
       </Head>
 
-      <div className="flex flex-col gap-5 animate-fade-in">
+      <div className="flex flex-col gap-6 animate-fade-in">
 
-        {/* HEADER DASHBOARD */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-border-color pb-4">
+        {/* Page Greeting & Title (Invisible Header Replacement) */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
-            <h1 className="text-2xl font-black text-text-main uppercase tracking-wide">Pusat Kendali</h1>
-            <p className="text-sm text-text-secondary mt-1">Sistem Pemantauan & Kendali Simpang T Aktif</p>
-          </div>
-          <div className="flex items-center gap-2 bg-bg-card border border-border-color px-3 py-1.5 rounded-lg shadow-sm">
-            <span className="w-2 h-2 rounded-full bg-accent-green animate-pulse shadow-[0_0_5px_#10b981]"></span>
-            <span className="text-[11px] font-bold text-text-main uppercase tracking-widest">Sistem Berjalan</span>
+            <h1 className="text-3xl font-black text-text-main dark:text-white tracking-tight">Pusat Kendali Simpang</h1>
+            <p className="text-sm text-text-secondary mt-1 font-semibold flex items-center gap-1.5">
+              <span>simpang-utama</span>
+              <span className="text-slate-300 dark:text-slate-700 font-normal">•</span>
+              {isEmergency ? (
+                <span className="inline-flex items-center gap-1 text-red-600 dark:text-red-400 font-bold">
+                  <span className="inline-flex items-center justify-center w-2 h-2 rounded-full bg-red-500 animate-pulse mr-0.5"></span>
+                  ⚠ Mode Darurat Aktif
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-semibold">
+                  <span className="inline-flex items-center justify-center w-2 h-2 rounded-full bg-emerald-500 animate-pulse mr-0.5"></span>
+                  Mode: Normal
+                </span>
+              )}
+            </p>
           </div>
         </div>
 
-        {/* BARIS ATAS: VISUALISASI (Tanpa Pembungkus Box) */}
+        {/* BARIS ATAS: VISUALISASI (Bento Grid) */}
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch">
 
-          {/* KOLOM KIRI (Data Sensor) - Span 7 */}
-          <div className="xl:col-span-7 flex flex-col h-full">
+          {/* KOLOM KIRI (Data Sensor) - Hero Bento Box (8 Span) */}
+          <div className="xl:col-span-8 flex flex-col h-full">
             <SensorCard />
           </div>
 
-          {/* KOLOM KANAN (Status Lampu) - Span 5 */}
-          <div className="xl:col-span-5 flex flex-col h-full">
+          {/* KOLOM KANAN (Status Lampu) - Sidekick Bento Box (4 Span) */}
+          <div className="xl:col-span-4 flex flex-col h-full">
             <TrafficGrid />
           </div>
 
@@ -56,17 +91,7 @@ export default function Persimpangan() {
 
         </div>
 
-        {/* ── FOOTER ── */}
-        <footer className="mt-auto pt-4 pb-2 border-t border-border-color/30">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-2 opacity-30">
-            <div className="text-[12px] font-black tracking-[0.2em] uppercase text-text-main">
-              Smartraf
-            </div>
-            <p className="text-[9px] text-text-secondary font-medium tracking-wider">
-              © 2026 PBL KELOMPOK 6. POLITEKNIK NEGERI MALANG.
-            </p>
-          </div>
-        </footer>
+
 
       </div>
     </>

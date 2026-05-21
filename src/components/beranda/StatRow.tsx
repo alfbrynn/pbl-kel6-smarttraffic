@@ -70,43 +70,123 @@ const StatsRow: React.FC = () => {
     ? [...jalurEntries].sort((a, b) => (a[1].jarak_cm ?? 150) - (b[1].jarak_cm ?? 150))[0]
     : null;
 
+  // Helper untuk merender ikon SVG modern
+  const getIcon = (label: string, value: string) => {
+    switch (label) {
+      case "Status Persimpangan":
+        if (value === "Lancar") {
+          return (
+            <div className="shrink-0 w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-500">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+            </div>
+          );
+        } else if (value === "Ramai") {
+          return (
+            <div className="shrink-0 w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-amber-500">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+            </div>
+          );
+        } else {
+          return (
+            <div className="shrink-0 w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-red-500">
+                <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+            </div>
+          );
+        }
+      case "Titik Perhatian":
+        return (
+          <div className="shrink-0 w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-accent-cyan">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </div>
+        );
+      case "Koneksi Sistem":
+        return (
+          <div className="shrink-0 w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-accent-cyan">
+              <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+              <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+              <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+              <circle cx="12" cy="20" r="1"></circle>
+            </svg>
+          </div>
+        );
+      case "Volume Kendaraan":
+        return (
+          <div className="shrink-0 w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-accent-cyan">
+              <rect x="1" y="3" width="15" height="13" rx="2" ry="2"></rect>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+              <circle cx="5.5" cy="18.5" r="2.5"></circle>
+              <circle cx="18.5" cy="18.5" r="2.5"></circle>
+            </svg>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   // Bangun konfigurasi insight
   const insights = [
     {
       label: "Status Persimpangan",
       value: statusTitle,
       desc: statusDesc,
-      icon: statusIcon,
-      iconBg: statusBg,
-      valColor: statusColor,
-      anim: "animate-fade-up-1"
+      iconLabel: "Status Persimpangan",
+      anim: "animate-fade-up-1",
+      cardBg: statusTitle === "Lancar" ? "bg-emerald-50/70 dark:bg-emerald-950/10" :
+              statusTitle === "Ramai" ? "bg-amber-50/70 dark:bg-amber-950/10" :
+              "bg-red-50/70 dark:bg-red-950/10",
+      cardBorder: statusTitle === "Lancar" ? "border-emerald-200/80 dark:border-emerald-800/30" :
+                  statusTitle === "Ramai" ? "border-amber-200/80 dark:border-amber-800/30" :
+                  "border-red-200/80 dark:border-red-800/30",
+      valueColor: statusTitle === "Lancar" ? "text-emerald-700 dark:text-emerald-400" :
+                  statusTitle === "Ramai" ? "text-amber-700 dark:text-amber-400" :
+                  "text-red-700 dark:text-red-400",
     },
     {
       label: "Titik Perhatian",
       value: busiestPoint ? `Jalur ${busiestPoint[0].charAt(0).toUpperCase() + busiestPoint[0].slice(1)}` : "Stabil",
       desc: busiestPoint ? `Panjang antrean: ${busiestPoint[1].jarak_cm} cm` : "Tidak ada antrean signifikan terdeteksi.",
-      icon: "📍",
-      iconBg: "bg-bg-card-alt",
-      valColor: "text-text-main",
-      anim: "animate-fade-up-2"
+      iconLabel: "Titik Perhatian",
+      anim: "animate-fade-up-2",
+      cardBg: "bg-bg-card",
+      cardBorder: "border-border-color/10",
+      valueColor: "text-text-main dark:text-white",
     },
     {
       label: "Koneksi Sistem",
       value: "Sistem Aktif",
       desc: "Sinkronisasi data sedang berjalan.",
-      icon: "🌐",
-      iconBg: "bg-bg-card-alt",
-      valColor: "text-text-main",
-      anim: "animate-fade-up-3"
+      iconLabel: "Koneksi Sistem",
+      anim: "animate-fade-up-3",
+      cardBg: "bg-bg-card",
+      cardBorder: "border-border-color/10",
+      valueColor: "text-text-main dark:text-white",
     },
     {
       label: "Volume Kendaraan",
       value: `${totalVehicles} Unit`,
       desc: "Total kendaraan yang terdeteksi saat ini.",
-      icon: "🚗",
-      iconBg: "bg-bg-card-alt",
-      valColor: "text-text-main",
-      anim: "animate-fade-up-4"
+      iconLabel: "Volume Kendaraan",
+      anim: "animate-fade-up-4",
+      cardBg: "bg-bg-card",
+      cardBorder: "border-border-color/10",
+      valueColor: "text-text-main dark:text-white",
     },
   ];
 
@@ -114,22 +194,20 @@ const StatsRow: React.FC = () => {
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
       {insights.map((item) => (
         <div key={item.label} className={item.anim}>
-          <div className="bg-bg-card rounded-custom p-4 border border-border-color flex items-start gap-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 h-full cursor-default">
+          <div className={`${item.cardBg} rounded-[24px] p-6 border ${item.cardBorder} flex items-start gap-4 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out h-full cursor-default`}>
 
-            {/* Kontainer Ikon Kartu */}
-            <div className={`shrink-0 w-10 h-10 rounded-lg flex items-center justify-center text-base ${item.iconBg}`}>
-              {item.icon}
-            </div>
+            {/* Kontainer Ikon Kartu SVG */}
+            {getIcon(item.iconLabel, item.value)}
 
             {/* Konten Kartu */}
             <div className="flex-1 min-w-0">
-              <p className="text-[10px] font-bold text-text-secondary uppercase tracking-wider mb-1">
+              <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 block">
                 {item.label}
-              </p>
-              <h3 className={`text-[16px] font-bold leading-tight ${item.valColor} truncate`}>
+              </span>
+              <h3 className={`text-2xl font-black leading-tight ${item.valueColor} truncate`}>
                 {item.value}
               </h3>
-              <p className="text-[11px] text-text-secondary mt-1.5 leading-relaxed">
+              <p className="text-[11px] text-text-secondary mt-2 leading-relaxed">
                 {item.desc}
               </p>
             </div>

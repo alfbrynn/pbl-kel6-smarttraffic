@@ -61,61 +61,58 @@ const LiveSchema: React.FC = () => {
     const getLampuClass = (status: string | undefined): string => {
         switch (status) {
             case 'HIJAU':
-                return 'bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.8)]';
+                return 'bg-emerald-500';
             case 'KUNING':
-                return 'bg-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.8)]';
+                return 'bg-amber-500';
             case 'MERAH':
-                return 'bg-red-500 shadow-[0_0_15px_rgba(239,68,68,0.8)]';
+                return 'bg-red-500';
             default:
-                return 'bg-slate-400';
+                return 'bg-slate-500';
         }
     };
 
     return (
-        <div className="bg-bg-card rounded-xl shadow-sm flex flex-col h-full overflow-hidden border border-border-color transition-all duration-200 hover:-translate-y-0.5">
-            
+        <div className="bg-bg-card rounded-[24px] shadow-lg hover:shadow-xl flex flex-col h-full overflow-hidden border border-border-color/10 transition-all duration-300 hover:-translate-y-1 p-6 gap-4">
+
             {/* Header Komponen */}
-            <div className="px-6 py-4 flex justify-between items-center border-b border-white/10 relative z-30 bg-[#1e1f20]">
-                <h3 className="text-[15px] font-semibold text-white">Skema Persimpangan Langsung</h3>
+            <div className="flex justify-between items-center relative z-30 bg-transparent">
+                <h3 className="text-[16px] font-black text-text-main">Skema Persimpangan</h3>
                 <div className="flex items-center gap-2">
                     <span className={`w-2 h-2 rounded-full ${statusKoneksi === 'Sinkronisasi Aktif' ? 'bg-emerald-500 animate-pulse' : 'bg-red-500'}`}></span>
-                    <span className="text-[11px] font-bold text-white/60 uppercase tracking-wider">{statusKoneksi}</span>
+                    <span className="text-xs font-semibold text-text-secondary">{statusKoneksi}</span>
                 </div>
             </div>
 
             {/* Area Skema Interaktif */}
-            <div className="flex-1 relative min-h-[380px] overflow-hidden bg-[#131314]">
+            <div className="flex-1 relative min-h-[380px] rounded-[18px] overflow-hidden bg-slate-100 dark:bg-slate-900 border border-border-color/5">
 
                 {/* Jalan Horizontal Utama (Barat - Timur) */}
-                <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-28 bg-[#1a1a1b] shadow-lg">
-                    <div className="absolute h-1 w-full top-1/2 -translate-y-1/2 border-t-4 border-dashed border-white/10 opacity-70"></div>
+                <div className="absolute left-6 right-6 top-1/2 -translate-y-1/2 h-24 bg-slate-800 dark:bg-slate-800 rounded-2xl shadow-inner">
                 </div>
 
                 {/* Jalan Vertikal (Persimpangan T Selatan) */}
-                <div className="absolute top-1/2 bottom-0 left-1/2 -translate-x-1/2 w-28 bg-[#1a1a1b] shadow-lg">
-                    <div className="absolute w-1 h-full left-1/2 -translate-x-1/2 border-l-4 border-dashed border-white/10 opacity-70"></div>
+                <div className="absolute top-1/2 bottom-6 left-1/2 -translate-x-1/2 w-24 bg-slate-800 dark:bg-slate-800 rounded-2xl shadow-inner">
                 </div>
 
                 {/* Kotak Tengah Persimpangan */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 bg-[#232324] z-10 flex items-center justify-center">
-                    <div className="w-20 h-20 border-b-0 border-2 border-yellow-500/30"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-slate-800 z-10 rounded-xl flex items-center justify-center">
                 </div>
 
                 {/* INDIKATOR SENSOR SELATAN */}
-                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center">
+                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center">
                     <div className={`w-5 h-5 rounded-full border-2 border-white/20 relative flex justify-center items-center ${getLampuClass(dataSimpang?.jalur?.selatan?.status_lampu)}`}>
                         {dataSimpang?.jalur?.selatan?.status_kepadatan === 'Padat' && (
                             <div className="absolute w-10 h-10 rounded-full border-2 border-red-500 opacity-40 animate-ping"></div>
                         )}
                     </div>
-                    <span className="text-[11px] font-extrabold text-[#e3e3e3] mt-2 bg-[#1e1f20]/90 px-2 py-0.5 rounded shadow-sm border border-white/10">
+                    <span className="text-[10px] font-extrabold text-[#e3e3e3] mt-2 bg-slate-900/90 px-2 py-1 rounded-md shadow-md border border-white/10 tracking-wider">
                         SELATAN {dataSimpang?.jalur?.selatan?.realtime_antrean ? `(${dataSimpang.jalur.selatan.realtime_antrean}cm)` : ''}
                     </span>
                 </div>
 
                 {/* INDIKATOR SENSOR TIMUR */}
-                <div className="absolute right-6 top-1/2 -translate-y-1/2 z-20 flex items-center">
-                    <span className="text-[11px] font-extrabold text-[#e3e3e3] mr-3 bg-[#1e1f20]/90 px-2 py-0.5 rounded shadow-sm border border-white/10">
+                <div className="absolute right-10 top-1/2 -translate-y-1/2 z-20 flex items-center">
+                    <span className="text-[10px] font-extrabold text-[#e3e3e3] mr-3 bg-slate-900/90 px-2 py-1 rounded-md shadow-md border border-white/10 tracking-wider">
                         TIMUR {dataSimpang?.jalur?.timur?.realtime_antrean ? `(${dataSimpang.jalur.timur.realtime_antrean}cm)` : ''}
                     </span>
                     <div className={`w-5 h-5 rounded-full border-2 border-white/20 relative flex justify-center items-center ${getLampuClass(dataSimpang?.jalur?.timur?.status_lampu)}`}>
@@ -126,13 +123,13 @@ const LiveSchema: React.FC = () => {
                 </div>
 
                 {/* INDIKATOR SENSOR BARAT */}
-                <div className="absolute left-6 top-1/2 -translate-y-1/2 z-20 flex items-center">
+                <div className="absolute left-10 top-1/2 -translate-y-1/2 z-20 flex items-center">
                     <div className={`w-5 h-5 rounded-full border-2 border-white/20 relative flex justify-center items-center ${getLampuClass(dataSimpang?.jalur?.barat?.status_lampu)}`}>
                         {dataSimpang?.jalur?.barat?.status_kepadatan === 'Padat' && (
                             <div className="absolute w-10 h-10 rounded-full border-2 border-red-500 opacity-40 animate-ping"></div>
                         )}
                     </div>
-                    <span className="text-[11px] font-extrabold text-[#e3e3e3] ml-3 bg-[#1e1f20]/90 px-2 py-0.5 rounded shadow-sm border border-white/10">
+                    <span className="text-[10px] font-extrabold text-[#e3e3e3] ml-3 bg-slate-900/90 px-2 py-1 rounded-md shadow-md border border-white/10 tracking-wider">
                         BARAT {dataSimpang?.jalur?.barat?.realtime_antrean ? `(${dataSimpang.jalur.barat.realtime_antrean}cm)` : ''}
                     </span>
                 </div>

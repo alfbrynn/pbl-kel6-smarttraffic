@@ -20,19 +20,19 @@ export default function CardRingkasan({ title }: CardRingkasanProps) {
       if (docSnap.exists()) {
         const data = docSnap.data();
         const jalur = data.jalur || {};
-        
+
         // --- 1. Rata-rata Kendaraan / Jalur ---
         if (title === "Rata-rata Beban") {
-          const total = (jalur.barat?.jumlah_kendaraan || 0) + 
-                        (jalur.timur?.jumlah_kendaraan || 0) + 
-                        (jalur.selatan?.jumlah_kendaraan || 0);
+          const total = (jalur.barat?.jumlah_kendaraan || 0) +
+            (jalur.timur?.jumlah_kendaraan || 0) +
+            (jalur.selatan?.jumlah_kendaraan || 0);
           const avg = (total / 3).toFixed(1);
-          
+
           setValue(avg);
           setTrendText("Kendaraan per jalur");
           setTrendType("neutral");
-        } 
-        
+        }
+
         // --- 2. Titik Paling Padat ---
         else if (title === "Titik Terpadat") {
           const l = [
@@ -41,7 +41,7 @@ export default function CardRingkasan({ title }: CardRingkasanProps) {
             { n: 'Selatan', v: jalur.selatan?.jumlah_kendaraan || 0 }
           ];
           const busiest = l.sort((a, b) => b.v - a.v)[0];
-          
+
           setValue(busiest.n);
           setTrendText(`${busiest.v} Kendaraan`);
           setTrendType(busiest.v > 10 ? "negative" : "neutral");
@@ -54,18 +54,18 @@ export default function CardRingkasan({ title }: CardRingkasanProps) {
             jalur.timur?.realtime_antrean || 0,
             jalur.selatan?.realtime_antrean || 0
           );
-          
+
           setValue(`${maxAntrean}cm`);
           setTrendText(maxAntrean > 100 ? "Perlu Prioritas" : "Masih Aman");
           setTrendType(maxAntrean > 100 ? "negative" : "positive");
         }
-        
+
         // --- 4. Efisiensi Rata-rata ---
         else if (title === "Efisiensi Sistem") {
-          const avgAntrean = ((jalur.barat?.realtime_antrean || 0) + 
-                              (jalur.timur?.realtime_antrean || 0) + 
-                              (jalur.selatan?.realtime_antrean || 0)) / 3;
-          
+          const avgAntrean = ((jalur.barat?.realtime_antrean || 0) +
+            (jalur.timur?.realtime_antrean || 0) +
+            (jalur.selatan?.realtime_antrean || 0)) / 3;
+
           const efficiency = Math.max(0, Math.min(100, 100 - (avgAntrean / 2)));
           setValue(`${Math.round(efficiency)}%`);
           setTrendText(efficiency > 80 ? "Kondisi Optimal" : "Terjadi Bottleneck");
@@ -80,14 +80,14 @@ export default function CardRingkasan({ title }: CardRingkasanProps) {
     return () => unsubscribe();
   }, [title]);
 
-  const bgColor = trendType === 'positive' ? 'bg-green-500/10' : trendType === 'neutral' ? 'bg-blue-500/10' : 'bg-red-500/10';
-  const textColor = trendType === 'positive' ? 'text-green-500' : trendType === 'neutral' ? 'text-blue-500' : 'text-red-500';
+  const bgColor = trendType === 'positive' ? 'bg-emerald-500/15' : trendType === 'neutral' ? 'bg-blue-500/15' : 'bg-red-500/15';
+  const textColor = trendType === 'positive' ? 'text-emerald-500' : trendType === 'neutral' ? 'text-accent-cyan' : 'text-red-500';
 
   return (
-    <div className="bg-bg-card p-5 rounded-xl shadow-sm border border-border-color flex-1 flex flex-col justify-center animate-fade-in hover:border-accent-cyan/30 transition-all duration-300">
-      <h3 className="text-[10px] font-bold text-text-secondary uppercase tracking-wider mb-1">{title}</h3>
-      <p className="text-3xl font-bold text-text-main truncate">{value}</p>
-      <span className={`text-[10px] font-medium mt-2 w-fit px-2 py-0.5 rounded ${bgColor} ${textColor} transition-colors duration-300`}>
+    <div className="bg-bg-card p-6 rounded-[24px] shadow-lg hover:shadow-xl border border-border-color/10 flex-1 flex flex-col justify-center animate-fade-in hover:-translate-y-1 transition-all duration-300">
+      <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 block">{title}</span>
+      <p className="text-3xl font-black text-text-main dark:text-white truncate">{value}</p>
+      <span className={`text-xs font-semibold mt-3.5 w-fit px-2.5 py-0.5 rounded-full ${bgColor} ${textColor} transition-colors duration-300`}>
         {trendText}
       </span>
     </div>

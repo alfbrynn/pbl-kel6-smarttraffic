@@ -38,7 +38,7 @@ const Header: React.FC<HeaderProps> = ({ isCollapsed }) => {
   }, []);
 
   // --- Handlers (Pengelola) ---
-  
+
   /**
    * Proses logout melalui Firebase Auth
    */
@@ -64,23 +64,16 @@ const Header: React.FC<HeaderProps> = ({ isCollapsed }) => {
   };
 
   return (
-    <header 
-      className={`flex items-center justify-between fixed right-0 top-0 h-[72px] px-8 bg-bg-card border-b border-border-color z-[90] transition-all duration-300 ease-in-out 
+    <header
+      className={`flex items-center justify-end fixed right-5 top-5 h-[72px] z-[90] transition-all duration-300 ease-in-out pointer-events-none
       ${isCollapsed ? 'left-[80px]' : 'left-[250px]'}`}
     >
-      {/* Bagian Brand / Logo */}
-      <div className="flex items-center select-none">
-        <h1 className="text-[20px] font-bold text-text-main leading-none m-0 tracking-wide uppercase">
-          Smartraf
-        </h1>
-      </div>
+      {/* Area Aksi Global - Wrapped in a floating glassy card */}
+      <div className="flex items-center gap-4 pointer-events-auto bg-bg-card/85 dark:bg-bg-card/75 backdrop-blur-md border border-border-color/10 px-4 py-2.5 rounded-[20px] shadow-lg shadow-slate-950/5">
 
-      {/* Area Aksi Global */}
-      <div className="flex items-center gap-5">
-        
         {/* Tombol Toggle Tema */}
-        <button 
-          className="btn-icon" 
+        <button
+          className="btn-icon"
           aria-label={`Beralih ke mode ${theme === 'light' ? 'gelap' : 'terang'}`}
           onClick={toggleTheme}
         >
@@ -105,8 +98,8 @@ const Header: React.FC<HeaderProps> = ({ isCollapsed }) => {
 
         {/* User Profile Summary */}
         <div className="relative" ref={profileRef}>
-          <div 
-            className="flex items-center gap-2.5 cursor-pointer ml-3 p-1.5 rounded-lg hover:bg-bg-hover transition-colors"
+          <div
+            className="flex items-center gap-2.5 cursor-pointer p-1.5 rounded-lg hover:bg-bg-hover transition-colors"
             onClick={() => setIsProfileOpen(!isProfileOpen)}
           >
             <div className="w-9 h-9 rounded-full bg-[#1a2533] flex items-center justify-center overflow-hidden border border-border-color shadow-sm">
@@ -119,11 +112,11 @@ const Header: React.FC<HeaderProps> = ({ isCollapsed }) => {
                 <path d="M11 9c2-2 4-2 7-2s5 0 7 2c0-1.5-3-3-7-3s-7 1.5-7 3z" fill="#0f172a" />
               </svg>
             </div>
-            <span className="text-[13px] font-bold text-text-main uppercase tracking-wide hidden sm:block">Operator 01</span>
-            <svg 
-              className={`w-4 h-4 text-text-secondary transition-transform duration-300 ${isProfileOpen ? 'rotate-180' : ''}`} 
-              fill="none" 
-              viewBox="0 0 24 24" 
+            <span className="text-[13px] font-bold text-text-main tracking-wide hidden sm:block">Operator 01</span>
+            <svg
+              className={`w-4 h-4 text-text-secondary transition-transform duration-300 ${isProfileOpen ? 'rotate-180' : ''}`}
+              fill="none"
+              viewBox="0 0 24 24"
               stroke="currentColor"
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
@@ -131,17 +124,16 @@ const Header: React.FC<HeaderProps> = ({ isCollapsed }) => {
           </div>
 
           {/* Logout Dropdown Pop-up */}
-          <div 
-            className={`absolute right-0 mt-3 w-56 bg-bg-card border border-border-color rounded-xl shadow-xl py-2 z-50 transition-all duration-200 origin-top-right ${
-              isProfileOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
-            }`}
+          <div
+            className={`absolute right-0 mt-3 w-56 bg-bg-card border border-border-color rounded-xl shadow-xl py-2 z-50 transition-all duration-200 origin-top-right ${isProfileOpen ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 -translate-y-2 pointer-events-none'
+              }`}
           >
             <div className="px-5 py-3 border-b border-border-color mb-2">
-              <p className="text-[10px] font-bold text-text-secondary uppercase tracking-[0.2em] mb-1">Masuk sebagai</p>
-              <p className="text-sm font-black text-text-main truncate uppercase tracking-widest">Operator 01</p>
+              <p className="text-xs font-semibold text-text-secondary mb-1">Masuk sebagai</p>
+              <p className="text-sm font-black text-text-main truncate tracking-wide">Operator 01</p>
             </div>
-            
-            <button 
+
+            <button
               onClick={handleLogout}
               className="w-full text-left px-5 py-2 text-[11px] text-accent-red hover:bg-accent-red/10 transition-colors flex items-center gap-3 group"
             >
@@ -150,7 +142,7 @@ const Header: React.FC<HeaderProps> = ({ isCollapsed }) => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </svg>
               </div>
-              <span className="font-black tracking-[0.2em] uppercase mt-0.5">Keluar</span>
+              <span className="font-bold tracking-wide mt-0.5">Keluar</span>
             </button>
           </div>
         </div>
