@@ -80,12 +80,12 @@ export default function ParameterCard() {
   };
 
   return (
-    <div className="bg-bg-card border border-border-color rounded-xl p-5 shadow-sm flex flex-col h-full relative">
-      
+    <div className="bg-bg-card border border-border-color/10 rounded-[24px] p-6 shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col h-full relative">
+
       {/* MODAL KONFIRMASI KUSTOM */}
       {showModal.active && (
-        <div className="absolute inset-0 z-[200] flex items-center justify-center p-4 bg-bg-main/80 backdrop-blur-sm rounded-xl animate-fade-in">
-          <div className="bg-bg-card border border-border-color p-6 rounded-xl shadow-2xl max-w-sm w-full animate-scale-up">
+        <div className="absolute inset-0 z-[200] flex items-center justify-center p-4 bg-bg-main/80 backdrop-blur-sm rounded-[24px] animate-fade-in">
+          <div className="bg-bg-card border border-border-color/20 p-6 rounded-2xl shadow-2xl max-w-sm w-full animate-scale-up">
             <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-4 ${showModal.type === 'save' ? 'bg-amber-500/10 text-amber-500' : 'bg-accent-red/10 text-accent-red'}`}>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
             </div>
@@ -93,20 +93,20 @@ export default function ParameterCard() {
               {showModal.type === 'save' ? 'Konfirmasi Perubahan?' : 'Konfirmasi Reset?'}
             </h3>
             <p className="text-sm text-text-secondary leading-relaxed mb-6">
-              {showModal.type === 'save' 
-                ? 'Perubahan ini akan langsung berdampak pada siklus lampu lalu lintas di lapangan secara real-time.' 
+              {showModal.type === 'save'
+                ? 'Perubahan ini akan langsung berdampak pada siklus lampu lalu lintas di lapangan secara real-time.'
                 : 'Semua nilai akan dikembalikan ke standar pabrik. Tindakan ini tidak dapat dibatalkan.'}
             </p>
             <div className="flex gap-3">
-              <button 
+              <button
                 onClick={() => setShowModal({ ...showModal, active: false })}
-                className="flex-1 px-4 py-2.5 rounded-lg border border-border-color text-text-secondary text-xs font-bold hover:bg-bg-main transition-colors"
+                className="flex-1 px-4 py-2.5 rounded-xl border border-border-color text-text-secondary text-xs font-bold hover:bg-bg-main transition-colors"
               >
                 BATAL
               </button>
-              <button 
+              <button
                 onClick={showModal.type === 'save' ? executeSave : executeReset}
-                className={`flex-1 px-4 py-2.5 rounded-lg text-white text-xs font-bold transition-transform active:scale-95 ${showModal.type === 'save' ? 'bg-amber-500 hover:bg-amber-600' : 'bg-accent-red hover:bg-accent-red-hover'}`}
+                className={`flex-1 px-4 py-2.5 rounded-xl text-white text-xs font-bold transition-transform active:scale-95 ${showModal.type === 'save' ? 'bg-amber-500 hover:bg-amber-600' : 'bg-accent-red hover:bg-accent-red-hover'}`}
               >
                 YA, TERAPKAN
               </button>
@@ -115,13 +115,15 @@ export default function ParameterCard() {
         </div>
       )}
 
-      <div className="flex items-center gap-3 mb-5 border-b border-border-color pb-3">
-        <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1-2 2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-        </div>
-        <div>
-          <h3 className="text-[15px] font-bold text-text-main leading-tight">Pengaturan Parameter</h3>
-          <p className="text-[11px] text-text-secondary">Konfigurasi algoritma adaptif</p>
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-accent-cyan shadow-sm">
+            <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1-2 2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-text-main dark:text-white leading-tight">Pengaturan Parameter</h2>
+            <p className="text-[11px] text-text-secondary">Konfigurasi algoritma adaptif</p>
+          </div>
         </div>
       </div>
 
@@ -141,12 +143,12 @@ export default function ParameterCard() {
           { label: 'Jeda All-Red', name: 'allRed', unit: 'DETIK' },
         ].map((item) => (
           <div key={item.name} className="flex flex-col gap-1.5 relative group">
-            <div className="absolute bottom-full left-0 mb-2 hidden group-hover:block z-[110] w-64 p-3 bg-slate-800 dark:bg-slate-700 text-white text-[10px] leading-relaxed rounded-lg shadow-xl border border-white/10 animate-fade-in pointer-events-none">
+            <div className="absolute bottom-full left-0 mb-2 hidden group-hover:block z-[110] w-64 p-3 bg-slate-800 dark:bg-slate-700 text-white text-[10px] leading-relaxed rounded-xl shadow-xl border border-white/5 animate-fade-in pointer-events-none">
               {PARAM_DESCRIPTIONS[item.name]}
               <div className="absolute -bottom-1 left-4 w-2 h-2 bg-slate-800 dark:bg-slate-700 rotate-45 border-r border-b border-white/10" />
             </div>
 
-            <label className="text-[10px] font-bold text-text-secondary uppercase tracking-wide flex items-center gap-1 cursor-help">
+            <label className="text-xs font-semibold text-text-secondary flex items-center gap-1 cursor-help">
               {item.label}
               <svg className="w-3 h-3 text-slate-400 hover:text-accent-cyan transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -158,7 +160,7 @@ export default function ParameterCard() {
                 name={item.name}
                 value={params[item.name as keyof typeof params]}
                 onChange={handleChange}
-                className="w-full h-9 bg-bg-main border border-border-color rounded-md px-3 text-[13px] text-text-main font-mono outline-none focus:border-accent-cyan transition-colors"
+                className="w-full h-9 bg-bg-main border border-border-color rounded-lg px-3 text-[13px] text-text-main font-mono outline-none focus:border-accent-cyan transition-colors"
               />
               <span className="absolute right-3 text-[9px] font-bold text-text-secondary">{item.unit}</span>
             </div>
@@ -170,17 +172,17 @@ export default function ParameterCard() {
         <button
           onClick={() => setShowModal({ active: true, type: 'reset' })}
           disabled={loading}
-          className="w-24 bg-transparent border border-border-color text-text-secondary hover:border-accent-red hover:text-accent-red text-[11px] font-bold py-3 rounded-lg transition-all tracking-widest disabled:opacity-50"
+          className="w-24 bg-transparent border border-border-color text-text-secondary hover:border-accent-red hover:text-accent-red text-[11px] font-bold py-3 rounded-xl transition-all tracking-widest disabled:opacity-50"
         >
           RESET
         </button>
         <button
           onClick={() => setShowModal({ active: true, type: 'save' })}
           disabled={loading || !isDirty}
-          className={`flex-1 text-[12px] font-bold py-3 rounded-lg transition-all tracking-widest flex justify-center items-center gap-2 
-            ${loading || !isDirty 
-              ? 'bg-bg-main border border-border-color text-text-secondary opacity-50 cursor-not-allowed' 
-              : 'bg-accent-cyan hover:bg-accent-cyan-hover text-white'}`}
+          className={`flex-1 text-[12px] font-bold py-3 rounded-xl transition-all tracking-widest flex justify-center items-center gap-2 
+            ${loading || !isDirty
+              ? 'bg-bg-main border border-border-color text-text-secondary opacity-50 cursor-not-allowed'
+              : 'bg-accent-cyan hover:bg-accent-cyan-hover text-white shadow-md hover:shadow-lg'}`}
         >
           {loading ? 'MENYIMPAN...' : 'SIMPAN PERUBAHAN'}
         </button>

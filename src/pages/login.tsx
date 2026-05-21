@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Head from 'next/head';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '@/utils/firebase'; // Pastikan path ini sesuai dengan file konfigurasi Firebase Anda

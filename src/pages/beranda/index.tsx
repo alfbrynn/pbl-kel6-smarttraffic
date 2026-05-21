@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import StatsRow from '@/components/beranda/StatRow';
 import TrafficGrid from '@/components/beranda/TrafficGrid';
 import SensorCard from '@/components/beranda/SensorCard';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { db } from '@/utils/firebase';
 
 /**
  * Halaman Utama Dashboard
@@ -12,6 +14,7 @@ import SensorCard from '@/components/beranda/SensorCard';
 const HomePage: React.FC = () => {
     // --- States (Status) ---
     const [isMounted, setIsMounted] = useState(false);
+    const [secondsAgo, setSecondsAgo] = useState(0);
 
     // --- Side Effects (Efek Samping) ---
     /**
@@ -19,6 +22,29 @@ const HomePage: React.FC = () => {
      */
     useEffect(() => {
         setIsMounted(true);
+
+        const docRef = doc(db, 'persimpangan', 'simpang-utama');
+        let lastUpdateTime = Date.now();
+        setSecondsAgo(0);
+
+        const unsubscribe = onSnapshot(docRef, (docSnap) => {
+            if (docSnap.exists()) {
+                lastUpdateTime = Date.now();
+                setSecondsAgo(0);
+            }
+        }, (error) => {
+            console.error("Firebase Header Error:", error);
+        });
+
+        const timer = setInterval(() => {
+            const diffSeconds = Math.floor((Date.now() - lastUpdateTime) / 1000);
+            setSecondsAgo(diffSeconds);
+        }, 1000);
+
+        return () => {
+            unsubscribe();
+            clearInterval(timer);
+        };
     }, []);
 
     if (!isMounted) return null;
@@ -26,54 +52,46 @@ const HomePage: React.FC = () => {
     return (
         <>
             <Head>
-                <title>SMARTRAF | Pusat Kontrol</title>
+                <title>Smartraf | Pusat Kontrol</title>
                 <meta name="description" content="Sistem manajemen lalu lintas cerdas dashboard." />
             </Head>
 
-            <div className="flex flex-col gap-5 h-full animate-fade-in">
+            <div className="flex flex-col gap-6 h-full animate-fade-in">
+
+                {/* Page Greeting & Title (Invisible Header Replacement) */}
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h1 className="text-3xl font-black text-text-main dark:text-white tracking-tight">Pemantauan Lalu Lintas</h1>
+                        <p className="text-sm text-text-secondary mt-1 font-semibold flex items-center gap-1.5">
+                            <span className="inline-flex items-center justify-center w-2 h-2 rounded-full bg-emerald-500 animate-pulse mr-0.5"></span>
+                            <span className="text-emerald-600 dark:text-emerald-400 font-bold text-xs uppercase tracking-wider">Live</span>
+                            <span className="text-slate-300 dark:text-slate-700 font-normal">•</span>
+                            <span className="text-slate-600 dark:text-slate-400">3 jalur aktif</span>
+                            <span className="text-slate-300 dark:text-slate-700 font-normal">•</span>
+                            <span className="font-medium text-slate-500">Update {secondsAgo} dtk lalu</span>
+                        </p>
+                    </div>
+                </div>
 
                 {/* Barisan Statistik KPI */}
                 <StatsRow />
 
-                {/* Bagian Monitoring Utama */}
-                <div className="flex justify-between items-center mt-2 px-1">
-                    <h2 className="text-[17px] font-bold text-text-main tracking-tight">
-                        Pemantauan Waktu Nyata
-                    </h2>
+                {/* Layout Grid Dashboard (Bento Grid) */}
+                <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch flex-1 pb-6">
 
-                    {/* Indikator Status Live */}
-                    <div className="flex items-center text-[10px] font-extrabold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-200 dark:border-emerald-500/20">
-                        <span className="w-2 h-2 bg-emerald-500 rounded-full mr-2 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
-                        Koneksi Aktif
-                    </div>
-                </div>
-
-                {/* Layout Grid Dashboard */}
-                <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start flex-1 pb-6">
-
-                    {/* Konten Utama: Skema Persimpangan Live */}
-                    <section className="xl:col-span-7 w-full h-full min-h-[420px]">
+                    {/* Konten Utama: Skema Persimpangan Live (Hero Bento Box - 8 Span) */}
+                    <section className="xl:col-span-8 w-full h-full min-h-[460px] flex flex-col">
                         <SensorCard />
                     </section>
 
-                    {/* Konten Sekunder: Grid Metrik Jalur */}
-                    <section className="xl:col-span-5 w-full">
+                    {/* Konten Sekunder: Grid Metrik Jalur (Sidekick Bento Box - 4 Span) */}
+                    <section className="xl:col-span-4 w-full flex flex-col">
                         <TrafficGrid />
                     </section>
 
                 </div>
 
-                {/* ── FOOTER ── */}
-                <footer className="mt-auto pt-4 pb-2 border-t border-border-color/30">
-                    <div className="flex flex-col md:flex-row items-center justify-between gap-2 opacity-30">
-                        <div className="text-[12px] font-black tracking-[0.2em] uppercase text-text-main">
-                            Smartraf
-                        </div>
-                        <p className="text-[9px] text-text-secondary font-medium tracking-wider">
-                            © 2026 PBL KELOMPOK 6. POLITEKNIK NEGERI MALANG.
-                        </p>
-                    </div>
-                </footer>
+
 
             </div>
         </>

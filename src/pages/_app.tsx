@@ -47,7 +47,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   // Efek untuk Proteksi Rute (Route Guard)
   useEffect(() => {
-    const publicPages = ['/login', '/'];
+    const publicPages = ['/login', '/', '/beranda', '/persimpangan', '/pusat-data'];
     
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user && !publicPages.includes(router.pathname)) {

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from './sidebar/Sidebar';
-import Header from './header/Header';
 
 /**
  * Interface untuk Props MainLayout
@@ -23,39 +22,58 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
   // --- Side Effects (Efek Samping) ---
   /**
-   * Inisialisasi status sidebar dari local storage saat pertama kali dimuat (mount)
+   * Inisialisasi status sidebar berdasarkan ukuran layar saat pertama kali dimuat (mount)
    */
   useEffect(() => {
-    const savedState = localStorage.getItem(SIDEBAR_STATE_KEY);
-    if (savedState !== null) {
-      setIsCollapsed(savedState === 'true');
-    }
+    const handleResize = () => {
+      if (window.innerWidth < 1024) {
+        setIsCollapsed(true);
+      } else {
+        setIsCollapsed(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Jalankan sekali saat mount
+
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   // --- Event Handlers (Pengelola Event) ---
   /**
-   * Mengubah status collapse sidebar dan menyimpannya ke local storage
+   * Mengubah status collapse sidebar
    */
   const handleToggleSidebar = () => {
-    const newState = !isCollapsed;
-    setIsCollapsed(newState);
-    localStorage.setItem(SIDEBAR_STATE_KEY, String(newState));
+    setIsCollapsed(!isCollapsed);
   };
 
   return (
     <div 
-      className={`flex min-h-screen bg-bg-main transition-all duration-300 ease-in-out 
+      className={`flex min-h-screen bg-gradient-to-br from-[#ebf4ff] via-[#f8fafc] to-white transition-all duration-300 ease-in-out 
       ${isCollapsed ? 'pl-[80px]' : 'pl-[250px]'}`}
     >
       {/* Persistent Navigation Components */}
       <Sidebar isCollapsed={isCollapsed} onToggleSidebar={handleToggleSidebar} />
 
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header isCollapsed={isCollapsed} />
         
         {/* Main Content Area */}
-        <main className="flex-1 p-8 pt-[104px] overflow-y-auto page-enter">
-          {children}
+        <main className="flex-1 p-6 md:p-8 overflow-y-auto page-enter flex flex-col">
+          <div className="flex-grow">
+            {children}
+          </div>
+          {/* Modern Minimalist Footer */}
+          <footer className="mt-12 pb-6 pt-4 border-t border-border-color/5">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-black text-text-main tracking-wider uppercase">Smartraf</span>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-bg-card/50 text-text-secondary border border-border-color/10">v1.2.0</span>
+              </div>
+              <p className="text-[11px] font-semibold text-text-secondary tracking-wide">
+                © 2026 PBL Kelompok 6 • Politeknik Negeri Malang
+              </p>
+            </div>
+          </footer>
         </main>
       </div>
     </div>
