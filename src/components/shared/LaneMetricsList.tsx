@@ -58,10 +58,10 @@ const LaneCard: React.FC<LaneCardProps> = ({ jalur, data }) => {
   const densityStatus = data?.status_kepadatan ?? 'Tidak Aktif';
 
   return (
-    <div className="bg-bg-card rounded-[24px] p-6 flex flex-col border border-border-color/10 hover:-translate-y-1 transition-all duration-300 shadow-lg hover:shadow-xl">
+    <div className="bg-card rounded-[24px] p-6 flex flex-col border border-border/10 hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-md">
       {/* Informasi Header */}
       <div className="flex justify-between items-center mb-3">
-        <h3 className="text-sm font-bold text-text-main">{jalur.nama}</h3>
+        <h3 className="text-sm font-bold text-foreground">{jalur.nama}</h3>
         <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
           densityStatus === 'Padat' ? 'bg-red-500/20 text-red-500' :
           densityStatus === 'Lancar' ? 'bg-emerald-500/20 text-emerald-500' :
@@ -81,14 +81,14 @@ const LaneCard: React.FC<LaneCardProps> = ({ jalur, data }) => {
 
         {/* Metrik Detail */}
         <div className="flex-1">
-          <div className="text-xs font-semibold text-slate-500 mb-0.5">Jarak Antrean</div>
-          <div className="text-2xl font-black text-text-main">
-            {data?.jarak_cm ?? '--'} <span className="text-xs font-semibold text-text-secondary">CM</span>
+          <div className="text-xs font-semibold text-muted mb-0.5">Jarak Antrean</div>
+          <div className="text-2xl font-black text-foreground">
+            {data?.jarak_cm ?? '--'} <span className="text-xs font-semibold text-muted">CM</span>
           </div>
 
-          <div className="flex justify-between mt-2.5 text-xs text-text-secondary border-t border-border-color/30 pt-2.5">
-            <div>🚗 Kendaraan: <b className="text-text-main font-bold">{data?.jumlah_kendaraan ?? 0}</b></div>
-            <div>Waktu: <b className="text-accent-cyan text-sm font-black">{countdown}d</b></div>
+          <div className="flex justify-between mt-2.5 text-xs text-muted border-t border-border/30 pt-2.5">
+            <div>🚗 Kendaraan: <b className="text-foreground font-bold">{data?.jumlah_kendaraan ?? 0}</b></div>
+            <div>Waktu: <b className="text-primary text-sm font-black">{countdown}d</b></div>
           </div>
         </div>
       </div>

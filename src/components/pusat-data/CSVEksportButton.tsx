@@ -79,12 +79,12 @@ export default function ButtonUnduhCSV() {
         <button 
             onClick={handleDownloadCSV}
             disabled={isDownloading}
-            className={`px-4 py-2 bg-bg-card border border-border-color/10 rounded-xl hover:bg-bg-hover hover:border-accent-cyan/30 transition-all flex items-center gap-2 text-sm font-semibold shadow-sm duration-200
+            className={`px-4 py-2 bg-card border border-border/10 rounded-xl hover:bg-secondary-light hover:border-primary/30 transition-all flex items-center gap-2 text-sm font-semibold shadow-sm duration-200
             ${isDownloading ? 'opacity-50 cursor-not-allowed' : 'active:scale-95'}`}
         >
             {isDownloading ? (
                 <>
-                    <span className="w-3 h-3 border-2 border-text-secondary border-t-transparent rounded-full animate-spin"></span>
+                    <span className="w-3 h-3 border-2 border-muted border-t-transparent rounded-full animate-spin"></span>
                     Mengunduh...
                 </>
             ) : (

@@ -68,10 +68,10 @@ export default function App({ Component, pageProps }: AppProps) {
   // Tampilkan loading spinner selama Firebase memverifikasi status sesi pengguna
   if (isAuthChecking) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-bg-main">
+      <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-10 h-10 border-4 border-border-color border-t-accent-cyan rounded-full animate-spin"></div>
-          <span className="text-[10px] font-black text-text-secondary tracking-[0.2em] uppercase animate-pulse">Memverifikasi Sesi...</span>
+          <div className="w-10 h-10 border-4 border-border border-t-primary rounded-full animate-spin"></div>
+          <span className="text-[10px] font-black text-muted tracking-[0.2em] uppercase animate-pulse">Memverifikasi Sesi...</span>
         </div>
       </div>
     );

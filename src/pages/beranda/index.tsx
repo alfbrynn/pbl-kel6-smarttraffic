@@ -1,8 +1,10 @@
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import StatsRow from '@/components/beranda/StatRow';
-import TrafficGrid from '@/components/beranda/TrafficGrid';
-import SensorCard from '@/components/beranda/SensorCard';
+import StatsRow from '@/components/beranda/KPIStatRow';
+import TrafficGrid from '@/components/shared/LaneMetricsList';
+import SensorCard from '@/components/shared/JunctionSchema';
+import DensityChart from '@/components/pusat-data/DensityChart';
+import PageHeader from '@/components/shared/PageHeader';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '@/utils/firebase';
 
@@ -58,35 +60,40 @@ const HomePage: React.FC = () => {
 
             <div className="flex flex-col gap-6 h-full animate-fade-in">
 
-                {/* Page Greeting & Title (Invisible Header Replacement) */}
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                    <div>
-                        <h1 className="text-3xl font-black text-text-main dark:text-white tracking-tight">Pemantauan Lalu Lintas</h1>
-                        <p className="text-sm text-text-secondary mt-1 font-semibold flex items-center gap-1.5">
+                {/* Page Greeting & Title */}
+                <PageHeader
+                    title="Pemantauan Lalu Lintas"
+                    subtitle={
+                        <>
                             <span className="inline-flex items-center justify-center w-2 h-2 rounded-full bg-emerald-500 animate-pulse mr-0.5"></span>
                             <span className="text-emerald-600 dark:text-emerald-400 font-bold text-xs uppercase tracking-wider">Live</span>
                             <span className="text-slate-300 dark:text-slate-700 font-normal">•</span>
                             <span className="text-slate-600 dark:text-slate-400">3 jalur aktif</span>
                             <span className="text-slate-300 dark:text-slate-700 font-normal">•</span>
                             <span className="font-medium text-slate-500">Update {secondsAgo} dtk lalu</span>
-                        </p>
-                    </div>
-                </div>
+                        </>
+                    }
+                />
 
                 {/* Barisan Statistik KPI */}
                 <StatsRow />
 
+                {/* Grafik Kepadatan Lalu Lintas (Full Width) */}
+                <div className="w-full h-[400px]">
+                    <DensityChart showDropdown={false} />
+                </div>
+
                 {/* Layout Grid Dashboard (Bento Grid) */}
                 <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch flex-1 pb-6">
-
-                    {/* Konten Utama: Skema Persimpangan Live (Hero Bento Box - 8 Span) */}
-                    <section className="xl:col-span-8 w-full h-full min-h-[460px] flex flex-col">
-                        <SensorCard />
-                    </section>
 
                     {/* Konten Sekunder: Grid Metrik Jalur (Sidekick Bento Box - 4 Span) */}
                     <section className="xl:col-span-4 w-full flex flex-col">
                         <TrafficGrid />
+                    </section>
+
+                    {/* Konten Utama: Skema Persimpangan Live (Hero Bento Box - 8 Span) */}
+                    <section className="xl:col-span-8 w-full h-full min-h-[460px] flex flex-col">
+                        <SensorCard />
                     </section>
 
                 </div>

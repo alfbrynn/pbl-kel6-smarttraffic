@@ -80,13 +80,13 @@ export default function CardRingkasan({ title }: CardRingkasanProps) {
     return () => unsubscribe();
   }, [title]);
 
-  const bgColor = trendType === 'positive' ? 'bg-emerald-500/15' : trendType === 'neutral' ? 'bg-blue-500/15' : 'bg-red-500/15';
-  const textColor = trendType === 'positive' ? 'text-emerald-500' : trendType === 'neutral' ? 'text-accent-cyan' : 'text-red-500';
+  const bgColor = trendType === 'positive' ? 'bg-emerald-500/15' : trendType === 'neutral' ? 'bg-primary/15' : 'bg-red-500/15';
+  const textColor = trendType === 'positive' ? 'text-emerald-500' : trendType === 'neutral' ? 'text-primary' : 'text-red-500';
 
   return (
-    <div className="bg-bg-card p-6 rounded-[24px] shadow-lg hover:shadow-xl border border-border-color/10 flex-1 flex flex-col justify-center animate-fade-in hover:-translate-y-1 transition-all duration-300">
-      <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1.5 block">{title}</span>
-      <p className="text-3xl font-black text-text-main dark:text-white truncate">{value}</p>
+    <div className="bg-card p-6 rounded-[24px] shadow-sm hover:shadow-md border border-border/10 flex-1 flex flex-col justify-center animate-fade-in hover:-translate-y-1 transition-all duration-300">
+      <span className="text-xs font-semibold text-muted mb-1.5 block">{title}</span>
+      <p className="text-3xl font-black text-foreground dark:text-black truncate">{value}</p>
       <span className={`text-xs font-semibold mt-3.5 w-fit px-2.5 py-0.5 rounded-full ${bgColor} ${textColor} transition-colors duration-300`}>
         {trendText}
       </span>

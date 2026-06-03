@@ -42,12 +42,12 @@ export default function TabelLogSensor() {
     }, []);
 
     return (
-        <section className="bg-bg-card p-8 rounded-[24px] shadow-lg hover:shadow-xl transition-all duration-300 border border-border-color/10">
-            <h2 className="text-lg font-black mb-6 text-text-main">Log Data Sensor Real-time</h2>
+        <section className="bg-card p-8 rounded-[24px] shadow-sm hover:shadow-md transition-all duration-300 border border-border/10">
+            <h2 className="text-lg font-black mb-6 text-foreground">Log Data Sensor Real-time</h2>
             <div className="overflow-x-auto">
                 <table className="w-full text-left border-separate border-spacing-y-2 min-w-[700px]">
                     <thead>
-                        <tr className="text-xs font-semibold text-slate-500 dark:text-slate-400 bg-transparent">
+                        <tr className="text-xs font-semibold text-slate-500 bg-transparent">
                             <th className="pb-3 px-5">Waktu</th>
                             <th className="pb-3 px-5">Jalur</th>
                             <th className="pb-3 px-5">Jarak (cm)</th>
@@ -57,43 +57,43 @@ export default function TabelLogSensor() {
                         </tr>
                     </thead>
                     <tbody>
-                        {loading ? (
+                         {loading ? (
                             <tr>
-                                <td colSpan={6} className="text-center py-8 text-text-secondary font-bold">Memuat log sensor...</td>
+                                <td colSpan={6} className="text-center py-8 text-muted font-bold">Memuat log sensor...</td>
                             </tr>
                         ) : logs.length === 0 ? (
                             <tr>
-                                <td colSpan={6} className="text-center py-8 text-text-secondary font-bold">Belum ada data log</td>
+                                <td colSpan={6} className="text-center py-8 text-muted font-bold">Belum ada data log</td>
                             </tr>
                         ) : (
                             logs.map((log) => (
-                                <tr key={log.id} className="text-sm text-text-main group hover:-translate-y-[1px] transition-all duration-200">
-                                    <td className="py-4 px-5 whitespace-nowrap font-medium rounded-l-2xl bg-bg-main/30 dark:bg-[#0f172a]/40 border-l border-y border-border-color/5 group-hover:bg-bg-hover/80 transition-colors">
+                                <tr key={log.id} className="text-sm text-foreground group hover:-translate-y transition-all duration-200">
+                                    <td className="py-4 px-5 whitespace-nowrap font-medium rounded-l-2xl bg-card border-l border-y border-border/5 group-hover:bg-background transition-colors">
                                         {log.timestamp_ms
                                             ? new Date(log.timestamp_ms).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
                                             : (typeof log.waktu === 'string' && log.waktu.includes('at') ? log.waktu.split('at')[1].trim() : log.waktu)}
                                     </td>
-                                    <td className="py-4 px-5 capitalize font-semibold bg-bg-main/30 dark:bg-[#0f172a]/40 border-y border-border-color/5 group-hover:bg-bg-hover/80 transition-colors">
+                                    <td className="py-4 px-5 capitalize font-semibold bg-card border-y border-border/5 group-hover:bg-background transition-colors">
                                         {log.jalur_arah}
                                     </td>
-                                    <td className="py-4 px-5 font-mono font-bold text-text-secondary bg-bg-main/30 dark:bg-[#0f172a]/40 border-y border-border-color/5 group-hover:bg-bg-hover/80 transition-colors">
+                                    <td className="py-4 px-5 font-mono font-bold text-muted bg-card border-y border-border/5 group-hover:bg-background transition-colors">
                                         {log.jarak_cm}
                                     </td>
-                                    <td className="py-4 px-5 font-mono font-bold text-text-secondary bg-bg-main/30 dark:bg-[#0f172a]/40 border-y border-border-color/5 group-hover:bg-bg-hover/80 transition-colors">
+                                    <td className="py-4 px-5 font-mono font-bold text-muted bg-card border-y border-border/5 group-hover:bg-background transition-colors">
                                         {log.jumlah_kendaraan}
                                     </td>
-                                    <td className="py-4 px-5 bg-bg-main/30 dark:bg-[#0f172a]/40 border-y border-border-color/5 group-hover:bg-bg-hover/80 transition-colors">
+                                    <td className="py-4 px-5 bg-card border-y border-border/5 group-hover:bg-background transition-colors">
                                         <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize ${log.status_lampu === 'HIJAU' ? 'bg-emerald-500/20 text-emerald-500' :
-                                                log.status_lampu === 'KUNING' ? 'bg-amber-500/20 text-amber-500' :
-                                                    'bg-red-500/20 text-red-500'
+                                            log.status_lampu === 'KUNING' ? 'bg-amber-500/20 text-amber-500' :
+                                                'bg-red-500/20 text-red-500'
                                             }`}>
                                             {log.status_lampu ? log.status_lampu.toLowerCase() : ''}
                                         </span>
                                     </td>
-                                    <td className="py-4 px-5 rounded-r-2xl bg-bg-main/30 dark:bg-[#0f172a]/40 border-r border-y border-border-color/5 group-hover:bg-bg-hover/80 transition-colors">
+                                    <td className="py-4 px-5 rounded-r-2xl bg-card border-r border-y border-border/5 group-hover:bg-background transition-colors">
                                         <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${log.status_kepadatan === 'Padat' || log.status_kepadatan === 'Sangat Padat' ? 'bg-red-500/20 text-red-500' :
-                                                log.status_kepadatan === 'Cukup Padat' ? 'bg-amber-500/20 text-amber-500' :
-                                                    'bg-emerald-500/20 text-emerald-500'
+                                            log.status_kepadatan === 'Cukup Padat' ? 'bg-amber-500/20 text-amber-500' :
+                                                'bg-emerald-500/20 text-emerald-500'
                                             }`}>
                                             {log.status_kepadatan}
                                         </span>
