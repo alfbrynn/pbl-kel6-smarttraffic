@@ -73,7 +73,7 @@ export default function PusatDataPage() {
             <>
               <span>Log sensor</span>
               <span className="text-slate-300 dark:text-slate-700 font-normal">•</span>
-              <span className="text-slate-500">Hari ini: <strong className="text-foreground dark:text-white font-bold">{formattedCount}</strong> entri</span>
+              <span className="text-slate-700">Hari ini: <strong className="text-slate-950 dark:text-black font-black">{formattedCount}</strong> entri</span>
             </>
           }
           actions={<CSVEksportButton />}

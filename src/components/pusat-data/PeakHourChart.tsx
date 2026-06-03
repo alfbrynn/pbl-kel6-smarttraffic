@@ -36,7 +36,7 @@ export default function PeakHourChart() {
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const hourGroups: Record<number, { hour: number; totalVehicles: number; count: number }> = {};
-      
+
       // Inisialisasi 24 jam
       for (let h = 0; h < 24; h++) {
         hourGroups[h] = { hour: h, totalVehicles: 0, count: 0 };
@@ -104,8 +104,8 @@ export default function PeakHourChart() {
     <div className="h-full flex flex-col bg-card p-6 rounded-[24px] shadow-sm hover:shadow-md transition-all duration-300 border border-border/10">
       <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-6">
         <div>
-          <h3 className="text-lg font-extrabold text-foreground">Analisis Jam Sibuk Utama (Big Data)</h3>
-          <p className="text-xs text-muted font-semibold mt-1">Rata-rata kendaraan per jam dalam 300 siklus terakhir</p>
+          <h3 className="text-lg font-extrabold text-foreground">Jam Sibuk Utama</h3>
+          <p className="text-xs text-muted font-semibold mt-1">Rata-rata kendaraan per jam</p>
         </div>
         {peakHourAvg > 0 && (
           <div className="bg-red-500/10 border border-red-500/25 rounded-2xl px-4 py-2 flex flex-col items-start w-fit">
@@ -130,18 +130,18 @@ export default function PeakHourChart() {
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
               <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="#1E293B" />
-              <XAxis 
-                dataKey="hourStr" 
-                stroke="#64748B" 
-                fontSize={9} 
-                fontWeight="semibold" 
+              <XAxis
+                dataKey="hourStr"
+                stroke="#64748B"
+                fontSize={9}
+                fontWeight="semibold"
                 tickLine={false}
                 axisLine={false}
               />
-              <YAxis 
-                stroke="#64748B" 
-                fontSize={9} 
-                fontWeight="semibold" 
+              <YAxis
+                stroke="#64748B"
+                fontSize={9}
+                fontWeight="semibold"
                 tickLine={false}
                 axisLine={false}
               />
@@ -162,8 +162,8 @@ export default function PeakHourChart() {
                   // Warnai bar tertinggi dengan warna merah menyala, lainnya dengan warna default primer (yellow/blue)
                   const isMax = entry.avgVehicles === peakHourAvg;
                   return (
-                    <Cell 
-                      key={`cell-${index}`} 
+                    <Cell
+                      key={`cell-${index}`}
                       fill={isMax ? '#EF4444' : 'var(--primary)'}
                       opacity={isMax ? 1 : 0.8}
                     />
