@@ -8,7 +8,7 @@ import { db } from '@/utils/firebase';
 interface JalurDetail {
     status_lampu?: string;
     status_kepadatan?: string;
-    realtime_antrean?: number;
+    jarak_cm?: number;
 }
 
 /**
@@ -101,22 +101,22 @@ const LiveSchema: React.FC = () => {
                 {/* INDIKATOR SENSOR SELATAN */}
                 <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center">
                     <div className={`w-5 h-5 rounded-full border-2 border-white/20 relative flex justify-center items-center ${getLampuClass(dataSimpang?.jalur?.selatan?.status_lampu)}`}>
-                        {dataSimpang?.jalur?.selatan?.status_kepadatan === 'Padat' && (
+                        {(dataSimpang?.jalur?.selatan?.status_kepadatan === 'PADAT' || dataSimpang?.jalur?.selatan?.status_kepadatan === 'MACET') && (
                             <div className="absolute w-10 h-10 rounded-full border-2 border-red-500 opacity-40 animate-ping"></div>
                         )}
                     </div>
                     <span className="text-[10px] font-extrabold text-[#e3e3e3] mt-2 bg-slate-900/90 px-2 py-1 rounded-md shadow-md border border-white/10 tracking-wider">
-                        SELATAN {dataSimpang?.jalur?.selatan?.realtime_antrean ? `(${dataSimpang.jalur.selatan.realtime_antrean}cm)` : ''}
+                        SELATAN {dataSimpang?.jalur?.selatan?.jarak_cm ? `(${dataSimpang.jalur.selatan.jarak_cm}cm)` : ''}
                     </span>
                 </div>
 
                 {/* INDIKATOR SENSOR TIMUR */}
                 <div className="absolute right-10 top-1/2 -translate-y-1/2 z-20 flex items-center">
                     <span className="text-[10px] font-extrabold text-[#e3e3e3] mr-3 bg-slate-900/90 px-2 py-1 rounded-md shadow-md border border-white/10 tracking-wider">
-                        TIMUR {dataSimpang?.jalur?.timur?.realtime_antrean ? `(${dataSimpang.jalur.timur.realtime_antrean}cm)` : ''}
+                        TIMUR {dataSimpang?.jalur?.timur?.jarak_cm ? `(${dataSimpang.jalur.timur.jarak_cm}cm)` : ''}
                     </span>
                     <div className={`w-5 h-5 rounded-full border-2 border-white/20 relative flex justify-center items-center ${getLampuClass(dataSimpang?.jalur?.timur?.status_lampu)}`}>
-                        {dataSimpang?.jalur?.timur?.status_kepadatan === 'Padat' && (
+                        {(dataSimpang?.jalur?.timur?.status_kepadatan === 'PADAT' || dataSimpang?.jalur?.timur?.status_kepadatan === 'MACET') && (
                             <div className="absolute w-10 h-10 rounded-full border-2 border-red-500 opacity-40 animate-ping"></div>
                         )}
                     </div>
@@ -125,12 +125,12 @@ const LiveSchema: React.FC = () => {
                 {/* INDIKATOR SENSOR BARAT */}
                 <div className="absolute left-10 top-1/2 -translate-y-1/2 z-20 flex items-center">
                     <div className={`w-5 h-5 rounded-full border-2 border-white/20 relative flex justify-center items-center ${getLampuClass(dataSimpang?.jalur?.barat?.status_lampu)}`}>
-                        {dataSimpang?.jalur?.barat?.status_kepadatan === 'Padat' && (
+                        {(dataSimpang?.jalur?.barat?.status_kepadatan === 'PADAT' || dataSimpang?.jalur?.barat?.status_kepadatan === 'MACET') && (
                             <div className="absolute w-10 h-10 rounded-full border-2 border-red-500 opacity-40 animate-ping"></div>
                         )}
                     </div>
                     <span className="text-[10px] font-extrabold text-[#e3e3e3] ml-3 bg-slate-900/90 px-2 py-1 rounded-md shadow-md border border-white/10 tracking-wider">
-                        BARAT {dataSimpang?.jalur?.barat?.realtime_antrean ? `(${dataSimpang.jalur.barat.realtime_antrean}cm)` : ''}
+                        BARAT {dataSimpang?.jalur?.barat?.jarak_cm ? `(${dataSimpang.jalur.barat.jarak_cm}cm)` : ''}
                     </span>
                 </div>
 

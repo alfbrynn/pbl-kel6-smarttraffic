@@ -1,7 +1,7 @@
 "use client";
-import React, { useState } from 'react';
-import { doc, setDoc } from 'firebase/firestore';
-import { db } from '@/utils/firebase';
+import React, { useState, useEffect } from 'react';
+import { doc, setDoc, onSnapshot, addDoc, collection, serverTimestamp, getDoc } from 'firebase/firestore';
+import { db, auth } from '@/utils/firebase';
 
 // Pisahkan nilai default agar mudah digunakan untuk fitur Reset
 const DEFAULT_PARAMS = {
@@ -18,6 +18,35 @@ export default function ParameterCard() {
   const [initialParams, setInitialParams] = useState(DEFAULT_PARAMS); // Untuk melacak perubahan
   const [loading, setLoading] = useState(false);
   const [alertMsg, setAlertMsg] = useState<{ type: 'success' | 'error', text: string } | null>(null);
+
+  // Sinkronisasi parameter dari Firestore secara real-time
+  useEffect(() => {
+    const docRef = doc(db, 'persimpangan', 'simpang-utama');
+    const unsubscribe = onSnapshot(docRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        if (data.pengaturan_manual) {
+          const pm = data.pengaturan_manual;
+          const loadedParams = {
+            jarakKepadatan: String(pm.jarak_padat_cm ?? DEFAULT_PARAMS.jarakKepadatan),
+            bobotWaktu: String(pm.bobot_waktu ?? DEFAULT_PARAMS.bobotWaktu),
+            durasiHijauMin: String(pm.min_hijau_detik ?? DEFAULT_PARAMS.durasiHijauMin),
+            durasiHijauMaks: String(pm.max_hijau_detik ?? DEFAULT_PARAMS.durasiHijauMaks),
+            durasiKuning: String(pm.kuning_detik ?? DEFAULT_PARAMS.durasiKuning),
+            allRed: String(pm.all_red_detik ?? DEFAULT_PARAMS.allRed),
+          };
+          setInitialParams(loadedParams);
+          setParams((currentParams) => {
+            // Update parameter jika nilainya masih default atau tidak sedang diedit secara bertolak belakang
+            return currentParams === DEFAULT_PARAMS || JSON.stringify(currentParams) === JSON.stringify(loadedParams)
+              ? loadedParams
+              : currentParams;
+          });
+        }
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   // State Modal Konfirmasi
   const [showModal, setShowModal] = useState<{ active: boolean; type: 'save' | 'reset' }>({
@@ -52,6 +81,31 @@ export default function ParameterCard() {
       };
 
       await setDoc(docRef, payload, { merge: true });
+
+      // Tulis Audit Log
+      let operatorName = "Operator";
+      if (auth.currentUser) {
+        try {
+          const opSnap = await getDoc(doc(db, 'operators', auth.currentUser.uid));
+          if (opSnap.exists()) {
+            operatorName = opSnap.data().nama;
+          } else {
+            operatorName = auth.currentUser.email || "Operator";
+          }
+        } catch (err) {
+          console.error("Error getting operator name:", err);
+        }
+      }
+
+      const aksiMsg = `Mengubah parameter: Batas Kepadatan=${params.jarakKepadatan}CM, Bobot=${params.bobotWaktu}s, Hijau Min=${params.durasiHijauMin}s, Hijau Maks=${params.durasiHijauMaks}s`;
+
+      await addDoc(collection(db, 'audit_logs'), {
+        operator: operatorName,
+        aksi: aksiMsg,
+        tipe: 'PARAMETER',
+        timestamp: serverTimestamp()
+      });
+
       setInitialParams(params); // Update nilai awal setelah berhasil simpan
       setAlertMsg({ type: 'success', text: 'Parameter algoritma berhasil diperbarui!' });
       setTimeout(() => setAlertMsg(null), 3000);
@@ -64,9 +118,58 @@ export default function ParameterCard() {
   };
 
   // Eksekusi Reset
-  const executeReset = () => {
-    setParams(DEFAULT_PARAMS);
+  const executeReset = async () => {
+    setLoading(true);
     setShowModal({ ...showModal, active: false });
+    setAlertMsg(null);
+
+    try {
+      const docRef = doc(db, 'persimpangan', 'simpang-utama');
+      const payload = {
+        pengaturan_manual: {
+          jarak_padat_cm: Number(DEFAULT_PARAMS.jarakKepadatan),
+          bobot_waktu: Number(DEFAULT_PARAMS.bobotWaktu),
+          min_hijau_detik: Number(DEFAULT_PARAMS.durasiHijauMin),
+          max_hijau_detik: Number(DEFAULT_PARAMS.durasiHijauMaks),
+          kuning_detik: Number(DEFAULT_PARAMS.durasiKuning),
+          all_red_detik: Number(DEFAULT_PARAMS.allRed)
+        }
+      };
+
+      await setDoc(docRef, payload, { merge: true });
+      setParams(DEFAULT_PARAMS);
+      setInitialParams(DEFAULT_PARAMS);
+
+      // Tulis Audit Log
+      let operatorName = "Operator";
+      if (auth.currentUser) {
+        try {
+          const opSnap = await getDoc(doc(db, 'operators', auth.currentUser.uid));
+          if (opSnap.exists()) {
+            operatorName = opSnap.data().nama;
+          } else {
+            operatorName = auth.currentUser.email || "Operator";
+          }
+        } catch (err) {
+          console.error("Error getting operator name:", err);
+        }
+      }
+
+      await addDoc(collection(db, 'audit_logs'), {
+        operator: operatorName,
+        aksi: `Mereset parameter algoritma adaptif ke pengaturan standar pabrik`,
+        tipe: 'PARAMETER',
+        timestamp: serverTimestamp()
+      });
+
+      setAlertMsg({ type: 'success', text: 'Parameter berhasil direset!' });
+      setTimeout(() => setAlertMsg(null), 3000);
+    } catch (error) {
+      console.error("Gagal mereset parameter:", error);
+      setAlertMsg({ type: 'error', text: 'Gagal mereset data.' });
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Objek Penjelasan Parameter untuk Tooltip

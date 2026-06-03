@@ -50,9 +50,9 @@ export default function CardRingkasan({ title }: CardRingkasanProps) {
         // --- 3. Estimasi Antrean Terpanjang ---
         else if (title === "Antrean Terpanjang") {
           const maxAntrean = Math.max(
-            jalur.barat?.realtime_antrean || 0,
-            jalur.timur?.realtime_antrean || 0,
-            jalur.selatan?.realtime_antrean || 0
+            jalur.barat?.jarak_cm || 0,
+            jalur.timur?.jarak_cm || 0,
+            jalur.selatan?.jarak_cm || 0
           );
 
           setValue(`${maxAntrean}cm`);
@@ -62,9 +62,9 @@ export default function CardRingkasan({ title }: CardRingkasanProps) {
 
         // --- 4. Efisiensi Rata-rata ---
         else if (title === "Efisiensi Sistem") {
-          const avgAntrean = ((jalur.barat?.realtime_antrean || 0) +
-            (jalur.timur?.realtime_antrean || 0) +
-            (jalur.selatan?.realtime_antrean || 0)) / 3;
+          const avgAntrean = ((jalur.barat?.jarak_cm || 0) +
+            (jalur.timur?.jarak_cm || 0) +
+            (jalur.selatan?.jarak_cm || 0)) / 3;
 
           const efficiency = Math.max(0, Math.min(100, 100 - (avgAntrean / 2)));
           setValue(`${Math.round(efficiency)}%`);

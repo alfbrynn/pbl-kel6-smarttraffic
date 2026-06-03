@@ -6,6 +6,7 @@ import CSVEksportButton from '@/components/pusat-data/CSVEksportButton';
 import DataSummaryCard from '@/components/pusat-data/DataSummaryCard';
 import SensorLogTable from '@/components/pusat-data/SensorLogTable';
 import DensityChart from '@/components/pusat-data/DensityChart';
+import PeakHourChart from '@/components/pusat-data/PeakHourChart';
 import { collection, query, where, getCountFromServer, onSnapshot, orderBy, limit } from 'firebase/firestore';
 import { db } from '@/utils/firebase';
 
@@ -78,9 +79,16 @@ export default function PusatDataPage() {
           actions={<CSVEksportButton />}
         />
 
-        {/* BARIS 1: VISUALISASI UTAMA (Cinematic Ultra-Wide) */}
-        <div className="w-full h-[400px]">
-          <DensityChart />
+        {/* BARIS 1: VISUALISASI UTAMA (Bento Grid) */}
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch">
+          {/* KOLOM KIRI (Tren Real-time) - Span 7 */}
+          <div className="xl:col-span-7 flex flex-col h-[400px]">
+            <DensityChart />
+          </div>
+          {/* KOLOM KANAN (Analisis Jam Sibuk) - Span 5 */}
+          <div className="xl:col-span-5 flex flex-col h-[400px]">
+            <PeakHourChart />
+          </div>
         </div>
 
         {/* BARIS 2: RINGKASAN KPI (4-Column Bento Row) */}

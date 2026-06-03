@@ -62,12 +62,12 @@ const LaneCard: React.FC<LaneCardProps> = ({ jalur, data }) => {
       {/* Informasi Header */}
       <div className="flex justify-between items-center mb-3">
         <h3 className="text-sm font-bold text-foreground">{jalur.nama}</h3>
-        <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${
-          densityStatus === 'Padat' ? 'bg-red-500/20 text-red-500' :
-          densityStatus === 'Lancar' ? 'bg-emerald-500/20 text-emerald-500' :
+        <span className={`px-2 py-0.5 rounded-full text-xs font-semibold capitalize ${
+          densityStatus === 'PADAT' || densityStatus === 'MACET' ? 'bg-red-500/20 text-red-500' :
+          densityStatus === 'LANCAR' ? 'bg-emerald-500/20 text-emerald-500' :
           'bg-amber-500/20 text-amber-500'
         }`}>
-          {densityStatus}
+          {densityStatus.toLowerCase()}
         </span>
       </div>
 

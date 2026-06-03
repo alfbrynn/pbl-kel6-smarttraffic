@@ -15,7 +15,7 @@ export default function ButtonUnduhCSV() {
             // Mengambil 100 data terbaru untuk tim Big Data
             const q = query(
                 collection(db, 'kepadatan_jalan'), 
-                orderBy('timestamp_ms', 'desc'), 
+                orderBy('waktu', 'desc'), 
                 limit(100)
             );
             
@@ -29,23 +29,28 @@ export default function ButtonUnduhCSV() {
             }
 
             // Membangun baris CSV
-            const headers = ["ID Sensor", "Nama Jalan", "Kepadatan (%)", "Jumlah Kendaraan", "Waktu", "Status"];
+            const headers = ["ID Persimpangan", "Jalur", "Jarak (cm)", "Jumlah Kendaraan", "Waktu", "Status Lampu", "Status Kepadatan"];
             const rows = data.map(item => {
                 // Konversi timestamp ke format waktu lokal yang human-readable
                 let formattedTime = "";
                 if (item.timestamp_ms) {
                     formattedTime = new Date(item.timestamp_ms).toLocaleString('id-ID');
-                } else if (item.timestamp) {
-                    formattedTime = new Date(item.timestamp.seconds * 1000).toLocaleString('id-ID');
+                } else if (item.waktu && typeof (item.waktu as any).toDate === 'function') {
+                    formattedTime = (item.waktu as any).toDate().toLocaleString('id-ID');
+                } else if (item.waktu && (item.waktu as any).seconds) {
+                    formattedTime = new Date((item.waktu as any).seconds * 1000).toLocaleString('id-ID');
+                } else {
+                    formattedTime = String(item.waktu || '');
                 }
                 
                 return [
-                    `"${item.sensorId || ''}"`,
-                    `"${item.roadName || ''}"`,
-                    item.density !== undefined ? item.density : 0,
-                    item.vehicleCount !== undefined ? item.vehicleCount : 0,
+                    `"${item.pers_id || ''}"`,
+                    `"${item.jalur_arah || ''}"`,
+                    item.jarak_cm !== undefined ? item.jarak_cm : 0,
+                    item.jumlah_kendaraan !== undefined ? item.jumlah_kendaraan : 0,
                     `"${formattedTime}"`,
-                    `"${item.status || ''}"`
+                    `"${item.status_lampu || ''}"`,
+                    `"${item.status_kepadatan || ''}"`
                 ];
             });
 

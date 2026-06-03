@@ -1,7 +1,7 @@
 "use client";
-import React, { useState } from 'react';
-import { doc, setDoc } from 'firebase/firestore';
-import { db } from '@/utils/firebase';
+import React, { useState, useEffect } from 'react';
+import { doc, setDoc, onSnapshot, addDoc, collection, serverTimestamp, getDoc } from 'firebase/firestore';
+import { db, auth } from '@/utils/firebase';
 
 const jalurs = [
   { key: 'barat', label: 'Barat', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /> },
@@ -16,6 +16,20 @@ export default function EmergencyCard() {
     active: false,
     key: null
   });
+
+  // Sinkronisasi status_darurat secara real-time dari Firestore
+  useEffect(() => {
+    const docRef = doc(db, 'persimpangan', 'simpang-utama');
+    const unsubscribe = onSnapshot(docRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        if (data.status_darurat !== undefined) {
+          setActiveEmergency(data.status_darurat);
+        }
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   /**
    * Memicu Modal Konfirmasi
@@ -42,6 +56,32 @@ export default function EmergencyCard() {
       await setDoc(docRef, {
         status_darurat: newStatus
       }, { merge: true });
+
+      // Tulis Audit Log
+      let operatorName = "Operator";
+      if (auth.currentUser) {
+        try {
+          const opSnap = await getDoc(doc(db, 'operators', auth.currentUser.uid));
+          if (opSnap.exists()) {
+            operatorName = opSnap.data().nama;
+          } else {
+            operatorName = auth.currentUser.email || "Operator";
+          }
+        } catch (err) {
+          console.error("Error getting operator name:", err);
+        }
+      }
+
+      const aksiMsg = newStatus === 'OFF'
+        ? `Mematikan mode darurat pada Jalur ${key.charAt(0).toUpperCase() + key.slice(1)} (kembali ke otomatis)`
+        : `Mengaktifkan mode darurat: Jalur ${key.charAt(0).toUpperCase() + key.slice(1)} dipaksa lampu HIJAU`;
+
+      await addDoc(collection(db, 'audit_logs'), {
+        operator: operatorName,
+        aksi: aksiMsg,
+        tipe: 'EMERGENCY',
+        timestamp: serverTimestamp()
+      });
 
       setActiveEmergency(newStatus);
     } catch (error) {

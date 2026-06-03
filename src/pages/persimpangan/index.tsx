@@ -4,6 +4,7 @@ import SensorCard from '@/components/shared/JunctionSchema';
 import TrafficGrid from '@/components/shared/LaneMetricsList';
 import ParameterCard from '@/components/persimpangan/ParameterControl';
 import EmergencyCard from '@/components/persimpangan/EmergencyControl';
+import AuditLogTable from '@/components/persimpangan/AuditLogTable';
 import PageHeader from '@/components/shared/PageHeader';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '@/utils/firebase';
@@ -92,7 +93,10 @@ export default function Persimpangan() {
 
         </div>
 
-
+        {/* BARIS KETIGA: AUDIT LOG */}
+        <div className="w-full mt-2">
+          <AuditLogTable />
+        </div>
 
       </div>
     </>

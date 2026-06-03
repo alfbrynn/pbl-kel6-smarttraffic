@@ -5,7 +5,7 @@ import { db } from '@/utils/firebase';
 
 interface LogData {
     id: string;
-    waktu: string;
+    waktu: any;
     timestamp_ms?: number;
     jalur_arah: string;
     jarak_cm: number;
@@ -22,7 +22,7 @@ export default function TabelLogSensor() {
         // Mengambil 10 data log terbaru dari firestore
         const q = query(
             collection(db, 'kepadatan_jalan'),
-            orderBy('timestamp_ms', 'desc'),
+            orderBy('waktu', 'desc'),
             limit(10)
         );
 
@@ -71,7 +71,11 @@ export default function TabelLogSensor() {
                                     <td className="py-4 px-5 whitespace-nowrap font-medium rounded-l-2xl bg-card border-l border-y border-border/5 group-hover:bg-background transition-colors">
                                         {log.timestamp_ms
                                             ? new Date(log.timestamp_ms).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
-                                            : (typeof log.waktu === 'string' && log.waktu.includes('at') ? log.waktu.split('at')[1].trim() : log.waktu)}
+                                            : (log.waktu && typeof log.waktu.toDate === 'function'
+                                                ? log.waktu.toDate().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+                                                : (log.waktu && log.waktu.seconds
+                                                    ? new Date(log.waktu.seconds * 1000).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+                                                    : (typeof log.waktu === 'string' && log.waktu.includes('at') ? log.waktu.split('at')[1].trim() : String(log.waktu || ''))))}
                                     </td>
                                     <td className="py-4 px-5 capitalize font-semibold bg-card border-y border-border/5 group-hover:bg-background transition-colors">
                                         {log.jalur_arah}
@@ -91,11 +95,11 @@ export default function TabelLogSensor() {
                                         </span>
                                     </td>
                                     <td className="py-4 px-5 rounded-r-2xl bg-card border-r border-y border-border/5 group-hover:bg-background transition-colors">
-                                        <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${log.status_kepadatan === 'Padat' || log.status_kepadatan === 'Sangat Padat' ? 'bg-red-500/20 text-red-500' :
-                                            log.status_kepadatan === 'Cukup Padat' ? 'bg-amber-500/20 text-amber-500' :
-                                                'bg-emerald-500/20 text-emerald-500'
+                                        <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize ${log.status_kepadatan === 'PADAT' || log.status_kepadatan === 'MACET' ? 'bg-red-500/20 text-red-500' :
+                                            log.status_kepadatan === 'LANCAR' ? 'bg-emerald-500/20 text-emerald-500' :
+                                                'bg-amber-500/20 text-amber-500'
                                             }`}>
-                                            {log.status_kepadatan}
+                                            {log.status_kepadatan ? log.status_kepadatan.toLowerCase() : ''}
                                         </span>
                                     </td>
                                 </tr>

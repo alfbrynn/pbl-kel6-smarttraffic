@@ -33,3 +33,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# IoT scripts & Hardware code
+/bridge.js
+/simulator_esp32.py
+/simulator/
+/IOT/

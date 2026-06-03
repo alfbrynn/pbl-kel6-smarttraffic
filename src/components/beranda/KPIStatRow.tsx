@@ -43,7 +43,7 @@ const StatsRow: React.FC = () => {
 
   // Hitung jalur yang padat
   const congestedLanesCount = jalurEntries.filter(([_, d]) =>
-    d.status_kepadatan === 'Padat' || d.status_kepadatan === 'Cukup Padat'
+    d.status_kepadatan === 'PADAT' || d.status_kepadatan === 'MACET'
   ).length;
 
   // Tentukan status persimpangan keseluruhan
