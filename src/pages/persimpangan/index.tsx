@@ -1,9 +1,10 @@
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
-import SensorCard from '@/components/beranda/SensorCard';
-import TrafficGrid from '@/components/beranda/TrafficGrid';
-import ParameterCard from '@/components/persimpangan/ParameterCard';
-import EmergencyCard from '@/components/persimpangan/EmergencyCard';
+import SensorCard from '@/components/shared/JunctionSchema';
+import TrafficGrid from '@/components/shared/LaneMetricsList';
+import ParameterCard from '@/components/persimpangan/ParameterControl';
+import EmergencyCard from '@/components/persimpangan/EmergencyControl';
+import PageHeader from '@/components/shared/PageHeader';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '@/utils/firebase';
 
@@ -39,11 +40,11 @@ export default function Persimpangan() {
 
       <div className="flex flex-col gap-6 animate-fade-in">
 
-        {/* Page Greeting & Title (Invisible Header Replacement) */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div>
-            <h1 className="text-3xl font-black text-text-main dark:text-white tracking-tight">Pusat Kendali Simpang</h1>
-            <p className="text-sm text-text-secondary mt-1 font-semibold flex items-center gap-1.5">
+        {/* Page Greeting & Title */}
+        <PageHeader
+          title="Pusat Kendali Simpang"
+          subtitle={
+            <>
               <span>simpang-utama</span>
               <span className="text-slate-300 dark:text-slate-700 font-normal">•</span>
               {isEmergency ? (
@@ -57,21 +58,21 @@ export default function Persimpangan() {
                   Mode: Normal
                 </span>
               )}
-            </p>
-          </div>
-        </div>
+            </>
+          }
+        />
 
         {/* BARIS ATAS: VISUALISASI (Bento Grid) */}
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch">
 
-          {/* KOLOM KIRI (Data Sensor) - Hero Bento Box (8 Span) */}
-          <div className="xl:col-span-8 flex flex-col h-full">
-            <SensorCard />
-          </div>
-
-          {/* KOLOM KANAN (Status Lampu) - Sidekick Bento Box (4 Span) */}
+          {/* KOLOM KIRI (Status Lampu) - Sidekick Bento Box (4 Span) */}
           <div className="xl:col-span-4 flex flex-col h-full">
             <TrafficGrid />
+          </div>
+
+          {/* KOLOM KANAN (Data Sensor) - Hero Bento Box (8 Span) */}
+          <div className="xl:col-span-8 flex flex-col h-full">
+            <SensorCard />
           </div>
 
         </div>

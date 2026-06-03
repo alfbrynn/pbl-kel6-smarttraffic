@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { collection, query, orderBy, limit, onSnapshot, where } from 'firebase/firestore';
 import { db } from '@/utils/firebase';
 import {
@@ -16,7 +17,11 @@ interface ChartData {
   kendaraan: number;
 }
 
-export default function DensityChart() {
+interface DensityChartProps {
+  showDropdown?: boolean;
+}
+
+export default function DensityChart({ showDropdown = true }: DensityChartProps) {
   const [data, setData] = useState<ChartData[]>([]);
   const [loading, setLoading] = useState(true);
   const [timeRange, setTimeRange] = useState('Terbaru');
@@ -98,39 +103,48 @@ export default function DensityChart() {
   }, [timeRange]);
 
   return (
-    <div className="h-full flex flex-col bg-bg-card p-6 rounded-[24px] shadow-lg hover:shadow-xl transition-all duration-300 border border-border-color/10">
+    <div className="h-full flex flex-col bg-card p-6 rounded-[24px] shadow-sm hover:shadow-md transition-all duration-300 border border-border/10">
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h3 className="text-lg font-extrabold text-text-main">Pola Kepadatan Lalu Lintas</h3>
-          <p className="text-xs text-text-secondary font-semibold mt-1">
+          <h3 className="text-lg font-extrabold text-foreground">Pola Kepadatan Lalu Lintas</h3>
+          <p className="text-xs text-muted font-semibold mt-1">
             Tampilan: {timeRange}
           </p>
         </div>
-        <select
-          value={timeRange}
-          onChange={(e) => setTimeRange(e.target.value)}
-          className="bg-bg-hover border border-border-color text-xs font-bold text-text-secondary rounded-xl px-4 py-2 focus:outline-none focus:border-accent-cyan cursor-pointer hover:border-accent-cyan/50 transition-colors"
-        >
-          <option value="Terbaru">Terbaru (Real-time)</option>
-          <option value="Hari Ini">Hari Ini</option>
-          <option value="Minggu Ini">Minggu Ini</option>
-        </select>
+        {showDropdown ? (
+          <select
+            value={timeRange}
+            onChange={(e) => setTimeRange(e.target.value)}
+            className="bg-secondary-light border border-border text-xs font-bold text-muted rounded-xl px-4 py-2 focus:outline-none focus:border-primary cursor-pointer hover:border-primary/50 transition-colors"
+          >
+            <option value="Terbaru">Terbaru (Real-time)</option>
+            <option value="Hari Ini">Hari Ini</option>
+            <option value="Minggu Ini">Minggu Ini</option>
+          </select>
+        ) : (
+          <Link href="/pusat-data" className="text-xs font-black text-primary hover:text-primary-hover flex items-center gap-1 transition-colors hover:underline">
+            Lihat Selengkapnya
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
+        )}
       </div>
 
       {/* Area Render Grafik */}
       <div className="w-full h-80 mt-4">
         {!isMounted || loading ? (
-          <div className="w-full h-full flex items-center justify-center border border-dashed border-border-color rounded-2xl bg-bg-card/50">
-            <span className="w-6 h-6 border-2 border-accent-cyan border-t-transparent rounded-full animate-spin"></span>
-            <span className="ml-3 text-sm text-text-secondary font-bold tracking-wide">Menyesuaikan Data...</span>
+          <div className="w-full h-full flex items-center justify-center border border-dashed border-border rounded-2xl bg-card/50">
+            <span className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></span>
+            <span className="ml-3 text-sm text-muted font-bold tracking-wide">Menyesuaikan Data...</span>
           </div>
         ) : data.length === 0 ? (
-          <div className="w-full h-full flex items-center justify-center border border-dashed border-border-color rounded-2xl bg-bg-card/50">
+          <div className="w-full h-full flex items-center justify-center border border-dashed border-border rounded-2xl bg-card/50">
             <div className="text-center">
-              <p className="text-text-secondary text-sm italic">Belum ada data untuk periode ini</p>
+              <p className="text-muted text-sm italic">Belum ada data untuk periode ini</p>
               <button
                 onClick={() => setTimeRange('Terbaru')}
-                className="text-accent-cyan text-[11px] mt-2 underline font-extrabold"
+                className="text-primary text-[11px] mt-2 underline font-extrabold"
               >
                 Kembali ke tampilan real-time
               </button>
@@ -144,8 +158,8 @@ export default function DensityChart() {
             >
               <defs>
                 <linearGradient id="colorKendaraan" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.35} />
-                  <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                  <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.35} />
+                  <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="#1E293B" />
@@ -169,21 +183,21 @@ export default function DensityChart() {
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: 'var(--bg-card)',
-                  borderColor: 'var(--border-color)',
+                  backgroundColor: 'var(--card)',
+                  borderColor: 'var(--border)',
                   borderRadius: '12px',
                   fontSize: '12px',
-                  color: 'var(--text-main)',
+                  color: 'var(--foreground)',
                   boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)'
                 }}
                 labelStyle={{ color: 'var(--text-secondary)', fontWeight: 'bold' }}
-                itemStyle={{ color: '#3b82f6', fontWeight: 'bold' }}
+                itemStyle={{ color: 'var(--primary)', fontWeight: 'bold' }}
               />
               <Area
                 type="monotone"
                 dataKey="kendaraan"
                 name="Jumlah Kendaraan"
-                stroke="#3b82f6"
+                stroke="var(--primary)"
                 strokeWidth={3}
                 fillOpacity={1}
                 fill="url(#colorKendaraan)"

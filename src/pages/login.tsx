@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '@/utils/firebase'; // Pastikan path ini sesuai dengan file konfigurasi Firebase Anda
@@ -57,10 +58,10 @@ export default function Login() {
         <title>Login Operator | SMARTRAF</title>
       </Head>
 
-      <div className="flex min-h-screen w-full bg-bg-main font-sans text-text-main">
+      <div className="flex min-h-screen w-full bg-linear-to-br from-[#ebf4ff] via-[#f8fafc] to-[#ebf4ff] font-sans text-foreground">
 
         {/* KOLOM KIRI: Visual & Branding */}
-        <div className="relative hidden md:flex md:w-[55%] flex-col justify-end p-12 overflow-hidden border-r border-border-color/50">
+        <div className="relative hidden md:flex md:w-[50%] flex-col justify-end p-12 overflow-hidden border-r border-border/5">
           <div
             className="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-1000 hover:scale-105"
             style={{
@@ -68,48 +69,48 @@ export default function Login() {
                 "url('https://images.unsplash.com/photo-1519501025264-65ba15a82390?q=80&w=2000&auto=format&fit=crop')",
             }}
           />
-          <div className="absolute inset-0 z-10 bg-gradient-to-t from-bg-main via-bg-main/60 to-transparent" />
+          <div className="absolute inset-0 z-10 bg-linear-to-t from-slate-950 via-slate-900/30 to-transparent" />
           <div className="relative z-20 mb-8 animate-fade-up">
-            <h1 className="text-5xl lg:text-6xl font-black tracking-tighter text-text-main mb-2">
-              SMART<span className="text-accent-cyan">RAF</span>
+            <h1 className="text-5xl lg:text-6xl font-black tracking-tighter text-white mb-2 drop-shadow-sm">
+              SMART<span className="text-primary">RAF</span>
             </h1>
-            <p className="text-lg lg:text-xl text-text-secondary font-medium tracking-wide">
-              Sistem Tata Kelola Lalu Lintas Terpadu
+            <p className="text-lg lg:text-xl text-slate-200 font-semibold tracking-wide">
+              Sistem Tata Kelola Lalu Lintas
             </p>
           </div>
         </div>
 
         {/* KOLOM KANAN: Form Login */}
-        <div className="relative flex w-full md:w-[45%] flex-col justify-center bg-bg-main px-8 sm:px-12 lg:px-16">
+        <div className="relative flex w-full md:w-[50%] flex-col justify-center bg-transparent px-8 sm:px-12 lg:px-16">
 
           <div className="absolute top-8 left-8 sm:left-12 lg:left-16 z-20">
-            <a
+            <Link
               href="/"
-              className="flex items-center gap-2.5 text-text-secondary hover:text-accent-cyan transition-all duration-300 group"
+              className="flex items-center gap-2.5 text-muted hover:text-primary transition-all duration-300 group"
             >
-              <div className="w-8 h-8 rounded-full bg-bg-card flex items-center justify-center border border-border-color group-hover:border-accent-cyan/50 group-hover:bg-accent-cyan/10 transition-all">
+              <div className="w-9 h-9 rounded-xl bg-card/85 flex items-center justify-center border border-border/80 shadow-sm group-hover:border-primary/50 group-hover:bg-primary/10 transition-all">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" className="transition-transform group-hover:-translate-x-0.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                 </svg>
               </div>
-              <span className="text-[10px] font-black tracking-[0.2em] uppercase">Beranda</span>
-            </a>
+              <span className="text-[10px] font-black tracking-[0.2em] uppercase">Landing Page</span>
+            </Link>
           </div>
 
-          <div className="w-full max-w-md mx-auto z-10 animate-scale-in">
+          <div className="w-full max-w-md mx-auto z-10 animate-scale-in bg-white/70 backdrop-blur-xl border border-border/10 p-8 sm:p-10 rounded-[32px] shadow-2xl">
 
             <div className="mb-10">
-              <h2 className="text-3xl font-black text-text-main mb-2 tracking-tight">
+              <h2 className="text-3xl font-black text-foreground mb-2 tracking-tight">
                 Otorisasi Operator
               </h2>
-              <p className="text-text-secondary text-sm font-medium">
+              <p className="text-muted text-sm font-semibold">
                 Silakan masuk untuk mengakses pusat kendali.
               </p>
             </div>
 
             {/* Alert Box untuk Error Message */}
             {errorMsg && (
-              <div className="mb-6 p-4 rounded-lg bg-accent-red/10 border border-accent-red/20 flex items-center gap-3">
+              <div className="mb-6 p-4 rounded-xl bg-accent-red/10 border border-accent-red/20 flex items-center gap-3 animate-fade-in">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-accent-red shrink-0" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                 </svg>
@@ -122,28 +123,28 @@ export default function Login() {
             <form onSubmit={handleLogin} className="space-y-6">
 
               <div className="space-y-2">
-                <label className="block text-xs font-bold text-text-secondary uppercase tracking-widest">
+                <label className="block text-xs font-bold text-muted uppercase tracking-widest">
                   ID / Email Operator
                 </label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg bg-bg-card border border-border-color text-text-main placeholder-text-secondary/40 focus:outline-none focus:ring-2 focus:ring-accent-cyan/20 focus:border-accent-cyan transition-all duration-300"
+                  className="w-full px-4 py-3 rounded-xl bg-card/50 border border-border/80 text-foreground placeholder-muted/30 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-300"
                   placeholder="operator@smartraf.id"
                   required
                 />
               </div>
 
               <div className="space-y-2">
-                <label className="block text-xs font-bold text-text-secondary uppercase tracking-widest">
+                <label className="block text-xs font-bold text-muted uppercase tracking-widest">
                   Kata Sandi
                 </label>
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg bg-bg-card border border-border-color text-text-main placeholder-text-secondary/40 focus:outline-none focus:ring-2 focus:ring-accent-cyan/20 focus:border-accent-cyan transition-all duration-300"
+                  className="w-full px-4 py-3 rounded-xl bg-card/50 border border-border/80 text-foreground placeholder-muted/30 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-300"
                   placeholder="••••••••"
                   required
                 />
@@ -152,7 +153,7 @@ export default function Login() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex items-center justify-center mt-4 py-3.5 px-4 bg-accent-cyan hover:bg-accent-cyan-hover text-white font-black rounded-lg tracking-[0.2em] uppercase transition-all duration-300 shadow-lg shadow-accent-cyan/20 hover:shadow-accent-cyan/40 hover:-translate-y-0.5 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
+                className="w-full flex items-center justify-center mt-4 py-3.5 px-4 bg-primary hover:bg-primary-hover text-white font-bold rounded-xl tracking-[0.15em] uppercase transition-all duration-300 shadow-lg shadow-primary/20 hover:shadow-primary/35 hover:-translate-y-0.5 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
               >
                 {loading ? (
                   <>
@@ -166,23 +167,8 @@ export default function Login() {
                   'LOGIN'
                 )}
               </button>
-
             </form>
           </div>
-
-          {/* FOOTER: Badge Status Sistem */}
-          <div className="absolute bottom-8 left-0 w-full flex justify-center pointer-events-none">
-            <div className="flex items-center space-x-2 bg-bg-card border border-border-color px-4 py-2 rounded-full shadow-sm backdrop-blur-sm">
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-green opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent-green"></span>
-              </span>
-              <span className="text-[10px] font-bold text-text-secondary tracking-widest uppercase">
-                SYSTEM ONLINE: V2.4.0
-              </span>
-            </div>
-          </div>
-
         </div>
       </div>
     </>

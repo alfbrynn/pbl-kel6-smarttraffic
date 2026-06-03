@@ -72,19 +72,19 @@ const LiveSchema: React.FC = () => {
     };
 
     return (
-        <div className="bg-bg-card rounded-[24px] shadow-lg hover:shadow-xl flex flex-col h-full overflow-hidden border border-border-color/10 transition-all duration-300 hover:-translate-y-1 p-6 gap-4">
+        <div className="bg-card rounded-[24px] shadow-sm hover:shadow-md flex flex-col h-full overflow-hidden border border-border/10 transition-all duration-300 hover:-translate-y-1 p-6 gap-4">
 
             {/* Header Komponen */}
             <div className="flex justify-between items-center relative z-30 bg-transparent">
-                <h3 className="text-[16px] font-black text-text-main">Skema Persimpangan</h3>
+                <h3 className="text-[16px] font-black text-foreground">Skema Persimpangan</h3>
                 <div className="flex items-center gap-2">
                     <span className={`w-2 h-2 rounded-full ${statusKoneksi === 'Sinkronisasi Aktif' ? 'bg-emerald-500 animate-pulse' : 'bg-red-500'}`}></span>
-                    <span className="text-xs font-semibold text-text-secondary">{statusKoneksi}</span>
+                    <span className="text-xs font-semibold text-muted">{statusKoneksi}</span>
                 </div>
             </div>
 
             {/* Area Skema Interaktif */}
-            <div className="flex-1 relative min-h-[380px] rounded-[18px] overflow-hidden bg-slate-100 dark:bg-slate-900 border border-border-color/5">
+            <div className="flex-1 relative min-h-[380px] rounded-[18px] overflow-hidden bg-blue-600/10 border border-border/5">
 
                 {/* Jalan Horizontal Utama (Barat - Timur) */}
                 <div className="absolute left-6 right-6 top-1/2 -translate-y-1/2 h-24 bg-slate-800 dark:bg-slate-800 rounded-2xl shadow-inner">
