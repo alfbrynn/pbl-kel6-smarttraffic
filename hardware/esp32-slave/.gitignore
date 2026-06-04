@@ -1,0 +1,24 @@
+# PlatformIO
+.pio/
+.piolibdeps/
+.pioenvs/
+
+# VS Code
+.vscode/
+
+# Next.js
+node_modules/
+.next/
+out/
+
+# Logs
+*.log
+
+# ESP32 build output
+*.bin
+*.elf
+*.map
+
+# Environment variables (PENTING TAMBAH INI)
+.env
+.env.*
