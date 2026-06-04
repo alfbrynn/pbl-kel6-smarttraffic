@@ -2,11 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/utils/firebase';
 
+interface HeaderProps {
+  onToggleSidebar?: () => void;
+}
+
 /**
  * Komponen Header
  * Menampilkan bar navigasi atas admin dengan profil operator dan aksi keluar (logout).
  */
-const Header: React.FC = () => {
+const Header: React.FC<HeaderProps> = ({ onToggleSidebar }) => {
   // --- States (Status) ---
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -36,11 +40,23 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 w-full h-[72px] bg-card border-b border-border/40 flex items-center justify-end px-6 md:px-8 shrink-0 z-40">
+    <header className="sticky top-0 w-full h-[72px] bg-card border-b border-border/40 flex items-center justify-between px-6 md:px-8 shrink-0 z-40">
+      {/* Hamburger Menu (Mobile Only) */}
+      <button
+        onClick={onToggleSidebar}
+        className="lg:hidden text-slate-500 hover:text-blue-900 transition-colors p-1 cursor-pointer"
+        aria-label="Open Sidebar"
+      >
+        <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12H12m8 6H4" />
+        </svg>
+      </button>
+
       {/* User Profile Summary */}
-      <div className="relative" ref={profileRef}>
+      <div className="relative ml-auto" ref={profileRef}>
         <div
           className="flex items-center gap-2.5 cursor-pointer p-1.5 rounded-lg hover:bg-secondary-light transition-colors"
+
           onClick={() => setIsProfileOpen(!isProfileOpen)}
         >
           <div className="w-9 h-9 rounded-full bg-[#1a2533] flex items-center justify-center overflow-hidden border border-border shadow-sm">

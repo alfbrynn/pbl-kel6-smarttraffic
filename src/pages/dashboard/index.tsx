@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import StatsRow from '@/components/beranda/KPIStatRow';
 import TrafficGrid from '@/components/shared/LaneMetricsList';
 import SensorCard from '@/components/shared/JunctionSchema';
-import DensityChart from '@/components/pusat-data/DensityChart';
+import TabelLogSensor from '@/components/pusat-data/SensorLogTable';
 import PageHeader from '@/components/shared/PageHeader';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '@/utils/firebase';
@@ -77,26 +77,28 @@ const HomePage: React.FC = () => {
 
                 {/* Barisan Statistik KPI */}
                 <StatsRow />
-
-                {/* Grafik Kepadatan Lalu Lintas (Full Width) */}
-                <div className="w-full h-[400px]">
-                    <DensityChart showDropdown={false} />
-                </div>
-
+ 
                 {/* Layout Grid Dashboard (Bento Grid) */}
-                <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch flex-1 pb-6">
-
-                    {/* Konten Sekunder: Grid Metrik Jalur (Sidekick Bento Box - 4 Span) */}
-                    <section className="xl:col-span-4 w-full flex flex-col">
-                        <TrafficGrid />
-                    </section>
-
+                <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch pb-2">
+ 
                     {/* Konten Utama: Skema Persimpangan Live (Hero Bento Box - 8 Span) */}
                     <section className="xl:col-span-8 w-full h-full min-h-[460px] flex flex-col">
                         <SensorCard />
                     </section>
 
+                    {/* Konten Sekunder: Grid Metrik Jalur (Sidekick Bento Box - 4 Span) */}
+                    <section className="xl:col-span-4 w-full flex flex-col">
+                        <TrafficGrid />
+                    </section>
+ 
                 </div>
+
+
+                {/* Log Sensor Real-time (Bottom Section) */}
+                <div className="w-full pb-6">
+                    <TabelLogSensor limitCount={5} showMoreLink={true} />
+                </div>
+
 
 
 

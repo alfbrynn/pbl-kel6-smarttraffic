@@ -58,7 +58,8 @@ const LaneCard: React.FC<LaneCardProps> = ({ jalur, data }) => {
   const densityStatus = data?.status_kepadatan ?? 'Tidak Aktif';
 
   return (
-    <div className="bg-card rounded-[24px] p-6 flex flex-col border border-border/10 hover:-translate-y-1 transition-all duration-300 shadow-sm hover:shadow-md">
+    <div className="bg-card rounded-[24px] p-6 flex flex-col border border-border/10 shadow-sm">
+
       {/* Informasi Header */}
       <div className="flex justify-between items-center mb-3">
         <h3 className="text-sm font-bold text-foreground">{jalur.nama}</h3>

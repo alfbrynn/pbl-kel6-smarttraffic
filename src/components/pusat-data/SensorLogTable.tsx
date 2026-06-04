@@ -1,7 +1,9 @@
-// components/pusat-data/TabelLogSensor.tsx
 import React, { useEffect, useState } from 'react';
 import { collection, query, orderBy, limit, onSnapshot } from 'firebase/firestore';
 import { db } from '@/utils/firebase';
+import { formatToDateTime } from '@/utils/date';
+
+import Link from 'next/link';
 
 interface LogData {
     id: string;
@@ -14,16 +16,21 @@ interface LogData {
     status_lampu: string;
 }
 
-export default function TabelLogSensor() {
+interface TabelLogSensorProps {
+    limitCount?: number;
+    showMoreLink?: boolean;
+}
+
+export default function TabelLogSensor({ limitCount = 10, showMoreLink = false }: TabelLogSensorProps) {
     const [logs, setLogs] = useState<LogData[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Mengambil 10 data log terbaru dari firestore
+        // Mengambil data log terbaru dari firestore
         const q = query(
             collection(db, 'kepadatan_jalan'),
             orderBy('waktu', 'desc'),
-            limit(10)
+            limit(limitCount)
         );
 
         const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -39,7 +46,8 @@ export default function TabelLogSensor() {
         });
 
         return () => unsubscribe();
-    }, []);
+    }, [limitCount]);
+
 
     return (
         <section className="bg-card p-8 rounded-[24px] shadow-sm hover:shadow-md transition-all duration-300 border border-border/10">
@@ -57,7 +65,7 @@ export default function TabelLogSensor() {
                         </tr>
                     </thead>
                     <tbody>
-                         {loading ? (
+                        {loading ? (
                             <tr>
                                 <td colSpan={6} className="text-center py-8 text-muted font-bold">Memuat log sensor...</td>
                             </tr>
@@ -68,15 +76,10 @@ export default function TabelLogSensor() {
                         ) : (
                             logs.map((log) => (
                                 <tr key={log.id} className="text-sm text-foreground group hover:-translate-y transition-all duration-200">
-                                    <td className="py-4 px-5 whitespace-nowrap font-medium rounded-l-2xl bg-card border-l border-y border-border/5 group-hover:bg-background transition-colors">
-                                        {log.timestamp_ms
-                                            ? new Date(log.timestamp_ms).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
-                                            : (log.waktu && typeof log.waktu.toDate === 'function'
-                                                ? log.waktu.toDate().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
-                                                : (log.waktu && log.waktu.seconds
-                                                    ? new Date(log.waktu.seconds * 1000).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
-                                                    : (typeof log.waktu === 'string' && log.waktu.includes('at') ? log.waktu.split('at')[1].trim() : String(log.waktu || ''))))}
+                                    <td className="py-4 px-5 whitespace-nowrap font-medium rounded-l-2xl bg-card border-l border-y border-border/5 group-hover:bg-background transition-colors text-slate-600">
+                                        {formatToDateTime(log.timestamp_ms || log.waktu)}
                                     </td>
+
                                     <td className="py-4 px-5 capitalize font-semibold bg-card border-y border-border/5 group-hover:bg-background transition-colors">
                                         {log.jalur_arah}
                                     </td>
@@ -108,6 +111,17 @@ export default function TabelLogSensor() {
                     </tbody>
                 </table>
             </div>
+            {showMoreLink && (
+                <div className="mt-6 flex justify-end">
+                    <Link href="/data-center" className="text-xs font-black text-primary hover:text-primary-hover flex items-center gap-1 transition-colors hover:underline">
+                        Lihat Selengkapnya
+                        <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </Link>
+                </div>
+            )}
         </section>
+
     );
 }

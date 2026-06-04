@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import useSimpangUtama from '@/hooks/useSimpangUtama';
 
 /**
  * Props untuk Komponen Sidebar
@@ -16,17 +17,44 @@ interface SidebarProps {
  */
 const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggleSidebar }) => {
   const router = useRouter();
+  const { dataSimpang } = useSimpangUtama();
+  const [countdownMap, setCountdownMap] = useState<Record<string, number>>({ barat: 0, timur: 0, selatan: 0 });
+
+  // Sinkronisasi countdown dari data real-time firestore
+  useEffect(() => {
+    if (!dataSimpang?.jalur) return;
+    setCountdownMap({
+      barat: dataSimpang.jalur.barat?.sisa_waktu_detik ?? 0,
+      timur: dataSimpang.jalur.timur?.sisa_waktu_detik ?? 0,
+      selatan: dataSimpang.jalur.selatan?.sisa_waktu_detik ?? 0,
+    });
+  }, [dataSimpang]);
+
+  // Timer lokal agar hitung mundur berjalan mulus tiap detik
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCountdownMap((prev) => {
+        const next = { ...prev };
+        Object.keys(next).forEach((key) => {
+          if (next[key] > 0) next[key] -= 1;
+        });
+        return next;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', 'light');
     localStorage.setItem('theme', 'light');
   }, []);
 
+
   // --- Konfigurasi Menu ---
   const navItems = [
     {
       name: 'Beranda',
-      path: '/beranda',
+      path: '/dashboard',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <rect x="3" y="3" width="7" height="7"></rect>
@@ -38,7 +66,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggleSidebar }) => {
     },
     {
       name: 'Persimpangan',
-      path: '/persimpangan',
+      path: '/intersection',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <rect x="8" y="2" width="8" height="20" rx="3" ry="3"></rect>
@@ -50,7 +78,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggleSidebar }) => {
     },
     {
       name: 'Pusat Data',
-      path: '/pusat-data',
+      path: '/data-center',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -62,11 +90,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggleSidebar }) => {
     }
   ];
 
+
+
   return (
     <aside
       className={`h-screen fixed top-0 left-0 bg-background flex flex-col z-100 shadow-sm border-r border-border/40 transition-all duration-300 ease-in-out
-      ${isCollapsed ? 'w-[80px]' : 'w-[250px]'}`}
+      ${isCollapsed ? '-translate-x-full lg:translate-x-0 lg:w-[80px]' : 'translate-x-0 w-[250px]'}`}
     >
+
       {/* Header Sidebar & Tombol Toggle */}
       <div className={`h-[72px] flex items-center justify-between px-6`}>
         {!isCollapsed && (
@@ -116,6 +147,50 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggleSidebar }) => {
         })}
       </nav>
 
+      {/* Status Lampu Lalu Lintas 3 Jalur di bagian bawah */}
+      {isCollapsed ? (
+        <div className="mt-auto border-t border-border/40 p-4 flex flex-col items-center gap-4">
+          {['barat', 'timur', 'selatan'].map((laneKey) => {
+            const laneData = dataSimpang?.jalur?.[laneKey as 'barat' | 'timur' | 'selatan'];
+            const statusLampu = laneData?.status_lampu ?? 'MATI';
+            const countdown = countdownMap[laneKey] ?? 0;
+            
+            const dotColor = statusLampu === 'HIJAU' ? 'bg-emerald-500 text-emerald-500' :
+                             statusLampu === 'KUNING' ? 'bg-amber-500 text-amber-500' :
+                             statusLampu === 'MERAH' ? 'bg-red-500 text-red-500' : 'bg-slate-500 text-slate-500';
+            return (
+              <div key={laneKey} className="flex flex-col items-center gap-1" title={`${laneKey.toUpperCase()}: ${statusLampu} (${countdown}s)`}>
+                <span className={`w-3 h-3 rounded-full ${dotColor.split(' ')[0]} shadow-[0_0_6px_currentColor]`} />
+                <span className="text-[9px] font-mono font-bold text-slate-500">{countdown}s</span>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="mt-auto border-t border-border/40 p-5 flex flex-col gap-3.5">
+          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-2 block">Status Lampu</span>
+          <div className="flex flex-col gap-2">
+            {['barat', 'timur', 'selatan'].map((laneKey) => {
+              const laneData = dataSimpang?.jalur?.[laneKey as 'barat' | 'timur' | 'selatan'];
+              const statusLampu = laneData?.status_lampu ?? 'MATI';
+              const countdown = countdownMap[laneKey] ?? 0;
+              
+              const dotColor = statusLampu === 'HIJAU' ? 'bg-emerald-500 text-emerald-500' :
+                               statusLampu === 'KUNING' ? 'bg-amber-500 text-amber-500' :
+                               statusLampu === 'MERAH' ? 'bg-red-500 text-red-500' : 'bg-slate-500 text-slate-500';
+              return (
+                <div key={laneKey} className="flex items-center justify-between px-3 py-1.5 bg-slate-50 rounded-xl border border-border/20">
+                  <div className="flex items-center gap-2">
+                    <span className={`w-2.5 h-2.5 rounded-full ${dotColor.split(' ')[0]} shadow-[0_0_6px_currentColor]`} />
+                    <span className="text-[11px] font-bold text-slate-600 capitalize">{laneKey}</span>
+                  </div>
+                  <span className="text-[11px] font-mono font-black text-blue-700">{countdown}d</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </aside>
   );
 };

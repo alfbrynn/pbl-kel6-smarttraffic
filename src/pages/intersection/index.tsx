@@ -66,14 +66,14 @@ export default function Persimpangan() {
         {/* BARIS ATAS: VISUALISASI (Bento Grid) */}
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch">
 
-          {/* KOLOM KIRI (Status Lampu) - Sidekick Bento Box (4 Span) */}
-          <div className="xl:col-span-4 flex flex-col h-full">
-            <TrafficGrid />
-          </div>
-
-          {/* KOLOM KANAN (Data Sensor) - Hero Bento Box (8 Span) */}
+          {/* KOLOM KIRI (Data Sensor) - Hero Bento Box (8 Span) */}
           <div className="xl:col-span-8 flex flex-col h-full">
             <SensorCard />
+          </div>
+
+          {/* KOLOM KANAN (Status Lampu) - Sidekick Bento Box (4 Span) */}
+          <div className="xl:col-span-4 flex flex-col h-full">
+            <TrafficGrid />
           </div>
 
         </div>

@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '@/utils/firebase';
 
@@ -21,8 +19,27 @@ interface JalurData {
 const StatsRow: React.FC = () => {
   // --- States (Status) ---
   const [dataMap, setDataMap] = useState<Record<string, JalurData>>({});
+  const [lastSync, setLastSync] = useState<string>('');
+  const [isOnline, setIsOnline] = useState<boolean>(false);
+  const lastSyncTimeRef = useRef<number>(0);
 
   // --- Side Effects (Efek Samping) ---
+  /**
+   * Monitor keaktifan IoT secara heuristik (jika tidak ada update > 15 detik = offline)
+   */
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (lastSyncTimeRef.current === 0) {
+        setIsOnline(false);
+        return;
+      }
+      const isStillOnline = Date.now() - lastSyncTimeRef.current < 15000;
+      setIsOnline(isStillOnline);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
   /**
    * Mendengarkan update real-time dari dokumen persimpangan Firestore
    */
@@ -32,10 +49,26 @@ const StatsRow: React.FC = () => {
       if (docSnap.exists()) {
         const data = docSnap.data();
         setDataMap(data.jalur || {});
+        
+        // Catat timestamp penerimaan data terakhir
+        lastSyncTimeRef.current = Date.now();
+        setIsOnline(true);
+
+        // Update waktu terakhir sinkronisasi secara real-time
+        setLastSync(new Date().toLocaleString('id-ID', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        }));
       }
     });
     return () => unsub();
   }, []);
+
+
 
   // --- Kalkulasi & Insight ---
   const jalurEntries = Object.entries(dataMap);
@@ -115,8 +148,8 @@ const StatsRow: React.FC = () => {
         );
       case "Koneksi Sistem":
         return (
-          <div className="shrink-0 w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+          <div className={`shrink-0 w-10 h-10 rounded-xl flex items-center justify-center ${isOnline ? 'bg-emerald-500/10 text-emerald-600' : 'bg-red-500/10 text-red-600'}`}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
               <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
               <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
@@ -170,12 +203,12 @@ const StatsRow: React.FC = () => {
     },
     {
       label: "Koneksi Sistem",
-      value: "Sistem Aktif",
-      desc: "Sinkronisasi data sedang berjalan.",
+      value: isOnline ? "IoT Terhubung" : "IoT Terputus",
+      desc: isOnline ? `Terakhir sinkron: ${lastSync}` : "Tidak ada transmisi data dari mikrokontroler.",
       iconLabel: "Koneksi Sistem",
       cardBg: "bg-card",
       cardBorder: "border-border/10",
-      valueColor: "text-foreground",
+      valueColor: isOnline ? "text-foreground" : "text-red-500",
       labelColor: "text-muted",
       descColor: "text-muted",
     },
@@ -195,7 +228,8 @@ const StatsRow: React.FC = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
       {insights.map((item) => (
-        <div key={item.label} className={`${item.cardBg} rounded-[24px] p-6 border ${item.cardBorder} flex items-start gap-4 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 ease-out h-full cursor-default`}>
+        <div key={item.label} className={`${item.cardBg} rounded-[24px] p-6 border ${item.cardBorder} flex items-start gap-4 shadow-sm h-full cursor-default`}>
+
 
           {/* Kontainer Ikon Kartu SVG */}
           {getIcon(item.iconLabel, item.value)}

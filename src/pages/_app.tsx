@@ -47,7 +47,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   // Efek untuk Proteksi Rute (Route Guard)
   useEffect(() => {
-    const publicPages = ['/login', '/', '/beranda', '/persimpangan', '/pusat-data'];
+    const publicPages = ['/login', '/', '/dashboard', '/intersection', '/data-center'];
     
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user && !publicPages.includes(router.pathname)) {
@@ -55,7 +55,7 @@ export default function App({ Component, pageProps }: AppProps) {
         router.replace('/login').then(() => setIsAuthChecking(false));
       } else if (user && router.pathname === '/login') {
         // Jika ADA user tapi mencoba mengakses halaman Login -> Redirect ke Beranda
-        router.replace('/beranda').then(() => setIsAuthChecking(false));
+        router.replace('/dashboard').then(() => setIsAuthChecking(false));
       } else {
         // Akses diizinkan
         setIsAuthChecking(false);
@@ -64,6 +64,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
     return () => unsubscribe(); // Cleanup listener saat komponen unmount
   }, [router.pathname]);
+
 
   // Tampilkan loading spinner selama Firebase memverifikasi status sesi pengguna
   if (isAuthChecking) {

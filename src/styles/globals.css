@@ -205,39 +205,9 @@
 
 /* 
   --------------------------------------------------------------------------
-  KOMPONEN INTI
+  KOMPONEN INTI & ANIMASI
   --------------------------------------------------------------------------
  */
-
-/* System buttons (using standard class definitions in CSS) */
-.btn, .btn-primary, .btn-secondary, .btn-icon {
-  @apply inline-flex items-center justify-center gap-2 font-semibold
-         select-none cursor-pointer border-none outline-none
-         transition-all duration-200 ease-out
-         active:scale-[0.97] active:brightness-95
-         disabled:opacity-50 disabled:cursor-not-allowed
-         focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary;
-}
-
-.btn-primary {
-  @apply bg-primary text-white rounded-lg px-5 py-2.5 text-[13px]
-         hover:bg-primary-hover hover:shadow-lg hover:-translate-y-px;
-}
-
-.btn-secondary {
-  @apply bg-card border border-border text-foreground rounded-lg px-5 py-2.5 text-[13px]
-         hover:bg-bg-hover hover:text-primary hover:-translate-y-px;
-}
-
-.btn-icon {
-  @apply bg-transparent text-text-secondary rounded-lg p-2
-         hover:bg-bg-hover hover:text-foreground;
-}
-
-/* Status Interaktif */
-.card-hover {
-  @apply transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-md;
-}
 
 /* Animasi Kustom */
 .page-enter {
@@ -249,55 +219,3 @@
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.animate-fade-up { animation: fadeSlideUp 0.5s ease-out both; }
-.animate-fade-in { animation: fadeIn 0.4s ease-out both; }
-
-/* Indikator Pulse Live */
-.live-dot {
-  @apply w-2 h-2 rounded-full bg-emerald-400;
-  animation: pulseGlow 2s ease-in-out infinite;
-}
-
-/* Translucent Header */
-.header-translucent {
-  background-color: var(--bg-header-translucent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-/* 
-  --------------------------------------------------------------------------
-  UTILITAS
-  --------------------------------------------------------------------------
- */
-
-.text-balance { text-wrap: balance; }
-
-/* Jeda Animasi Bertingkat */
-.delay-100 { animation-delay: 100ms; }
-.delay-200 { animation-delay: 200ms; }
-.delay-300 { animation-delay: 300ms; }
-
-/* 
-  --------------------------------------------------------------------------
-  LAMPU LALU LINTAS - SEDERHANA TANPA GLOW
-  --------------------------------------------------------------------------
- */
-
-.lamp-red-active {
-  background-color: #EF4444;
-  border-radius: 50%;
-  transform: translateZ(0);
-}
-
-.lamp-amber-active {
-  background-color: #F59E0B;
-  border-radius: 50%;
-  transform: translateZ(0);
-}
-
-.lamp-teal-active {
-  background-color: #10B981;
-  border-radius: 50%;
-  transform: translateZ(0);
-}

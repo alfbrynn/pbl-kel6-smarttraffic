@@ -176,8 +176,9 @@ export default function ParameterCard() {
   const PARAM_DESCRIPTIONS: Record<string, string> = {
     jarakKepadatan: 'Ambang batas panjang antrean. Jika sensor mendeteksi antrean kendaraan telah mencapai atau melebihi jarak ini, jalur tersebut otomatis dikategorikan sebagai "Padat".',
     bobotWaktu: 'Waktu tambahan lampu hijau yang diberikan untuk setiap 1 unit mobil yang terdeteksi. (Contoh: Jika Bobot = 2 dan ada 5 mobil, maka dapat tambahan waktu 10 detik).',
-    durasiHijauMin: 'Waktu minimum lampu hijau menyala, meskipun sensor mendeteksi jalur tersebut sedang kosong melompong.',
-    durasiHijauMaks: 'Batas waktu maksimal lampu hijau menyala. Ini adalah fitur anti-starvation agar jalur lain tidak dikunci lampu merah selamanya saat jalur utama sedang macet parah.',
+    durasiHijauMin: 'Durasi minimum fase lampu hijau tetap aktif, bahkan ketika sensor mendeteksi jalur dalam kondisi kosong.',
+    durasiHijauMaks: 'Batas waktu maksimum fase lampu hijau. Fitur ini berfungsi mencegah penumpukan kendaraan di jalur lain (anti-starvation) agar tidak tertahan lampu merah terlalu lama saat salah satu jalur mengalami kepadatan tinggi.',
+
     durasiKuning: 'Waktu transisi lampu kuning peringatan sebelum berubah menjadi merah.',
     allRed: 'Waktu safety clearance di mana ketiga jalur berwarna merah semua secara bersamaan. Berfungsi memberi kesempatan kendaraan terakhir yang berada di tengah persimpangan untuk lewat sebelum jalur lain mulai jalan.'
   };
@@ -251,7 +252,10 @@ export default function ParameterCard() {
               <div className="absolute -bottom-1 left-4 w-2 h-2 bg-slate-800 dark:bg-slate-700 rotate-45 border-r border-b border-white/10" />
             </div>
 
-            <label className="text-xs font-semibold text-muted flex items-center gap-1 cursor-help">
+            <label 
+              htmlFor={item.name} 
+              className="text-xs font-semibold text-muted flex items-center gap-1 cursor-help"
+            >
               {item.label}
               <svg className="w-3 h-3 text-slate-400 hover:text-primary transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -260,11 +264,13 @@ export default function ParameterCard() {
             <div className="relative flex items-center">
               <input
                 type="number"
+                id={item.name}
                 name={item.name}
                 value={params[item.name as keyof typeof params]}
                 onChange={handleChange}
                 className="w-full h-9 bg-background border border-border rounded-lg px-3 text-[13px] text-foreground font-mono outline-none focus:border-primary transition-colors"
               />
+
               <span className="absolute right-3 text-[9px] font-bold text-muted">{item.unit}</span>
             </div>
           </div>

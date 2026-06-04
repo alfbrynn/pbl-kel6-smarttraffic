@@ -195,7 +195,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div>
-                  <div className="text-[10px] font-extrabold text-slate-500 uppercase tracking-widest mb-2.5">Beban Memori Node.js</div>
+                  <div className="text-[10px] font-extrabold text-slate-500 uppercase tracking-widest mb-2.5">Penggunaan Memori Node.js</div>
                   <div className="flex items-center gap-3">
                     <div className="flex-1 h-2.5 bg-blue-100/40 rounded-full overflow-hidden border border-blue-200/10">
                       <div className="h-full bg-blue-600 rounded-full transition-all duration-500" style={{ width: "24%" }} />
@@ -204,7 +204,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div>
-                  <div className="text-[10px] font-extrabold text-slate-500 uppercase tracking-widest mb-1.5">Total Data Masuk</div>
+                  <div className="text-[10px] font-extrabold text-slate-500 uppercase tracking-widest mb-1.5">Total Data Diterima</div>
                   <div className="text-3xl font-black text-blue-900/90 tracking-tighter">8,421</div>
                 </div>
               </div>

@@ -1,57 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { doc, onSnapshot } from 'firebase/firestore';
-import { db } from '@/utils/firebase';
+import React from 'react';
+import useSimpangUtama from '@/hooks/useSimpangUtama';
 
-/**
- * Interface untuk Detail Jalur dari Firestore
- */
-interface JalurDetail {
-    status_lampu?: string;
-    status_kepadatan?: string;
-    jarak_cm?: number;
-}
-
-/**
- * Interface untuk Data Persimpangan
- */
-interface DataSimpang {
-    jalur?: {
-        selatan?: JalurDetail;
-        timur?: JalurDetail;
-        barat?: JalurDetail;
-    };
-}
-
-/**
- * Komponen LiveSchema
- * Menampilkan visualisasi real-time dari persimpangan lalu lintas berdasarkan data Firestore.
- */
 const LiveSchema: React.FC = () => {
-    // --- States (Status) ---
-    const [dataSimpang, setDataSimpang] = useState<DataSimpang | null>(null);
-    const [statusKoneksi, setStatusKoneksi] = useState('Menghubungkan...');
+    const { dataSimpang, statusKoneksi } = useSimpangUtama();
 
-    // --- Side Effects (Efek Samping) ---
-    /**
-     * Berlangganan ke update real-time dari dokumen Firestore
-     */
-    useEffect(() => {
-        const docRef = doc(db, 'persimpangan', 'simpang-utama');
-
-        const unsubscribe = onSnapshot(docRef, (docSnap) => {
-            if (docSnap.exists()) {
-                setDataSimpang(docSnap.data() as DataSimpang);
-                setStatusKoneksi('Sinkronisasi Aktif');
-            } else {
-                setStatusKoneksi('Menunggu Data...');
-            }
-        }, (error) => {
-            console.error("Firebase Error:", error);
-            setStatusKoneksi('Gagal Sinkron');
-        });
-
-        return () => unsubscribe();
-    }, []);
 
     // --- Helpers (Pembantu) ---
     /**
@@ -72,7 +24,8 @@ const LiveSchema: React.FC = () => {
     };
 
     return (
-        <div className="bg-card rounded-[24px] shadow-sm hover:shadow-md flex flex-col h-full overflow-hidden border border-border/10 transition-all duration-300 hover:-translate-y-1 p-6 gap-4">
+        <div className="bg-card rounded-[24px] shadow-sm flex flex-col h-full overflow-hidden border border-border/10 p-6 gap-4">
+
 
             {/* Header Komponen */}
             <div className="flex justify-between items-center relative z-30 bg-transparent">

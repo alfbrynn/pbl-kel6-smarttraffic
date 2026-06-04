@@ -112,22 +112,29 @@ export default function DensityChart({ showDropdown = true }: DensityChartProps)
           </p>
         </div>
         {showDropdown ? (
-          <select
-            value={timeRange}
-            onChange={(e) => setTimeRange(e.target.value)}
-            className="bg-secondary-light border border-border text-xs font-bold text-muted rounded-xl px-4 py-2 focus:outline-none focus:border-primary cursor-pointer hover:border-primary/50 transition-colors"
-          >
-            <option value="Terbaru">Terbaru (Real-time)</option>
-            <option value="Hari Ini">Hari Ini</option>
-            <option value="Minggu Ini">Minggu Ini</option>
-          </select>
+          <div className="flex items-center">
+            <label htmlFor="timeRangeSelect" className="sr-only">Pilih Rentang Waktu</label>
+            <select
+              id="timeRangeSelect"
+              name="timeRangeSelect"
+              value={timeRange}
+              onChange={(e) => setTimeRange(e.target.value)}
+              className="bg-secondary-light border border-border text-xs font-bold text-muted rounded-xl px-4 py-2 focus:outline-none focus:border-primary cursor-pointer hover:border-primary/50 transition-colors"
+            >
+              <option value="Terbaru">Terbaru (Real-time)</option>
+              <option value="Hari Ini">Hari Ini</option>
+              <option value="Minggu Ini">Minggu Ini</option>
+            </select>
+          </div>
+
         ) : (
-          <Link href="/pusat-data" className="text-xs font-black text-primary hover:text-primary-hover flex items-center gap-1 transition-colors hover:underline">
+          <Link href="/data-center" className="text-xs font-black text-primary hover:text-primary-hover flex items-center gap-1 transition-colors hover:underline">
             Lihat Selengkapnya
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </Link>
+
         )}
       </div>
 

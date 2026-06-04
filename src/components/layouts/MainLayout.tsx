@@ -64,13 +64,21 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
     <div
       className={`flex h-screen overflow-hidden bg-background transition-all duration-300 ease-in-out 
-      ${isCollapsed ? 'pl-[80px]' : 'pl-[250px]'}`}
+      ${isCollapsed ? 'pl-0 lg:pl-[80px]' : 'pl-0 lg:pl-[250px]'}`}
     >
+      {/* Backdrop overlay for mobile when sidebar is open */}
+      {!isCollapsed && (
+        <div
+          className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-99 lg:hidden cursor-pointer"
+          onClick={handleToggleSidebar}
+        />
+      )}
+
       {/* Persistent Navigation Components */}
       <Sidebar isCollapsed={isCollapsed} onToggleSidebar={handleToggleSidebar} />
 
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header />
+        <Header onToggleSidebar={handleToggleSidebar} />
 
         {/* Main Content Area */}
         <main ref={mainRef} className="flex-1 p-6 md:p-8 overflow-y-auto page-enter flex flex-col">

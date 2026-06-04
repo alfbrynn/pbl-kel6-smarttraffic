@@ -37,8 +37,9 @@ export default function Login() {
         console.log('Login berhasil. Selamat datang:', userData.nama);
 
         // 3. Arahkan ke halaman Dashboard/Beranda
-        router.push('/beranda');
+        router.push('/dashboard');
       } else {
+
         // Jika UID tidak terdaftar sebagai operator
         setErrorMsg('Akses Ditolak: Anda tidak terdaftar sebagai Operator.');
         await auth.signOut(); // Keluarkan kembali paksa
@@ -123,11 +124,13 @@ export default function Login() {
             <form onSubmit={handleLogin} className="space-y-6">
 
               <div className="space-y-2">
-                <label className="block text-xs font-bold text-muted uppercase tracking-widest">
+                <label htmlFor="email" className="block text-xs font-bold text-muted uppercase tracking-widest">
                   ID / Email Operator
                 </label>
                 <input
                   type="email"
+                  id="email"
+                  name="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl bg-card/50 border border-border/80 text-foreground placeholder-muted/30 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-300"
@@ -137,11 +140,13 @@ export default function Login() {
               </div>
 
               <div className="space-y-2">
-                <label className="block text-xs font-bold text-muted uppercase tracking-widest">
+                <label htmlFor="password" className="block text-xs font-bold text-muted uppercase tracking-widest">
                   Kata Sandi
                 </label>
                 <input
                   type="password"
+                  id="password"
+                  name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl bg-card/50 border border-border/80 text-foreground placeholder-muted/30 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-300"
@@ -149,6 +154,7 @@ export default function Login() {
                   required
                 />
               </div>
+
 
               <button
                 type="submit"

@@ -25,8 +25,10 @@ export default function PeakHourChart() {
   const [loading, setLoading] = useState(true);
   const [peakHourStr, setPeakHourStr] = useState<string>('Memuat...');
   const [peakHourAvg, setPeakHourAvg] = useState<number>(0);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     // Ambil 300 data log sensor terbaru untuk analisis
     const q = query(
       collection(db, 'kepadatan_jalan'),
@@ -117,7 +119,7 @@ export default function PeakHourChart() {
       </div>
 
       <div className="flex-1 w-full h-[220px]">
-        {loading ? (
+        {!isMounted || loading ? (
           <div className="w-full h-full flex items-center justify-center border border-dashed border-border rounded-2xl bg-card/50">
             <span className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></span>
             <span className="ml-3 text-sm text-muted font-bold tracking-wide">Menganalisis Pola Lalu Lintas...</span>
@@ -127,8 +129,10 @@ export default function PeakHourChart() {
             <p className="text-muted text-sm italic">Belum ada data historis yang terkumpul.</p>
           </div>
         ) : (
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer width="100%" height={220} minWidth={0}>
             <BarChart data={data} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
+
+
               <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="#1E293B" />
               <XAxis
                 dataKey="hourStr"
