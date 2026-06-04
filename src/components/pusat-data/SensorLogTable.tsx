@@ -51,7 +51,14 @@ export default function TabelLogSensor({ limitCount = 10, showMoreLink = false }
 
     return (
         <section className="bg-card p-8 rounded-[24px] shadow-sm hover:shadow-md transition-all duration-300 border border-border/10">
-            <h2 className="text-lg font-black mb-6 text-foreground">Log Data Sensor Real-time</h2>
+            <div className="flex items-center justify-between mb-6">
+                <h2 className="text-lg font-black text-foreground">Log Data Sensor Real-time</h2>
+                {showMoreLink && (
+                    <Link href="/data-center" className="text-xs font-black text-primary hover:text-primary-hover transition-colors hover:underline">
+                        lihat selengkapnya
+                    </Link>
+                )}
+            </div>
             <div className="overflow-x-auto">
                 <table className="w-full text-left border-separate border-spacing-y-2 min-w-[700px]">
                     <thead>
@@ -111,16 +118,6 @@ export default function TabelLogSensor({ limitCount = 10, showMoreLink = false }
                     </tbody>
                 </table>
             </div>
-            {showMoreLink && (
-                <div className="mt-6 flex justify-end">
-                    <Link href="/data-center" className="text-xs font-black text-primary hover:text-primary-hover flex items-center gap-1 transition-colors hover:underline">
-                        Lihat Selengkapnya
-                        <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </Link>
-                </div>
-            )}
         </section>
 
     );

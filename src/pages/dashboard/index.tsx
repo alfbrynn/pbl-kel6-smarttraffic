@@ -79,7 +79,7 @@ const HomePage: React.FC = () => {
                 <StatsRow />
  
                 {/* Layout Grid Dashboard (Bento Grid) */}
-                <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch pb-2">
+                <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch">
  
                     {/* Konten Utama: Skema Persimpangan Live (Hero Bento Box - 8 Span) */}
                     <section className="xl:col-span-8 w-full h-full min-h-[460px] flex flex-col">
@@ -95,9 +95,7 @@ const HomePage: React.FC = () => {
 
 
                 {/* Log Sensor Real-time (Bottom Section) */}
-                <div className="w-full pb-6">
-                    <TabelLogSensor limitCount={5} showMoreLink={true} />
-                </div>
+                <TabelLogSensor limitCount={5} showMoreLink={true} />
 
 
 

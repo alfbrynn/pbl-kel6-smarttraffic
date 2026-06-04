@@ -79,7 +79,15 @@ export default function PusatDataPage() {
           actions={<CSVEksportButton />}
         />
 
-        {/* BARIS 1: VISUALISASI UTAMA (Bento Grid) */}
+        {/* BARIS 1: RINGKASAN KPI (4-Column Bento Row) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <DataSummaryCard title="Rata-rata Beban" />
+          <DataSummaryCard title="Titik Terpadat" />
+          <DataSummaryCard title="Antrean Terpanjang" />
+          <DataSummaryCard title="Efisiensi Sistem" />
+        </div>
+
+        {/* BARIS 2: VISUALISASI UTAMA (Bento Grid) */}
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-stretch">
           {/* KOLOM KIRI (Tren Real-time) - Span 7 */}
           <div className="xl:col-span-7 flex flex-col h-[400px]">
@@ -89,14 +97,6 @@ export default function PusatDataPage() {
           <div className="xl:col-span-5 flex flex-col h-[400px]">
             <PeakHourChart />
           </div>
-        </div>
-
-        {/* BARIS 2: RINGKASAN KPI (4-Column Bento Row) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <DataSummaryCard title="Rata-rata Beban" />
-          <DataSummaryCard title="Titik Terpadat" />
-          <DataSummaryCard title="Antrean Terpanjang" />
-          <DataSummaryCard title="Efisiensi Sistem" />
         </div>
 
         {/* BARIS 3: LOG SENSOR */}
