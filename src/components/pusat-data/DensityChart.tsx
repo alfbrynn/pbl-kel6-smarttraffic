@@ -149,12 +149,6 @@ export default function DensityChart({ showDropdown = true }: DensityChartProps)
           <div className="w-full h-full flex items-center justify-center border border-dashed border-border rounded-2xl bg-card/50">
             <div className="text-center">
               <p className="text-muted text-sm italic">Belum ada data untuk periode ini</p>
-              <button
-                onClick={() => setTimeRange('Terbaru')}
-                className="text-primary text-[11px] mt-2 underline font-extrabold"
-              >
-                Kembali ke tampilan real-time
-              </button>
             </div>
           </div>
         ) : (
