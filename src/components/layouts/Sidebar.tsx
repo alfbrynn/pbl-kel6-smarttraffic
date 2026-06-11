@@ -179,12 +179,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggleSidebar }) => {
                                statusLampu === 'KUNING' ? 'bg-amber-500 text-amber-500' :
                                statusLampu === 'MERAH' ? 'bg-red-500 text-red-500' : 'bg-slate-500 text-slate-500';
               return (
-                <div key={laneKey} className="flex items-center justify-between px-3 py-1.5 bg-slate-50 rounded-xl border border-border/20">
+                <div key={laneKey} className="flex items-center justify-between px-3 py-1.5 bg-slate-900 text-white rounded-xl border border-slate-800 shadow-sm transition-all duration-300">
                   <div className="flex items-center gap-2">
                     <span className={`w-2.5 h-2.5 rounded-full ${dotColor.split(' ')[0]} shadow-[0_0_6px_currentColor]`} />
-                    <span className="text-[11px] font-bold text-slate-600 capitalize">{laneKey}</span>
+                    <span className="text-[11px] font-bold text-slate-200 capitalize">{laneKey}</span>
                   </div>
-                  <span className="text-[11px] font-mono font-black text-blue-700">{countdown}d</span>
+                  <span className="text-[11px] font-mono font-extrabold text-blue-400">{countdown}d</span>
                 </div>
               );
             })}

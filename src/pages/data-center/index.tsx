@@ -7,6 +7,7 @@ import DataSummaryCard from '@/components/pusat-data/DataSummaryCard';
 import SensorLogTable from '@/components/pusat-data/SensorLogTable';
 import DensityChart from '@/components/pusat-data/DensityChart';
 import PeakHourChart from '@/components/pusat-data/PeakHourChart';
+import BigDataSection from '@/components/pusat-data/BigDataSection';
 import { collection, query, where, getCountFromServer, onSnapshot, orderBy, limit } from 'firebase/firestore';
 import { db } from '@/utils/firebase';
 
@@ -99,7 +100,10 @@ export default function PusatDataPage() {
           </div>
         </div>
 
-        {/* BARIS 3: LOG SENSOR */}
+        {/* BARIS 3: INTEGRASI & ANALISIS BIG DATA */}
+        <BigDataSection />
+
+        {/* BARIS 4: LOG SENSOR */}
         <div className="w-full">
           <SensorLogTable />
         </div>

@@ -69,6 +69,127 @@ Script akan otomatis:
 
 ---
 
+## 📊 Analisis Data (Big Data Component)
+
+Setelah data log berhasil dikumpulkan di Hadoop HDFS, Anda dapat melakukan analisis data menggunakan salah satu opsi berikut:
+
+### Opsi A: Menggunakan PySpark (Rekomendasi ⚡)
+
+PySpark sangat efisien untuk memproses data berukuran besar langsung di memori.
+
+1. **Install PySpark di VM GCP:**
+   ```bash
+   pip3 install pyspark --break-system-packages
+   ```
+
+2. **Jalankan script PySpark:**
+   Anda bisa membuat script Python (misal `analyze.py`) dengan konten berikut:
+   ```python
+   from pyspark.sql import SparkSession
+   from pyspark.sql.functions import col, avg, desc
+
+   # Inisialisasi Spark Session
+   spark = SparkSession.builder \
+       .appName("SmartTrafficAnalysis") \
+       .master("local[*]") \
+       .getOrCreate()
+
+   # Membaca seluruh file batch CSV dari HDFS
+   hdfs_path = "hdfs://localhost:9000/smartraf/logs/traffic_batch_*.csv"
+   df = spark.read.csv(hdfs_path, header=True, inferSchema=True)
+
+   print("📋 Skema Data:")
+   df.printSchema()
+
+   print("\n📊 Rata-rata Jumlah Kendaraan per Jalur:")
+   df.groupBy("jalur") \
+     .agg(avg("jumlah_kendaraan").alias("avg_kendaraan")) \
+     .orderBy(desc("avg_kendaraan")) \
+     .show()
+
+   spark.stop()
+   ```
+
+3. **Eksekusi analisis:**
+   ```bash
+   python3 analyze.py
+   ```
+
+### Opsi B: Menggunakan Hadoop MapReduce Streaming (Tradisional ⚙️)
+
+Jika Anda diwajibkan menggunakan paradigma MapReduce murni, gunakan modul **Hadoop Streaming** dengan Python.
+
+1. **Buat file `mapper.py`:**
+   ```python
+   #!/usr/bin/env python3
+   import sys
+
+   for line in sys.stdin:
+       line = line.strip()
+       parts = line.split(',')
+       if len(parts) < 6 or parts[0] == "waktu":  # Lewati header
+           continue
+       jalur = parts[1]
+       try:
+           jumlah_kendaraan = int(parts[3])
+           print(f"{jalur}\t{jumlah_kendaraan}")
+       except ValueError:
+           continue
+   ```
+
+2. **Buat file `reducer.py`:**
+   ```python
+   #!/usr/bin/env python3
+   import sys
+
+   current_jalur = None
+   total_kendaraan = 0
+   count = 0
+
+   for line in sys.stdin:
+       line = line.strip()
+       jalur, jumlah = line.split('\t', 1)
+       try:
+           jumlah = int(jumlah)
+       except ValueError:
+           continue
+
+       if current_jalur == jalur:
+           total_kendaraan += jumlah
+           count += 1
+       else:
+           if current_jalur:
+               print(f"{current_jalur}\tRata-rata: {total_kendaraan / count:.2f}")
+           current_jalur = jalur
+           total_kendaraan = jumlah
+           count = 1
+
+   if current_jalur == jalur:
+       print(f"{current_jalur}\tRata-rata: {total_kendaraan / count:.2f}")
+   ```
+
+3. **Beri izin eksekusi pada script:**
+   ```bash
+   chmod +x mapper.py reducer.py
+   ```
+
+4. **Jalankan MapReduce Job di Hadoop:**
+   ```bash
+   mapred streaming \
+     -files mapper.py,reducer.py \
+     -mapper ./mapper.py \
+     -reducer ./reducer.py \
+     -input /smartraf/logs/*.csv \
+     -output /smartraf/output_analysis
+   ```
+
+5. **Lihat Hasil Analisis MapReduce:**
+   ```bash
+   hdfs dfs -cat /smartraf/output_analysis/part-00000
+   ```
+
+---
+
 ## 🛠️ Perintah Bermanfaat (Hadoop CLI)
 
 *   **Mengecek list file di HDFS:**

@@ -9,20 +9,18 @@ from datetime import datetime
 # ==============================================================================
 # CONFIGURATION
 # ==============================================================================
-# Path ke serviceAccountKey.json Firebase di VM GCP
-# Sebaiknya diletakkan di luar folder publik git demi keamanan, atau disesuaikan path-nya.
-CREDENTIALS_PATH = "../bridge/serviceAccountKey.json"
+# Resolve path relative to this script's directory for absolute reliability
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+CREDENTIALS_PATH = os.path.join(SCRIPT_DIR, "../serviceAccountKey.json")
+
+if not os.path.exists(CREDENTIALS_PATH):
+    CREDENTIALS_PATH = os.path.join(SCRIPT_DIR, "../bridge/serviceAccountKey.json")
+if not os.path.exists(CREDENTIALS_PATH):
+    CREDENTIALS_PATH = os.path.join(SCRIPT_DIR, "serviceAccountKey.json")
 
 HDFS_TARGET_DIR = "/smartraf/logs"
 LOCAL_CSV_PATH = "/tmp/data_traffic_temp.csv"
 STATE_FILE = "/tmp/last_ingest_time.txt"
-
-# ==============================================================================
-# INIT FIREBASE
-# ==============================================================================
-if not os.path.exists(CREDENTIALS_PATH):
-    # Coba cari di path alternatif (relative terhadap folder run)
-    CREDENTIALS_PATH = "./bridge/serviceAccountKey.json"
 
 if os.path.exists(CREDENTIALS_PATH):
     cred = credentials.Certificate(CREDENTIALS_PATH)
