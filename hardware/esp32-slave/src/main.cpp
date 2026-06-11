@@ -4,8 +4,8 @@
 // =====================================
 // KONFIGURASI WIFI
 // =====================================
-const char* ssid     = "JTI-POLINEMA-2G";
-const char* password = "jtifast!";
+const char* ssid     = "Hotspot";
+const char* password = "qwerty234";
 
 IPAddress serverIP(192, 168, 71, 100);   // Ganti IP Master
 const int  serverPort = 8080;
