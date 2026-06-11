@@ -4,67 +4,103 @@
 // =====================================
 // KONFIGURASI WIFI
 // =====================================
-const char* ssid     = "Mbarep";
-const char* password = "mivavihada";
+const char* ssid     = "Hotspot";
+const char* password = "qwerty234";
 
-IPAddress serverIP(192, 168, 1, 1);   // ← GANTI dengan IP Master saat runtime
+IPAddress serverIP(192, 168, 71, 100);   // Ganti IP Master
 const int  serverPort = 8080;
 
 WiFiClient client;
 
 // =====================================
-// PIN LED & SENSOR B
+// PIN LED B (jalur timur)
 // =====================================
 #define LEDB_MERAH  16
 #define LEDB_KUNING 17
 #define LEDB_HIJAU  18
-#define TRIGB_PIN   14
-#define ECHOB_PIN   27
-#define IRB_PIN     26
 
 // =====================================
-// PIN LED & SENSOR C
+// PIN LED C (jalur selatan)
 // =====================================
 #define LEDC_MERAH  23
 #define LEDC_KUNING 25
 #define LEDC_HIJAU  32
-#define TRIGC_PIN   19
-#define ECHOC_PIN   21
-#define IRC_PIN     22
+
+// =====================================
+// PIN SENSOR B
+// Ultrasonik
+#define TRIGB_PIN    14
+#define ECHOB_PIN    27
+// IR B — 2 sensor per jalur
+// Posisi fisik:
+//   [Lampu/DEPAN] --- [IR_KELUAR_B] --- kendaraan --- [IR_MASUK_B] --- [Ujung/BELAKANG]
+//
+//   IR_KELUAR_B : area DEPAN (dekat lampu)    → hitung kendaraan KELUAR jalur
+//   IR_MASUK_B  : area BELAKANG (ujung jalur) → hitung kendaraan MASUK jalur
+#define IR_MASUK_B   26   // BELAKANG — kendaraan masuk antrian
+#define IR_KELUAR_B  33   // DEPAN    — kendaraan keluar jalur (melewati lampu)
+
+// =====================================
+// PIN SENSOR C
+#define TRIGC_PIN    19
+#define ECHOC_PIN    21
+// IR C — 2 sensor per jalur
+// Posisi fisik:
+//   [Lampu/DEPAN] --- [IR_KELUAR_C] --- kendaraan --- [IR_MASUK_C] --- [Ujung/BELAKANG]
+//
+//   IR_KELUAR_C : area DEPAN (dekat lampu)    → hitung kendaraan KELUAR jalur
+//   IR_MASUK_C  : area BELAKANG (ujung jalur) → hitung kendaraan MASUK jalur
+#define IR_MASUK_C   22   // BELAKANG — kendaraan masuk antrian
+#define IR_KELUAR_C  34   // DEPAN    — kendaraan keluar jalur (pin 34 = input-only, cocok IR)
 
 // ─────────────────────────────────────────────────────
-// THRESHOLD REAL-TIME (sama dengan Master)
+// THRESHOLD REAL-TIME — jalur 25cm (sama dengan Master)
+//   < 8cm  → LANCAR
+//   8–18cm → PADAT
+//   > 18cm → MACET
+//   ≥ 24cm → paksa LANCAR (ujung jalur / timeout)
 // ─────────────────────────────────────────────────────
-#define RT_PADAT_CM   5.0f
-#define RT_MACET_CM  15.0f
-#define RT_MAX_CM    20.0f   // FIX: di atas ini = kosong = LANCAR
+#define RT_PADAT_CM    8.0f
+#define RT_MACET_CM   18.0f
+#define RT_MAX_CM     24.0f
 
-// ─────────────────────────────────────────────────────
-// DEBOUNCE IR
-// ─────────────────────────────────────────────────────
 #define IR_DEBOUNCE_MS  300UL
 
 // =====================================
-// VARIABEL SENSOR B
+// VARIABEL SENSOR B — JALUR TIMUR
+// jumlahMasukB : total kendaraan masuk antrian (IR_MASUK_B / BELAKANG)
+// sudahLewatB  : total kendaraan keluar jalur  (IR_KELUAR_B / DEPAN)
+// sisaB        : masukB - lewatB = estimasi kendaraan masih di jalur
 // =====================================
-int    jumlahB     = 0;
-bool   stabilB     = false;
-String statusB     = "LANCAR";
-float  jarakB      = 0.0f;
-unsigned long startMacetB    = 0;
-unsigned long lastIRTriggerB = 0;
-bool lastIRB = HIGH;
+int    jumlahMasukB = 0;
+int    sudahLewatB  = 0;
+int    sisaB        = 0;
+bool   stabilB      = false;
+String statusB      = "LANCAR";
+float  jarakB       = 0.0f;
+unsigned long startMacetB       = 0;
+unsigned long lastIRMasukTrigB  = 0;
+unsigned long lastIRKeluarTrigB = 0;
+bool lastIRMasukB  = HIGH;
+bool lastIRKeluarB = HIGH;
 
 // =====================================
-// VARIABEL SENSOR C
+// VARIABEL SENSOR C — JALUR SELATAN
+// jumlahMasukC : total kendaraan masuk antrian (IR_MASUK_C / BELAKANG)
+// sudahLewatC  : total kendaraan keluar jalur  (IR_KELUAR_C / DEPAN)
+// sisaC        : masukC - lewatC = estimasi kendaraan masih di jalur
 // =====================================
-int    jumlahC     = 0;
-bool   stabilC     = false;
-String statusC     = "LANCAR";
-float  jarakC      = 0.0f;
-unsigned long startMacetC    = 0;
-unsigned long lastIRTriggerC = 0;
-bool lastIRC = HIGH;
+int    jumlahMasukC = 0;
+int    sudahLewatC  = 0;
+int    sisaC        = 0;
+bool   stabilC      = false;
+String statusC      = "LANCAR";
+float  jarakC       = 0.0f;
+unsigned long startMacetC       = 0;
+unsigned long lastIRMasukTrigC  = 0;
+unsigned long lastIRKeluarTrigC = 0;
+bool lastIRMasukC  = HIGH;
+bool lastIRKeluarC = HIGH;
 
 // =====================================
 // TIMER KIRIM
@@ -94,19 +130,24 @@ void setup() {
 
   pinMode(LEDB_MERAH,  OUTPUT); pinMode(LEDB_KUNING, OUTPUT); pinMode(LEDB_HIJAU,  OUTPUT);
   pinMode(LEDC_MERAH,  OUTPUT); pinMode(LEDC_KUNING, OUTPUT); pinMode(LEDC_HIJAU,  OUTPUT);
-  pinMode(TRIGB_PIN,   OUTPUT); pinMode(ECHOB_PIN,   INPUT);  pinMode(IRB_PIN,     INPUT);
-  pinMode(TRIGC_PIN,   OUTPUT); pinMode(ECHOC_PIN,   INPUT);  pinMode(IRC_PIN,     INPUT);
+  pinMode(TRIGB_PIN,   OUTPUT); pinMode(ECHOB_PIN,   INPUT);
+  pinMode(TRIGC_PIN,   OUTPUT); pinMode(ECHOC_PIN,   INPUT);
+  pinMode(IR_MASUK_B,  INPUT);  pinMode(IR_KELUAR_B, INPUT);
+  pinMode(IR_MASUK_C,  INPUT);  pinMode(IR_KELUAR_C, INPUT);
 
   setLEDB("MERAH");
   setLEDC("MERAH");
   hubungWifi();
 
-  Serial.println("==============================");
-  Serial.println("  SLAVE SMARTRAF SIAP");
+  Serial.println("======================================");
+  Serial.println("  SLAVE SMARTRAF SIAP  (2 IR per jalur)");
   Serial.print  ("  IP: "); Serial.println(WiFi.localIP());
+  Serial.println("  Layout: [Lampu/DEPAN]-[IR Keluar/DEPAN]-kend-[IR Masuk/BELAKANG]-[Ultrasonik]");
+  Serial.println("  IR DEPAN    = IR Keluar = hitung kendaraan KELUAR jalur");
+  Serial.println("  IR BELAKANG = IR Masuk  = hitung kendaraan MASUK jalur");
   Serial.println("  B=timur | C=selatan");
-  Serial.println("  <5cm=LANCAR | 5-15cm=PADAT | >15cm=MACET");
-  Serial.println("==============================");
+  Serial.println("  <8cm=LANCAR | 8-18cm=PADAT | >18cm=MACET | >=24cm=KOSONG");
+  Serial.println("======================================");
 }
 
 // =====================================
@@ -138,46 +179,58 @@ void cekKoneksi() {
 }
 
 // =====================================================
-// ULTRASONIK GENERIK
-//
-// FIX: return 400.0f saat timeout agar sistem tahu kosong.
-// HC-SR04 secara alami membaca kendaraan terdekat
-// karena gelombang pertama kali dipantulkan oleh
-// objek yang paling dekat.
+// ULTRASONIK
 // =====================================================
 float ultrasonik(int trig, int echo) {
   digitalWrite(trig, LOW);  delayMicroseconds(2);
   digitalWrite(trig, HIGH); delayMicroseconds(10);
   digitalWrite(trig, LOW);
-
   long dur = pulseIn(echo, HIGH, 30000);
-
-  if (dur == 0) return 25.0f;   // timeout = tidak ada kendaraan
-
+  if (dur == 0) return 25.0f;   // timeout = anggap ujung jalur
   return dur * 0.034f / 2.0f;
 }
 
 // =====================================================
-// SENSOR B
+// SENSOR B — 2 IR
 //
-// FIX 1: lastIRTriggerB diupdate saat trigger
-// FIX 2: jarak > RT_MAX_CM dianggap kosong = LANCAR
+// Layout fisik jalur TIMUR:
+//   [Lampu/DEPAN] --[IR_KELUAR_B]-- kendaraan --[IR_MASUK_B]-- [Ujung/BELAKANG]
+//
+//   IR_MASUK_B  (BELAKANG) → jumlahMasukB++ : kendaraan masuk antrian dari belakang
+//   IR_KELUAR_B (DEPAN)    → sudahLewatB++  : kendaraan keluar jalur melewati lampu
+//   sisaB = jumlahMasukB - sudahLewatB
 // =====================================================
 void sensorB() {
-  bool irState = digitalRead(IRB_PIN);
-
-  if (irState == LOW && lastIRB == HIGH &&
-      millis() - lastIRTriggerB > IR_DEBOUNCE_MS) {
-    jumlahB++;
-    lastIRTriggerB = millis();   // FIX: update debounce
-    Serial.printf("[IR-B] Kendaraan masuk, total=%d\n", jumlahB);
+  // ── IR MASUK — BELAKANG JALUR (kendaraan datang masuk antrian) ──────────────
+  bool irMasuk = digitalRead(IR_MASUK_B);
+  if (irMasuk == LOW && lastIRMasukB == HIGH &&
+      millis() - lastIRMasukTrigB > IR_DEBOUNCE_MS) {
+    jumlahMasukB++;
+    sisaB = jumlahMasukB - sudahLewatB;
+    if (sisaB < 0) sisaB = 0;
+    lastIRMasukTrigB = millis();
+    Serial.printf("[IR-MASUK-B] masuk=%d lewat=%d sisa=%d\n",
+                  jumlahMasukB, sudahLewatB, sisaB);
   }
-  lastIRB = irState;
+  lastIRMasukB = irMasuk;
 
+  // ── IR KELUAR — DEPAN JALUR (kendaraan keluar melewati lampu) ───────────────
+  bool irKeluar = digitalRead(IR_KELUAR_B);
+  if (irKeluar == LOW && lastIRKeluarB == HIGH &&
+      millis() - lastIRKeluarTrigB > IR_DEBOUNCE_MS) {
+    sudahLewatB++;
+    sisaB = jumlahMasukB - sudahLewatB;
+    if (sisaB < 0) sisaB = 0;
+    lastIRKeluarTrigB = millis();
+    Serial.printf("[IR-KELUAR-B] masuk=%d lewat=%d sisa=%d\n",
+                  jumlahMasukB, sudahLewatB, sisaB);
+  }
+  lastIRKeluarB = irKeluar;
+
+  // ── ULTRASONIK ──────────────────────────────────
   jarakB = ultrasonik(TRIGB_PIN, ECHOB_PIN);
 
-  // FIX: > RT_MAX_CM (20cm) = kosong = paksa LANCAR
-  if (jarakB > RT_MAX_CM) {
+  if (jarakB >= RT_MAX_CM) {
     statusB = "LANCAR"; stabilB = false; startMacetB = 0;
   }
   else if (jarakB < RT_PADAT_CM) {
@@ -192,35 +245,55 @@ void sensorB() {
     else statusB = "PADAT";
   }
 
-  // nambah debug di sini
+  // Debug tiap 1 detik
   static unsigned long lastDebugB = 0;
-
   if (millis() - lastDebugB > 1000) {
-    Serial.printf("[B] jarak=%.1f cm |status=%s | jumlah=%d\n",
-        jarakB,
-        statusB.c_str(),
-        jumlahB);
+    Serial.printf("[B] %.1fcm | %s | masuk=%d lewat=%d sisa=%d\n",
+      jarakB, statusB.c_str(), jumlahMasukB, sudahLewatB, sisaB);
     lastDebugB = millis();
   }
 }
 
 // =====================================================
-// SENSOR C (sama dengan B)
+// SENSOR C — 2 IR
+//
+// Layout fisik jalur SELATAN:
+//   [Lampu/DEPAN] --[IR_KELUAR_C]-- kendaraan --[IR_MASUK_C]-- [Ujung/BELAKANG]
+//
+//   IR_MASUK_C  (BELAKANG) → jumlahMasukC++ : kendaraan masuk antrian dari belakang
+//   IR_KELUAR_C (DEPAN)    → sudahLewatC++  : kendaraan keluar jalur melewati lampu
+//   sisaC = jumlahMasukC - sudahLewatC
 // =====================================================
 void sensorC() {
-  bool irState = digitalRead(IRC_PIN);
-
-  if (irState == LOW && lastIRC == HIGH &&
-      millis() - lastIRTriggerC > IR_DEBOUNCE_MS) {
-    jumlahC++;
-    lastIRTriggerC = millis();   // FIX: update debounce
-    Serial.printf("[IR-C] Kendaraan masuk, total=%d\n", jumlahC);
+  // ── IR MASUK — BELAKANG JALUR (kendaraan datang masuk antrian) ──────────────
+  bool irMasuk = digitalRead(IR_MASUK_C);
+  if (irMasuk == LOW && lastIRMasukC == HIGH &&
+      millis() - lastIRMasukTrigC > IR_DEBOUNCE_MS) {
+    jumlahMasukC++;
+    sisaC = jumlahMasukC - sudahLewatC;
+    if (sisaC < 0) sisaC = 0;
+    lastIRMasukTrigC = millis();
+    Serial.printf("[IR-MASUK-C] masuk=%d lewat=%d sisa=%d\n",
+                  jumlahMasukC, sudahLewatC, sisaC);
   }
-  lastIRC = irState;
+  lastIRMasukC = irMasuk;
+
+  // ── IR KELUAR — DEPAN JALUR (kendaraan keluar melewati lampu) ───────────────
+  bool irKeluar = digitalRead(IR_KELUAR_C);
+  if (irKeluar == LOW && lastIRKeluarC == HIGH &&
+      millis() - lastIRKeluarTrigC > IR_DEBOUNCE_MS) {
+    sudahLewatC++;
+    sisaC = jumlahMasukC - sudahLewatC;
+    if (sisaC < 0) sisaC = 0;
+    lastIRKeluarTrigC = millis();
+    Serial.printf("[IR-KELUAR-C] masuk=%d lewat=%d sisa=%d\n",
+                  jumlahMasukC, sudahLewatC, sisaC);
+  }
+  lastIRKeluarC = irKeluar;
 
   jarakC = ultrasonik(TRIGC_PIN, ECHOC_PIN);
 
-  if (jarakC > RT_MAX_CM) {
+  if (jarakC >= RT_MAX_CM) {
     statusC = "LANCAR"; stabilC = false; startMacetC = 0;
   }
   else if (jarakC < RT_PADAT_CM) {
@@ -235,40 +308,55 @@ void sensorC() {
     else statusC = "PADAT";
   }
 
-  // nambah di sini
   static unsigned long lastDebugC = 0;
-
   if (millis() - lastDebugC > 1000) {
-    Serial.printf("[C] jarak=%.1f cm | status=%s | jumlah=%d\n",
-          jarakC,
-          statusC.c_str(),
-          jumlahC);
+    Serial.printf("[C] %.1fcm | %s | masuk=%d lewat=%d sisa=%d\n",
+      jarakC, statusC.c_str(), jumlahMasukC, sudahLewatC, sisaC);
     lastDebugC = millis();
   }
 }
 
 // =====================================================
 // KIRIM DATA KE MASTER
-// FORMAT: B:jumlah:stabil:status:jarak|C:jumlah:stabil:status:jarak
+//
+// FORMAT (2 IR):
+//   B:masuk:lewat:sisa:stabil:status:jarak|C:masuk:lewat:sisa:stabil:status:jarak
+//
+// Contoh:
+//   B:5:3:2:0:PADAT:12.5|C:2:2:0:0:LANCAR:24.0
 // =====================================================
 void kirimData() {
   if (!client || !client.connected()) return;
-  String data =
-    "B:" + String(jumlahB) + ":" + String((int)stabilB) + ":" + statusB + ":" + String(jarakB, 1) +
-    "|C:" + String(jumlahC) + ":" + String((int)stabilC) + ":" + statusC + ":" + String(jarakC, 1);
-  client.println(data);
 
-  Serial.println("[KIRIM]" + data);
+  String data =
+    "B:" + String(jumlahMasukB) +
+    ":"  + String(sudahLewatB)  +
+    ":"  + String(sisaB)        +
+    ":"  + String((int)stabilB) +
+    ":"  + statusB              +
+    ":"  + String(jarakB, 1)    +
+    "|C:" + String(jumlahMasukC) +
+    ":"   + String(sudahLewatC)  +
+    ":"   + String(sisaC)        +
+    ":"   + String((int)stabilC) +
+    ":"   + statusC              +
+    ":"   + String(jarakC, 1);
+
+  client.println(data);
+  Serial.println("[KIRIM] " + data);
 }
 
 // =====================================
 // LED B & C
+// Saat HIJAU: reset sudahLewat (sesi baru)
+//             jumlahMasuk TIDAK direset (statistik harian)
 // =====================================
 void setLEDB(String warna) {
   digitalWrite(LEDB_MERAH,  warna == "MERAH");
   digitalWrite(LEDB_KUNING, warna == "KUNING");
   digitalWrite(LEDB_HIJAU,  warna == "HIJAU");
-  if (warna == "HIJAU") jumlahB = 0;
+  // jumlahMasuk dan sudahLewat adalah akumulasi harian — TIDAK direset per siklus
+  // sisaB = jumlahMasukB - sudahLewatB dihitung real-time dari kedua IR sensor
   Serial.println("[LED-B] " + warna);
 }
 
@@ -276,7 +364,8 @@ void setLEDC(String warna) {
   digitalWrite(LEDC_MERAH,  warna == "MERAH");
   digitalWrite(LEDC_KUNING, warna == "KUNING");
   digitalWrite(LEDC_HIJAU,  warna == "HIJAU");
-  if (warna == "HIJAU") jumlahC = 0;
+  // jumlahMasuk dan sudahLewat adalah akumulasi harian — TIDAK direset per siklus
+  // sisaC = jumlahMasukC - sudahLewatC dihitung real-time dari kedua IR sensor
   Serial.println("[LED-C] " + warna);
 }
 
