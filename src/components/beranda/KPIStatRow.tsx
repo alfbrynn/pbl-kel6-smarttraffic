@@ -109,7 +109,7 @@ const StatsRow: React.FC = () => {
       case "Status Persimpangan":
         if (value === "Lancar") {
           return (
-            <div className="shrink-0 w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-sm">
+            <div className="shrink-0 w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-600">
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
@@ -118,7 +118,7 @@ const StatsRow: React.FC = () => {
           );
         } else if (value === "Ramai") {
           return (
-            <div className="shrink-0 w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-sm">
+            <div className="shrink-0 w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-amber-600">
                 <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
                 <line x1="12" y1="9" x2="12" y2="13"></line>
@@ -128,7 +128,7 @@ const StatsRow: React.FC = () => {
           );
         } else {
           return (
-            <div className="shrink-0 w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-sm">
+            <div className="shrink-0 w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-red-600">
                 <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon>
                 <line x1="12" y1="9" x2="12" y2="13"></line>
@@ -180,15 +180,13 @@ const StatsRow: React.FC = () => {
       value: statusTitle,
       desc: statusDesc,
       iconLabel: "Status Persimpangan",
-      cardBg: statusTitle === "Lancar" ? "bg-emerald-200" :
-        statusTitle === "Ramai" ? "bg-amber-200" :
-          "bg-red-200",
-      cardBorder: statusTitle === "Lancar" ? "border-emerald-300" :
-        statusTitle === "Ramai" ? "border-amber-300" :
-          "border-red-300",
-      valueColor: "text-black",
-      labelColor: "text-slate-800",
-      descColor: "text-slate-800",
+      cardBg: "bg-card",
+      cardBorder: "border-border/10",
+      valueColor: statusTitle === "Lancar" ? "text-emerald-500" :
+        statusTitle === "Ramai" ? "text-amber-500" :
+          "text-red-500",
+      labelColor: "text-muted",
+      descColor: "text-muted",
     },
     {
       label: "Titik Perhatian",

@@ -210,7 +210,7 @@ export default function ParameterCard() {
               </button>
               <button
                 onClick={showModal.type === 'save' ? executeSave : executeReset}
-                className={`flex-1 px-4 py-2.5 rounded-xl text-black text-xs font-bold transition-transform active:scale-95 ${showModal.type === 'save' ? 'bg-amber-500 hover:bg-amber-600' : 'bg-accent-red hover:bg-accent-red-hover'}`}
+                className={`flex-1 px-4 py-2.5 rounded-xl text-white text-xs font-bold transition-transform active:scale-95 ${showModal.type === 'save' ? 'bg-amber-500 hover:bg-amber-600' : 'bg-accent-red hover:bg-accent-red-hover'}`}
               >
                 YA, TERAPKAN
               </button>
@@ -291,7 +291,7 @@ export default function ParameterCard() {
           className={`flex-1 text-[12px] font-bold py-3 rounded-xl transition-all tracking-widest flex justify-center items-center gap-2 
             ${loading || !isDirty
               ? 'bg-background border border-border text-muted opacity-50 cursor-not-allowed'
-              : 'bg-primary hover:bg-primary-hover text-black shadow-md hover:shadow-lg'}`}
+              : 'bg-primary hover:bg-primary-hover text-white shadow-md hover:shadow-lg'}`}
         >
           {loading ? 'MENYIMPAN...' : 'SIMPAN PERUBAHAN'}
         </button>

@@ -124,7 +124,7 @@ export default function EmergencyCard() {
               </button>
               <button
                 onClick={executeEmergency}
-                className="flex-1 px-4 py-2.5 rounded-xl text-black text-xs font-bold transition-transform active:scale-95 shadow-lg bg-accent-red hover:bg-accent-red-hover shadow-accent-red/20"
+                className="flex-1 px-4 py-2.5 rounded-xl text-white text-xs font-bold transition-transform active:scale-95 shadow-lg bg-accent-red hover:bg-accent-red-hover shadow-accent-red/20"
               >
                 Ya, Terapkan
               </button>

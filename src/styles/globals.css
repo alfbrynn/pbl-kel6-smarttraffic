@@ -22,13 +22,13 @@
   --card: #FFFFFF;
   --border: #e2e8f0;
 
-  --primary: #2563EB;
-  --primary-hover: #1d4ed8;
-  --primary-light: #eff6ff;
+  --primary: #0F172A;
+  --primary-hover: #1e293b;
+  --primary-light: #f1f5f9;
 
-  --secondary: #0F172A;
-  --secondary-hover: #1e293b;
-  --secondary-light: #f1f5f9;
+  --secondary: #2563EB;
+  --secondary-hover: #1d4ed8;
+  --secondary-light: #eff6ff;
 
   --accent: #14B8A6;
   --accent-hover: #0f766e;

@@ -101,13 +101,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggleSidebar }) => {
       {/* Header Sidebar & Tombol Toggle */}
       <div className={`h-[72px] flex items-center justify-between px-6`}>
         {!isCollapsed && (
-          <span className="text-lg font-black text-blue-900 tracking-tighter uppercase">
-            Smart<span className="text-blue-700">raf</span>
+          <span className="text-lg font-black text-slate-900 tracking-tighter uppercase">
+            Smart<span className="text-secondary font-black">raf</span>
           </span>
         )}
         <button
           onClick={onToggleSidebar}
-          className="text-slate-500 hover:text-blue-900 transition-colors ml-auto"
+          className="text-slate-500 hover:text-slate-900 transition-colors ml-auto"
           aria-label="Toggle Sidebar"
         >
           <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
@@ -126,13 +126,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggleSidebar }) => {
               href={item.path}
               key={item.name}
               title={isCollapsed ? item.name : ''}
-              className={`flex items-center py-[12px] px-4 mx-3 rounded-xl text-[14px] cursor-pointer relative transition-all duration-150 ease-out
+              className={`flex items-center py-[12px] px-4 mx-3 rounded-xl text-[14px] cursor-pointer relative transition-all duration-150 ease-out border-l-3
                 ${isActive
-                  ? 'bg-blue-600/10 text-blue-700 font-bold shadow-sm shadow-blue-500/5'
-                  : 'text-slate-600 font-semibold hover:bg-blue-600/5 hover:text-blue-700'}`}
+                  ? 'bg-slate-900 border-secondary text-white font-bold shadow-sm shadow-slate-900/10'
+                  : 'bg-transparent border-transparent text-slate-600 font-semibold hover:bg-slate-100 hover:text-slate-900'}`}
             >
               {/* Ikon Menu */}
-              <span className={`flex items-center justify-center ${isCollapsed ? 'w-6' : 'mr-3'}`}>
+              <span className={`flex items-center justify-center ${isActive ? 'text-secondary' : ''} ${isCollapsed ? 'w-6' : 'mr-3'}`}>
                 {item.icon}
               </span>
 
