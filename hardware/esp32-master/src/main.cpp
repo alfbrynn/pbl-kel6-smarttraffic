@@ -6,8 +6,8 @@
 // =====================================
 // KONFIGURASI WIFI
 // =====================================
-const char* ssid     = "JTI-POLINEMA-2G";
-const char* password = "jtifast!";
+const char* ssid     = "Hotspot";
+const char* password = "qwerty234";
 
 // =====================================================
 // KONFIGURASI MQTT
