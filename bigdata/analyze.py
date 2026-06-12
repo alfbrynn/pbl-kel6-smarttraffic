@@ -59,18 +59,28 @@ def get_ai_recommendation(summary_text, api_key):
     }
     
     prompt = (
-        "Analisis data statistik lalu lintas hasil pengolahan Apache Spark berikut ini:\n\n"
+        "Berikut adalah data statistik lalu lintas hasil agregasi Spark:\n\n"
         f"{summary_text}\n\n"
-        "Berikan rekomendasi taktis dengan ketentuan berikut:\n"
-        "1. Sebutkan jalur spesifik (Barat, Timur, atau Selatan) beserta angka rata-rata volume kendaraannya.\n"
-        "2. Berikan usulan nilai numerik konkret untuk durasi lampu (misalnya: 'naikkan max_hijau Jalur Selatan menjadi 70 detik' atau 'turunkan min_hijau Jalur Barat menjadi 10 detik' untuk efisiensi).\n"
-        "3. Tulis maksimal dalam 3 kalimat ringkas yang langsung fokus pada aksi/tindakan konfigurasi."
+        "Berikan rekomendasi optimasi lampu lalu lintas dalam maksimal 3 kalimat padat. "
+        "Pastikan rekomendasi Anda:\n"
+        "1. Menyebutkan nama jalur yang bermasalah/perlu dioptimalkan beserta metrik rata-rata volume kendaraannya.\n"
+        "2. Memberikan usulan nilai durasi detik konkret (min_hijau atau max_hijau) untuk konfigurasi lampu lalu lintas.\n"
+        "3. Menggunakan variasi kosakata profesional teknik lalu lintas (seperti 'mengurai kemacetan', 'memangkas siklus idle', 'alokasi waktu hijau ekstra', 'mereduksi antrean', dll) agar terdengar alami dan tidak kaku/robotik."
     )
 
     data = {
         "model": "llama-3.3-70b-versatile",
         "messages": [
-            {"role": "system", "content": "Anda adalah Traffic Engineer AI untuk sistem SMARTRAF. Tugas Anda memberikan rekomendasi pengaturan waktu lampu lalu lintas (min_hijau_detik dan max_hijau_detik) secara konkret, spesifik berbasis data, tanpa basa-basi."},
+            {
+                "role": "system", 
+                "content": (
+                    "Anda adalah Senior Traffic Engineer AI untuk pusat kontrol SMARTRAF. "
+                    "Tugas Anda menganalisis statistik dari Apache Spark dan merumuskan rekomendasi optimasi waktu lampu "
+                    "lalu lintas (min_hijau dan max_hijau) secara taktis dan spesifik. "
+                    "Tulis dengan gaya bahasa Indonesia yang profesional, mengalir alami, analitis, dan bervariasi. "
+                    "Hindari struktur kalimat yang kaku atau formulaik. Langsung ke analisis data dan rekomendasi konfigurasi."
+                )
+            },
             {"role": "user", "content": prompt}
         ],
         "temperature": 0.2,
