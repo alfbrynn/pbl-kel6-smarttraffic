@@ -102,14 +102,16 @@ const LaneCard: React.FC<LaneCardProps> = ({ jalur, data }) => {
             </div>
           </div>
 
-          <div className="flex justify-between mt-1 text-xs text-muted border-t border-border/30 pt-2.5">
-            <div className="flex items-center gap-1">
-              <span>🚗</span> 
-              <span>Kendaraan: <b className="text-foreground font-black">{data?.jumlah_kendaraan ?? 0}</b></span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-ping" />
-              <span>Waktu: <b className="text-primary text-sm font-black">{countdown}d</b></span>
+          <div className="flex flex-col gap-2 mt-1 text-xs text-muted border-t border-border/30 pt-2.5">
+            <div className="flex justify-between items-center">
+              <div className="flex items-center gap-1">
+                <span>🚗</span> 
+                <span>Kendaraan: <b className="text-foreground font-black">{data?.sisa_antrian ?? data?.jumlah_kendaraan ?? 0}</b></span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-ping" />
+                <span>Waktu: <b className="text-primary text-sm font-black">{countdown}d</b></span>
+              </div>
             </div>
           </div>
         </div>

@@ -23,9 +23,9 @@ export default function CardRingkasan({ title }: CardRingkasanProps) {
 
         // --- 1. Rata-rata Kendaraan / Jalur ---
         if (title === "Rata-rata Beban") {
-          const total = (jalur.barat?.jumlah_kendaraan || 0) +
-            (jalur.timur?.jumlah_kendaraan || 0) +
-            (jalur.selatan?.jumlah_kendaraan || 0);
+          const total = (jalur.barat?.sisa_antrian ?? jalur.barat?.jumlah_kendaraan ?? 0) +
+            (jalur.timur?.sisa_antrian ?? jalur.timur?.jumlah_kendaraan ?? 0) +
+            (jalur.selatan?.sisa_antrian ?? jalur.selatan?.jumlah_kendaraan ?? 0);
           const avg = (total / 3).toFixed(1);
 
           setValue(avg);
@@ -36,9 +36,9 @@ export default function CardRingkasan({ title }: CardRingkasanProps) {
         // --- 2. Titik Paling Padat ---
         else if (title === "Titik Terpadat") {
           const l = [
-            { n: 'Barat', v: jalur.barat?.jumlah_kendaraan || 0 },
-            { n: 'Timur', v: jalur.timur?.jumlah_kendaraan || 0 },
-            { n: 'Selatan', v: jalur.selatan?.jumlah_kendaraan || 0 }
+            { n: 'Barat', v: jalur.barat?.sisa_antrian ?? jalur.barat?.jumlah_kendaraan ?? 0 },
+            { n: 'Timur', v: jalur.timur?.sisa_antrian ?? jalur.timur?.jumlah_kendaraan ?? 0 },
+            { n: 'Selatan', v: jalur.selatan?.sisa_antrian ?? jalur.selatan?.jumlah_kendaraan ?? 0 }
           ];
           const busiest = l.sort((a, b) => b.v - a.v)[0];
 

@@ -53,7 +53,7 @@ export default function ButtonUnduhCSV() {
                     `"${item.pers_id || ''}"`,
                     `"${item.jalur_arah || ''}"`,
                     item.jarak_cm !== undefined ? item.jarak_cm : 0,
-                    item.jumlah_kendaraan !== undefined ? item.jumlah_kendaraan : 0,
+                    item.sisa_antrian !== undefined ? item.sisa_antrian : (item.jumlah_kendaraan !== undefined ? item.jumlah_kendaraan : 0),
                     `"${formattedTime}"`,
                     `"${item.status_lampu || ''}"`,
                     `"${item.status_kepadatan || ''}"`

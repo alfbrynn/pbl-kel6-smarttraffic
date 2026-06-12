@@ -4,6 +4,9 @@ export interface JalurDetail {
     jarak_cm?: number;
     sisa_waktu_detik?: number;
     jumlah_kendaraan?: number;
+    sisa_antrian?: number;
+    jumlah_masuk?: number;
+    sudah_lewat?: number;
 }
 
 export interface DataSimpang {

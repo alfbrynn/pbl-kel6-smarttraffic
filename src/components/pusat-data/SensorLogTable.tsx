@@ -12,6 +12,9 @@ interface LogData {
     jalur_arah: string;
     jarak_cm: number;
     jumlah_kendaraan: number;
+    sisa_antrian?: number;
+    jumlah_masuk?: number;
+    sudah_lewat?: number;
     status_kepadatan: string;
     status_lampu: string;
 }
@@ -66,7 +69,7 @@ export default function TabelLogSensor({ limitCount = 10, showMoreLink = false }
                             <th className="pb-3 px-5">Waktu</th>
                             <th className="pb-3 px-5">Jalur</th>
                             <th className="pb-3 px-5">Jarak (cm)</th>
-                            <th className="pb-3 px-5">Jml. Kendaraan</th>
+                            <th className="pb-3 px-5">Kendaraan</th>
                             <th className="pb-3 px-5">Status Lampu</th>
                             <th className="pb-3 px-5">Kepadatan</th>
                         </tr>
@@ -94,7 +97,7 @@ export default function TabelLogSensor({ limitCount = 10, showMoreLink = false }
                                         {log.jarak_cm}
                                     </td>
                                     <td className="py-4 px-5 font-mono font-bold text-muted bg-card border-y border-border/5 group-hover:bg-background transition-colors">
-                                        {log.jumlah_kendaraan}
+                                        {log.sisa_antrian ?? log.jumlah_kendaraan ?? 0}
                                     </td>
                                     <td className="py-4 px-5 bg-card border-y border-border/5 group-hover:bg-background transition-colors">
                                         <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize ${log.status_lampu === 'HIJAU' ? 'bg-emerald-500/20 text-emerald-500' :

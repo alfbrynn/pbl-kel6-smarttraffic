@@ -34,23 +34,23 @@ const LiveSchema: React.FC = () => {
     const lampuTimur = dataSimpang?.jalur?.timur?.status_lampu ?? 'MERAH';
     const lampuSelatan = dataSimpang?.jalur?.selatan?.status_lampu ?? 'MERAH';
 
-    const jmlBarat = dataSimpang?.jalur?.barat?.jumlah_kendaraan ?? 0;
-    const jmlTimur = dataSimpang?.jalur?.timur?.jumlah_kendaraan ?? 0;
-    const jmlSelatan = dataSimpang?.jalur?.selatan?.jumlah_kendaraan ?? 0;
+    const jmlBarat = dataSimpang?.jalur?.barat?.sisa_antrian ?? dataSimpang?.jalur?.barat?.jumlah_kendaraan ?? 0;
+    const jmlTimur = dataSimpang?.jalur?.timur?.sisa_antrian ?? dataSimpang?.jalur?.timur?.jumlah_kendaraan ?? 0;
+    const jmlSelatan = dataSimpang?.jalur?.selatan?.sisa_antrian ?? dataSimpang?.jalur?.selatan?.jumlah_kendaraan ?? 0;
 
     const jarakBarat = dataSimpang?.jalur?.barat?.jarak_cm ?? 0;
     const jarakTimur = dataSimpang?.jalur?.timur?.jarak_cm ?? 0;
     const jarakSelatan = dataSimpang?.jalur?.selatan?.jarak_cm ?? 0;
 
     // Untuk melacak jumlah kendaraan masuk (accumulated IR-B) dan keluar (accumulated IR-D)
-    const masukBarat = (dataSimpang?.jalur?.barat as any)?.jumlah_masuk ?? jmlBarat;
-    const lewatBarat = (dataSimpang?.jalur?.barat as any)?.sudah_lewat ?? 0;
+    const masukBarat = dataSimpang?.jalur?.barat?.jumlah_masuk ?? (dataSimpang?.jalur?.barat as any)?.jumlah_masuk ?? jmlBarat;
+    const lewatBarat = dataSimpang?.jalur?.barat?.sudah_lewat ?? (dataSimpang?.jalur?.barat as any)?.sudah_lewat ?? 0;
     
-    const masukTimur = (dataSimpang?.jalur?.timur as any)?.jumlah_masuk ?? jmlTimur;
-    const lewatTimur = (dataSimpang?.jalur?.timur as any)?.sudah_lewat ?? 0;
+    const masukTimur = dataSimpang?.jalur?.timur?.jumlah_masuk ?? (dataSimpang?.jalur?.timur as any)?.jumlah_masuk ?? jmlTimur;
+    const lewatTimur = dataSimpang?.jalur?.timur?.sudah_lewat ?? (dataSimpang?.jalur?.timur as any)?.sudah_lewat ?? 0;
     
-    const masukSelatan = (dataSimpang?.jalur?.selatan as any)?.jumlah_masuk ?? jmlSelatan;
-    const lewatSelatan = (dataSimpang?.jalur?.selatan as any)?.sudah_lewat ?? 0;
+    const masukSelatan = dataSimpang?.jalur?.selatan?.jumlah_masuk ?? (dataSimpang?.jalur?.selatan as any)?.jumlah_masuk ?? jmlSelatan;
+    const lewatSelatan = dataSimpang?.jalur?.selatan?.sudah_lewat ?? (dataSimpang?.jalur?.selatan as any)?.sudah_lewat ?? 0;
 
     // Trigger visual sensor IR ketika data counter berubah (ada mobil lewat)
     useEffect(() => {
@@ -251,7 +251,7 @@ const LiveSchema: React.FC = () => {
                 {/* Modul IR Belakang di sisi jalan */}
                 <div className={`absolute left-[38px] top-[calc(50%-56px-3px)] w-1.5 h-1.5 rounded-full z-20 border transition-all duration-300 ${flashIRBaratB ? 'bg-emerald-400 border-emerald-300' : 'bg-slate-700 border-slate-500'}`} />
                 <div className={`absolute left-[38px] top-[calc(50%+56px-3px)] w-1.5 h-1.5 rounded-full z-20 border transition-all duration-300 ${flashIRBaratB ? 'bg-emerald-400 border-emerald-300' : 'bg-slate-700 border-slate-500'}`} />
-                 <span className="absolute left-[32px] top-[calc(50%-56px-15px)] text-[7px] text-slate-400 font-bold font-mono">IR Obstacle B</span>
+                 <span className="absolute left-[32px] top-[calc(50%-56px-15px)] text-[7px] text-slate-400 font-bold font-mono">IR Obstacle B (Masuk: {masukBarat})</span>
 
                 {/* IR Sensor Depan (Laser Vertikal memotong 2 JALUR horizontal tepat di bawah lampu lalu lintas Barat - Sejajar) */}
                 {isConnected && (
@@ -264,7 +264,7 @@ const LiveSchema: React.FC = () => {
                 {/* Modul IR Depan di sisi jalan */}
                 <div className={`absolute left-[calc(50%-66px)] top-[calc(50%-56px-3px)] w-1.5 h-1.5 rounded-full z-20 border transition-all duration-300 ${flashIRBaratD ? 'bg-emerald-400 border-emerald-300' : 'bg-slate-700 border-slate-500'}`} />
                 <div className={`absolute left-[calc(50%-66px)] top-[calc(50%+56px-3px)] w-1.5 h-1.5 rounded-full z-20 border transition-all duration-300 ${flashIRBaratD ? 'bg-emerald-400 border-emerald-300' : 'bg-slate-700 border-slate-500'}`} />
-                 <span className="absolute left-[calc(50%-73px)] top-[calc(50%-56px-15px)] text-[7px] text-slate-400 font-bold font-mono">IR Obstacle D</span>
+                 <span className="absolute left-[calc(50%-73px)] top-[calc(50%-56px-15px)] text-[7px] text-slate-400 font-bold font-mono">IR Obstacle D (Keluar: {lewatBarat})</span>
 
                 {/* Mobil-mobil Barat */}
                 {Array.from({ length: Math.min(jmlBarat, 6) }).map((_, idx) => {
@@ -375,7 +375,7 @@ const LiveSchema: React.FC = () => {
                 {/* Modul IR Belakang di sisi jalan */}
                 <div className={`absolute right-[38px] top-[calc(50%-56px-3px)] w-1.5 h-1.5 rounded-full z-20 border transition-all duration-300 ${flashIRTimurB ? 'bg-emerald-400 border-emerald-300' : 'bg-slate-700 border-slate-500'}`} />
                 <div className={`absolute right-[38px] top-[calc(50%+56px-3px)] w-1.5 h-1.5 rounded-full z-20 border transition-all duration-300 ${flashIRTimurB ? 'bg-emerald-400 border-emerald-300' : 'bg-slate-700 border-slate-500'}`} />
-                 <span className="absolute right-[32px] top-[calc(50%+56px+4px)] text-[7px] text-slate-400 font-bold font-mono">IR Obstacle B</span>
+                 <span className="absolute right-[32px] top-[calc(50%+56px+4px)] text-[7px] text-slate-400 font-bold font-mono">IR Obstacle B (Masuk: {masukTimur})</span>
 
                 {/* IR Sensor Depan (Laser Vertikal memotong 2 JALUR horizontal tepat di bawah lampu lalu lintas Timur - Sejajar) */}
                 {isConnected && (
@@ -388,7 +388,7 @@ const LiveSchema: React.FC = () => {
                 {/* Modul IR Depan di sisi jalan */}
                 <div className={`absolute right-[calc(50%-66px)] top-[calc(50%-56px-3px)] w-1.5 h-1.5 rounded-full z-20 border transition-all duration-300 ${flashIRTimurD ? 'bg-emerald-400 border-emerald-300' : 'bg-slate-700 border-slate-500'}`} />
                 <div className={`absolute right-[calc(50%-66px)] top-[calc(50%+56px-3px)] w-1.5 h-1.5 rounded-full z-20 border transition-all duration-300 ${flashIRTimurD ? 'bg-emerald-400 border-emerald-300' : 'bg-slate-700 border-slate-500'}`} />
-                 <span className="absolute right-[calc(50%-73px)] top-[calc(50%+56px+4px)] text-[7px] text-slate-400 font-bold font-mono">IR Obstacle D</span>
+                 <span className="absolute right-[calc(50%-73px)] top-[calc(50%+56px+4px)] text-[7px] text-slate-400 font-bold font-mono">IR Obstacle D (Keluar: {lewatTimur})</span>
 
                 {/* Mobil-mobil Timur */}
                 {Array.from({ length: Math.min(jmlTimur, 6) }).map((_, idx) => {
@@ -499,7 +499,7 @@ const LiveSchema: React.FC = () => {
                 {/* Modul IR Belakang di sisi jalan */}
                 <div className={`absolute left-[calc(50%-56px-3px)] bottom-[23px] w-1.5 h-1.5 rounded-full z-20 border transition-all duration-300 ${flashIRSelatanB ? 'bg-emerald-400 border-emerald-300' : 'bg-slate-700 border-slate-500'}`} />
                 <div className={`absolute left-[calc(50%+56px-3px)] bottom-[23px] w-1.5 h-1.5 rounded-full z-20 border transition-all duration-300 ${flashIRSelatanB ? 'bg-emerald-400 border-emerald-300' : 'bg-slate-700 border-slate-500'}`} />
-                 <span className="absolute right-[calc(50%+56px+8px)] bottom-[21px] text-[7px] text-slate-400 font-bold font-mono text-right">IR Obstacle B</span>
+                 <span className="absolute right-[calc(50%+56px+8px)] bottom-[21px] text-[7px] text-slate-400 font-bold font-mono text-right">IR Obstacle B (Masuk: {masukSelatan})</span>
 
                 {/* IR Sensor Depan (Laser Horizontal memotong 2 JALUR vertikal tepat di stop line) */}
                 {isConnected && (
@@ -512,7 +512,7 @@ const LiveSchema: React.FC = () => {
                 {/* Modul IR Depan di sisi jalan */}
                 <div className={`absolute left-[calc(50%-56px-3px)] bottom-[calc(50%-60px)] w-1.5 h-1.5 rounded-full z-20 border transition-all duration-300 ${flashIRSelatanD ? 'bg-emerald-400 border-emerald-300' : 'bg-slate-700 border-slate-500'}`} />
                 <div className={`absolute left-[calc(50%+56px-3px)] bottom-[calc(50%-60px)] w-1.5 h-1.5 rounded-full z-20 border transition-all duration-300 ${flashIRSelatanD ? 'bg-emerald-400 border-emerald-300' : 'bg-slate-700 border-slate-500'}`} />
-                 <span className="absolute right-[calc(50%+56px+8px)] bottom-[calc(50%-63px)] text-[7px] text-slate-400 font-bold font-mono text-right">IR Obstacle D</span>
+                 <span className="absolute right-[calc(50%+56px+8px)] bottom-[calc(50%-63px)] text-[7px] text-slate-400 font-bold font-mono text-right">IR Obstacle D (Keluar: {lewatSelatan})</span>
 
                 {/* Mobil-mobil Selatan */}
                 {Array.from({ length: Math.min(jmlSelatan, 6) }).map((_, idx) => {

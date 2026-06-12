@@ -75,7 +75,7 @@ def main():
             dt_str,
             d.get("jalur_arah", ""),
             d.get("jarak_cm", 0.0),
-            d.get("jumlah_kendaraan", 0),
+            d.get("sisa_antrian") if d.get("sisa_antrian") is not None else d.get("jumlah_kendaraan", 0),
             d.get("status_lampu", ""),
             d.get("status_kepadatan", "")
         ]

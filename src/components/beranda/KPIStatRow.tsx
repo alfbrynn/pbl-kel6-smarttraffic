@@ -8,6 +8,7 @@ import { db } from '@/utils/firebase';
 interface JalurData {
   jarak_cm: number;
   jumlah_kendaraan: number;
+  sisa_antrian?: number;
   status_kepadatan: string;
 }
 
@@ -72,7 +73,7 @@ const StatsRow: React.FC = () => {
 
   // --- Kalkulasi & Insight ---
   const jalurEntries = Object.entries(dataMap);
-  const totalVehicles = jalurEntries.reduce((sum, [_, d]) => sum + (d.jumlah_kendaraan ?? 0), 0);
+  const totalVehicles = jalurEntries.reduce((sum, [_, d]) => sum + (d.sisa_antrian ?? d.jumlah_kendaraan ?? 0), 0);
 
   // Hitung jalur yang padat
   const congestedLanesCount = jalurEntries.filter(([_, d]) =>
